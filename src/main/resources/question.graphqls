@@ -1,0 +1,47 @@
+type Question {
+    id: ID!
+    text: String!
+    number: Int
+}
+
+type Form {
+    id: ID!
+    title: String!
+    questions: [Question]!
+}
+
+type Answer {
+    participantId: ID!
+    questionId: ID!
+    value: Int
+}
+
+type Participant {
+    userId: ID!
+    answers: [Answer]
+}
+
+type Survey {
+    id: ID!
+    form: Form!
+    participants: [Participant]
+}
+
+type Query {
+    questions: [Question]!
+    countQuestions: Long!
+    question(id: Int): Question
+    forms: [Form]!
+    form(formId: Int): Form
+    survey(id: Int): Survey
+}
+
+input InputQuestion {
+    text: String!
+}
+
+type Mutation {
+    createForm(title: String!): Form
+    addQuestion(input: InputQuestion): Question
+    addQuestionToForm(formId: Int, questionId: Int): Form
+}

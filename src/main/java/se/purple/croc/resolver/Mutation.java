@@ -1,0 +1,55 @@
+package se.purple.croc.resolver;
+
+import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import se.purple.croc.domain.Form;
+import se.purple.croc.domain.Question;
+import se.purple.croc.dto.FormDto;
+import se.purple.croc.dto.InputQuestionDto;
+import se.purple.croc.dto.QuestionDto;
+import se.purple.croc.repository.FromRepository;
+import se.purple.croc.repository.QuestionRepository;
+import se.purple.croc.service.FormService;
+
+@Component
+public class Mutation implements GraphQLMutationResolver {
+
+	@Autowired
+	private QuestionRepository questionRepo;
+
+	@Autowired
+	private FormService formService;
+
+	@Autowired
+	FromRepository fromRepo;
+
+	public QuestionDto addQuestion(final InputQuestionDto inQuestion) {
+		Question question = new Question();
+		question.setText(inQuestion.getText());
+		questionRepo.save(question);
+		QuestionDto questionDto = new QuestionDto();
+		questionDto.copy(question);
+		return questionDto;
+	}
+
+	public Form addQuestionToForm(final Integer formId, final Integer questionId) {
+		int formChangedId = formService.addQuestionToForm(questionId, formId);
+		if (formChangedId == 0) {
+			return null;
+		}
+
+		Form form = fromRepo.getFirstById(formId);
+
+		// should not return a questionDto
+		return form;
+	}
+
+	public Form createForm(String title) {
+		Form form = new Form();
+		form.setTitle(title);
+		fromRepo.save(form);
+		return form;
+	}
+
+}
