@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 
 import FormsList from '../../../FormsList';
-import QuestionList from '../../../QuestionList';
+import MiniFormQuestionList from './MiniFormQuestionList';
 
 const FormsListView = () => (
   <Grid container>
@@ -10,7 +10,7 @@ const FormsListView = () => (
     <FormsList/>
   </Grid>
   <Grid item sm={12} md={6} lg={5}>
-    <QuestionList/>
+    <MiniFormQuestionList/>
   </Grid>
 </Grid>
 );

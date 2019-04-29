@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.Form;
 import se.purple.croc.domain.Question;
-import se.purple.croc.dto.FormDto;
 import se.purple.croc.dto.InputQuestionDto;
 import se.purple.croc.dto.QuestionDto;
 import se.purple.croc.repository.FromRepository;
@@ -50,6 +49,21 @@ public class Mutation implements GraphQLMutationResolver {
 		form.setTitle(title);
 		fromRepo.save(form);
 		return form;
+	}
+
+	/**
+	 *  mutation($inquest: InputQuestion!, $formId: Int!) {
+	 * 		createFormQuestion(input: $inquest, formId: $formId){ ... }
+	 * 	}
+	 */
+	public QuestionDto createFormQuestion(InputQuestionDto inQuestion, final Integer formId) {
+		Question question = new Question();
+		question.setText(inQuestion.getText());
+		questionRepo.save(question);
+		formService.addQuestionToForm(question.getId(), formId);
+		QuestionDto questionDto = new QuestionDto();
+		questionDto.copy(question);
+		return questionDto;
 	}
 
 }

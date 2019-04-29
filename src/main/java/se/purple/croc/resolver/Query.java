@@ -6,10 +6,12 @@ import org.springframework.stereotype.Component;
 import se.purple.croc.domain.Form;
 import se.purple.croc.domain.Question;
 import se.purple.croc.domain.Survey;
+import se.purple.croc.domain.Users;
 import se.purple.croc.dto.QuestionDto;
 import se.purple.croc.repository.FromRepository;
 import se.purple.croc.repository.QuestionRepository;
 import se.purple.croc.repository.SurveyRepository;
+import se.purple.croc.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +21,14 @@ public class Query implements GraphQLQueryResolver {
 	private QuestionRepository questionRepo;
 	private FromRepository formRepo;
 	private SurveyRepository surveyRepo;
+	private UserRepository userRepo;
 
-	public Query(QuestionRepository questionRepo, FromRepository formRepo, SurveyRepository surveyRepo) {
+	public Query(QuestionRepository questionRepo, FromRepository formRepo, SurveyRepository surveyRepo,
+				 UserRepository userRepository) {
 		this.questionRepo = questionRepo;
 		this.formRepo = formRepo;
 		this.surveyRepo = surveyRepo;
+		this.userRepo = userRepository;
 	}
 
 	public Iterable<QuestionDto> getQuestions() {
@@ -56,5 +61,9 @@ public class Query implements GraphQLQueryResolver {
 
 	public long countQuestions() {
 		return questionRepo.count();
+	}
+
+	public Iterable<Users> getUsers() {
+		return userRepo.findAll();
 	}
 }

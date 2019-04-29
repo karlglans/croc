@@ -8,6 +8,7 @@ type Form {
     id: ID!
     title: String!
     questions: [Question]!
+    isEditable: Boolean
 }
 
 type Answer {
@@ -27,13 +28,19 @@ type Survey {
     participants: [Participant]
 }
 
+type User {
+    id: ID!
+    email: String!
+}
+
 type Query {
     questions: [Question]!
     countQuestions: Long!
     question(id: Int): Question
     forms: [Form]!
-    form(formId: Int): Form
+    form(formId: ID): Form
     survey(id: Int): Survey
+    users: [User]!
 }
 
 input InputQuestion {
@@ -43,5 +50,6 @@ input InputQuestion {
 type Mutation {
     createForm(title: String!): Form
     addQuestion(input: InputQuestion): Question
+    createFormQuestion(input: InputQuestion!, formId: ID!): Question
     addQuestionToForm(formId: Int, questionId: Int): Form
 }

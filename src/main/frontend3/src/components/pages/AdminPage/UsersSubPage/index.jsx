@@ -4,9 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Drawer, MenuList, MenuItem, ListItemText } from '@material-ui/core';
 import { compose } from 'recompose'
 
-import FormsListView from './FormsListView';
-import FormsCreateView from './FormsCreateView';
-import EditFormView from './EditFormView';
+import UsersListView from './UsersListView';
 
 const drawerWidth = 240;
 
@@ -35,10 +33,7 @@ const styles = theme => ({
 class FormsPage extends React.Component {
   render() {
     const { classes, location, match } = this.props;
-    const formId = match && match.params && match.params.formId ? match.params.formId : false;
-    const editFormPath = '/admin/forms/'+this.props.selectedFormId+'/edit';
-    const isOnForms = location.pathname === '/admin/forms';
-    const isOnCreate = location.pathname.includes('/create');
+    const isOnUsersListPage = true;
     return (
       <React.Fragment>
       <Drawer
@@ -50,28 +45,15 @@ class FormsPage extends React.Component {
       >
         <div className={classes.toolbar} />
           <MenuList >
-            <MenuItem button key={'list'} selected={isOnForms} component={Link} to='/admin/forms'>
+            <MenuItem button key={'users'} selected={isOnUsersListPage} component={Link} to='/admin/users'>
               <ListItemText primary={'List'} />
             </MenuItem>
-            { !this.props.selectedFormId && (
-              <MenuItem button key={'create'} selected={isOnCreate} component={Link} to='/admin/forms/create'>
-                <ListItemText primary={'Create'} />
-              </MenuItem>
-            )}
-            { this.props.selectedFormId && (
-              <MenuItem button key={'edit'} selected={!!formId} component={Link} to={editFormPath}>
-                <ListItemText primary={'Edit'} />
-              </MenuItem>
-            )}
           </MenuList>
         </Drawer>
         <div className={classes.content} style={{marginLeft: drawerWidth }}>
           <div className={classes.toolbar} />
           <Switch>
-            <Route path="/admin/forms/create" exact component={FormsCreateView}/>
-            <Route path="/admin/forms/:formId/edit" component={EditFormView}/>
-            <Route path="/admin/forms/:formId" component={FormsListView}/>
-            <Route path="/admin/forms" component={FormsListView}/>
+            <Route path="/admin/users" exact component={UsersListView}/>
           </Switch>
       </div>
       </React.Fragment>

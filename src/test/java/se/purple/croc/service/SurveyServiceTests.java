@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-@Sql(scripts = "/java/se/purple/croc/service/data.sql")
+@Sql(scripts = "/testdata/data.sql")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 		classes = se.purple.croc.CrocApplication.class)
 public class SurveyServiceTests {
@@ -41,6 +41,6 @@ public class SurveyServiceTests {
 	@Test
 	public void getAnswerBySurvey() {
 		List<Answer>  answers = surveyService.getAnswersBySurvey(1);
-		assertEquals(1, answers.size());
+		assertEquals(2, answers.size());
 	}
 }

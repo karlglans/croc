@@ -33,7 +33,6 @@ const FormsList = () => (
               {form.title}
             </ListItem>
           ))}
-          <ListItem key={999}> empty </ListItem>
         </List>
       );
     }}

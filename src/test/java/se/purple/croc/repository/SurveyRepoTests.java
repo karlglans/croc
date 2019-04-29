@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @DataJpaTest
-@Sql(scripts = "/java/se/purple/croc/repository/data.sql")
+@Sql(scripts = "/testdata/data.sql")
 public class SurveyRepoTests {
 
 	@Autowired

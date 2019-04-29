@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
@@ -19,14 +20,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Sql(scripts = "/java/se/purple/croc/service/data.sql")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 		classes = se.purple.croc.CrocApplication.class)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(secure=false)
 public class survey {
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Test
 	public void testGraphQL() throws Exception {
-		String payload = "{\"query\":\"{\n\tsurvey (id: 1)  {\n\t\tid\n\t}\n}\",\"variables\":null,\"operationName\":null}";
+//		String payload = "{\"query\":\"{\n\tsurvey (id: 1)  {\n\t\tid\n\t}\n}\",\"variables\":null,\"operationName\":null}";
+		String payload = "{\"query\":\"{survey (id: 1) { id } }\",\"variables\":null,\"operationName\":null}";
 
 		this.mockMvc.perform(
 				post("/graphql")

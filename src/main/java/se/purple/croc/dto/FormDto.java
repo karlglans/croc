@@ -12,4 +12,5 @@ public class FormDto {
 	int formId;
 	String title;
 	List<FormQuestionDto> questions;
+	boolean isEditable;
 }

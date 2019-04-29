@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import MenuIcon from '@material-ui/icons/Menu';
 import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@material-ui/core';
 
-import UsersPage from './UsersPage';
+import UsersSubPage from './UsersSubPage';
 import SurveyPage from './SurveyPage';
 import FormsSubPage from './FormsSubPage';
 
@@ -74,7 +74,7 @@ class AdminPageLayout extends React.Component {
             </Toolbar>
           </AppBar>
           <Switch>
-            <Route path="/admin/users" component={UsersPage}/>
+            <Route path="/admin/users" component={UsersSubPage}/>
             <Route path="/admin/surveys" component={SurveyPage}/>
             <Route path="/admin/forms" component={ props => <FormsSubPage selectedFormId={this.props.selectedFormId} />} />
           </Switch>

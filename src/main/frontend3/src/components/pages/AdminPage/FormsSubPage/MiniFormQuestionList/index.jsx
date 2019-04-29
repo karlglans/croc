@@ -7,7 +7,7 @@ import { withRouter } from "react-router";
 
 
 const GET_QUESTIONS = gql`
-  query($formId: Int) {
+  query($formId: ID) {
     form(formId: $formId) {
       questions {
         id

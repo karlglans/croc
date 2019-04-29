@@ -13,6 +13,10 @@ public class Form {
 	private int id;
 	private String title;
 
+	// maybe should be inferred from a search from surveys
+	@Column(name = "ISEDITABLE")
+	private boolean isEditable;
+
 	@OneToMany(mappedBy = "form", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<FormQuestion> formQuestions;
 

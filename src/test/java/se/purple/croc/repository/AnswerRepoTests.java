@@ -26,6 +26,7 @@ public class AnswerRepoTests {
 	@Autowired
 	private TestEntityManager manager;
 
+	// this test does not seem to work
 	@Test
 	public void canAddAnswer() {
 		Survey survey1 = manager.find(Survey.class, 1);

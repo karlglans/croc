@@ -1,8 +1,8 @@
 INSERT INTO users (id, email) VALUES
 (1, 'admin@purple.com'), (2, 'supervisor1@purple.com'), (3, 'employee1@purple.com');
 
-INSERT INTO form (id, title) VALUES
-(1, 'form1'), (2, 'form2'), (3, 'form3');
+INSERT INTO form (id, title, isEditable) VALUES
+(1, 'form1', false), (2, 'form2', false), (3, 'form3', false);
 
 INSERT INTO survey (id, form_id, creator_id) VALUES
 (1, 1, 2), (2, 1, 2);

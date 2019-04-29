@@ -4,8 +4,8 @@ INSERT INTO users (id, email) VALUES
 INSERT INTO question (id, text) VALUES
 (1, 'question1 from1'), (2, 'question2form1and2'), (3, 'this is question3');
 
-INSERT INTO form (id, title) VALUES
-(1, 'form1'), (2, 'form2'), (3, 'form3');
+INSERT INTO form (id, title, isEditable) VALUES
+(1, 'form1', true), (2, 'form2', true), (3, 'form3', true);
 
 INSERT INTO survey (id, form_id, creator_id) VALUES
 (1, 1, 2), (2, 1, 2);
