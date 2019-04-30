@@ -3,15 +3,11 @@ package se.purple.croc.resolver;
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import lombok.var;
 import org.springframework.stereotype.Component;
-import se.purple.croc.domain.Form;
-import se.purple.croc.domain.Question;
-import se.purple.croc.domain.Survey;
-import se.purple.croc.domain.Users;
+import org.springframework.transaction.annotation.Transactional;
+import se.purple.croc.domain.*;
 import se.purple.croc.dto.QuestionDto;
-import se.purple.croc.repository.FromRepository;
-import se.purple.croc.repository.QuestionRepository;
-import se.purple.croc.repository.SurveyRepository;
-import se.purple.croc.repository.UserRepository;
+import se.purple.croc.repository.*;
+import se.purple.croc.service.FormService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +18,17 @@ public class Query implements GraphQLQueryResolver {
 	private FromRepository formRepo;
 	private SurveyRepository surveyRepo;
 	private UserRepository userRepo;
+	private FormService formService;
+	private UserGroupRepository userGroupRepository;
 
 	public Query(QuestionRepository questionRepo, FromRepository formRepo, SurveyRepository surveyRepo,
-				 UserRepository userRepository) {
+				 UserRepository userRepository, FormService formService, UserGroupRepository userGroupRepository) {
 		this.questionRepo = questionRepo;
 		this.formRepo = formRepo;
 		this.surveyRepo = surveyRepo;
 		this.userRepo = userRepository;
+		this.formService = formService;
+		this.userGroupRepository = userGroupRepository;
 	}
 
 	public Iterable<QuestionDto> getQuestions() {
@@ -55,8 +55,14 @@ public class Query implements GraphQLQueryResolver {
 		return surveyRepo.findDistinctById(surveyId);
 	}
 
+	@Transactional
+	public Iterable<UserGroup> getUserGroups() {
+		Iterable<UserGroup> res = userGroupRepository.findAll();
+		return res;
+	}
+
 	public Form getForm(int formId) {
-		return formRepo.findById(formId).get();
+		return formService.getForm(formId);
 	}
 
 	public long countQuestions() {

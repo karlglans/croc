@@ -17,7 +17,8 @@ public class Form {
 	@Column(name = "ISEDITABLE")
 	private boolean isEditable;
 
-	@OneToMany(mappedBy = "form", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "form", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "form")
 	private List<FormQuestion> formQuestions;
 
 }

@@ -2,6 +2,7 @@ package se.purple.croc.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.purple.croc.domain.Form;
 import se.purple.croc.domain.FormQuestion;
 import se.purple.croc.dto.QuestionDto;
@@ -13,9 +14,11 @@ import java.util.List;
 @Service
 public class QuestionService {
 	@Autowired
-	FromRepository fromRepo;
+	FromRepository formRepo;
 
+	@Transactional
 	public List<QuestionDto> getQuestionsByForm(Form form) {
+		form = formRepo.findById(form.getId()).get(); // looking up item again?
 		List<FormQuestion> questionList = form.getFormQuestions();
 		List<QuestionDto> questions = new ArrayList<>();
 		for (FormQuestion formQuestion: questionList) {

@@ -25,6 +25,11 @@ public class FormService {
 	@Autowired
 	FromRepository formRepo;
 
+	@Transactional
+	public Form getForm(int id) {
+		return formRepo.findById(id).get();
+	}
+
 	private int findLastPos(List<FormQuestion> formQuestionList, AtomicBoolean fromQuestionFound,
 							int formQuestionNumber) {
 		int maxFqNumber = 0;

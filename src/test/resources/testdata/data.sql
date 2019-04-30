@@ -1,5 +1,11 @@
+INSERT INTO user_group (id, name) VALUES
+(1, 'user group 1'), (2, 'user group 2'), (3, 'user group 3');
+
 INSERT INTO users (id, email) VALUES
 (1, 'admin@purple.com'), (2, 'supervisor1@purple.com'), (3, 'employee1@purple.com');
+
+INSERT INTO grouped_users (user_id, group_id) VALUES
+(2, 1), (3, 1), (2, 2);
 
 INSERT INTO form (id, title, isEditable) VALUES
 (1, 'form1', true), (2, 'form2', true), (3, 'form3', true);
