@@ -33,6 +33,12 @@ type User {
     email: String!
 }
 
+type UserGroup {
+    id: ID!
+    name: String!
+    users: [User]!
+}
+
 type Query {
     questions: [Question]!
     countQuestions: Long!
@@ -41,6 +47,7 @@ type Query {
     form(formId: ID): Form
     survey(id: Int): Survey
     users: [User]!
+    userGroups: [UserGroup]!
 }
 
 input InputQuestion {

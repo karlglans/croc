@@ -1,15 +1,11 @@
 package se.purple.croc.graphql;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static graphql.schema.GraphQLObjectType.newObject;
-import static graphql.schema.GraphQLFieldDefinition.newFieldDefinition;
-import static graphql.Scalars.GraphQLString;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.GraphQLError;
-import graphql.schema.GraphQLObjectType;
 import graphql.schema.GraphQLSchema;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
-import se.purple.croc.resolver.Query;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-@Sql(scripts = "/java/se/purple/croc/service/data.sql")
+@Sql(scripts = "/testdata/data.sql")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 		classes = se.purple.croc.CrocApplication.class)
 
@@ -65,5 +60,23 @@ public class Survey2 {
 		Map<String, Map<String, Object>> result = excQuery("mutation {createForm(title: \"aaa\"){id}}");
 		assertEquals(1, result.size());
 		assert(result.containsKey("createForm"));
+	}
+
+	@Test
+	public void canQueryFromAndQuestions() throws JsonProcessingException {
+		String query = "{ form(formId: 1) { questions { id } } }";
+		Map<String, Map<String, Object>> result = excQuery(query);
+		assertEquals(1, result.size());
+		String json = new ObjectMapper().writeValueAsString(result);
+		assertEquals("{\"form\":{\"questions\":[{\"id\":\"1\"},{\"id\":\"2\"}]}}", json);
+	}
+
+	@Test
+	public void canUserGroupsAndUSers() throws JsonProcessingException {
+		String query = "{ userGroups { users { id } } }";
+		Map<String, Map<String, Object>> result = excQuery(query);
+		assertEquals(1, result.size());
+		String json = new ObjectMapper().writeValueAsString(result);
+		assertEquals("{\"form\":{\"questions\":[{\"id\":\"1\"},{\"id\":\"2\"}]}}", json);
 	}
 }
