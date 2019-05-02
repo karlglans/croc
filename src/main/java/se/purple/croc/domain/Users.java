@@ -1,5 +1,6 @@
 package se.purple.croc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class Users {
 
 	private String email;
 
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 		name = "grouped_users",

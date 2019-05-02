@@ -25,7 +25,7 @@ public class FormService {
 	@Autowired
 	FromRepository formRepo;
 
-	@Transactional
+//	@Transactional
 	public Form getForm(int id) {
 		return formRepo.findById(id).get();
 	}

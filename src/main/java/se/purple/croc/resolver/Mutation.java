@@ -1,15 +1,20 @@
 package se.purple.croc.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.Form;
 import se.purple.croc.domain.Question;
+import se.purple.croc.domain.UserGroup;
 import se.purple.croc.dto.InputQuestionDto;
 import se.purple.croc.dto.QuestionDto;
+import se.purple.croc.dto.UserDto;
+import se.purple.croc.dto.UserGroupDto;
 import se.purple.croc.repository.FromRepository;
 import se.purple.croc.repository.QuestionRepository;
 import se.purple.croc.service.FormService;
+import se.purple.croc.service.UserGroupService;
 
 @Component
 public class Mutation implements GraphQLMutationResolver {
@@ -22,6 +27,9 @@ public class Mutation implements GraphQLMutationResolver {
 
 	@Autowired
 	FromRepository fromRepo;
+
+	@Autowired
+	UserGroupService userGroupService;
 
 	public QuestionDto addQuestion(final InputQuestionDto inQuestion) {
 		Question question = new Question();
@@ -64,6 +72,14 @@ public class Mutation implements GraphQLMutationResolver {
 		QuestionDto questionDto = new QuestionDto();
 		questionDto.copy(question);
 		return questionDto;
+	}
+
+	public UserGroupDto createUserGroup(String name) {
+		return userGroupService.createUserGroup(name);
+	}
+
+	public UserGroupDto addUserToGroup(final Integer userId, final Integer userGroupId) {
+		return userGroupService.addUserToGroup(userId, userGroupId);
 	}
 
 }

@@ -48,6 +48,7 @@ type Query {
     survey(id: Int): Survey
     users: [User]!
     userGroups: [UserGroup]!
+    userGroup(id: ID!): UserGroup
 }
 
 input InputQuestion {
@@ -56,6 +57,8 @@ input InputQuestion {
 
 type Mutation {
     createForm(title: String!): Form
+    createUserGroup(name: String!): UserGroup
+    addUserToGroup(userId: ID!, userGroupId: ID!): UserGroup
     addQuestion(input: InputQuestion): Question
     createFormQuestion(input: InputQuestion!, formId: ID!): Question
     addQuestionToForm(formId: Int, questionId: Int): Form

@@ -13,7 +13,7 @@ public class UserGroup {
 	private int id;
 	private String name;
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(
 		name = "grouped_users",
 		joinColumns = @JoinColumn(name = "group_id"),

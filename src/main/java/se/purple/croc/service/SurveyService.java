@@ -36,15 +36,14 @@ public class SurveyService {
 
 	}
 
-	@Transactional
 	void addUserToSurvey(Integer userId, Integer SurveyId) throws ServiceException {
 		Survey survey = surveyRepo.findDistinctById(SurveyId);
 		if (survey == null) {
 			throw new ServiceException("survey not found ");
 		}
 
-		Users user = userRepo.findDistinctById(userId);
-		if (user == null) {
+		Optional<Users> user = userRepo.findById(userId);
+		if (!user.isPresent()) {
 			throw new ServiceException("user not found ");
 		}
 
@@ -55,7 +54,7 @@ public class SurveyService {
 		for(FormQuestion formQuestion: questionList) {
 			Answer answer = new Answer();
 			answer.setSurvey(survey);
-			answer.setResponder(user);
+			answer.setResponder(user.get());
 			answer.setQuestion(formQuestion.getQuestion());
 			answer.setValue(0);
 			answerRepo.save(answer);

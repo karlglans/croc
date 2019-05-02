@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,7 @@ public class Survey2 {
 		assert(result.containsKey("survey"));
 	}
 
+	@Transactional
 	@Test
 	public void canCreateNewForm() {
 		Map<String, Map<String, Object>> result = excQuery("mutation {createForm(title: \"aaa\"){id}}");
@@ -62,8 +64,10 @@ public class Survey2 {
 		assert(result.containsKey("createForm"));
 	}
 
+	@Transactional
 	@Test
 	public void canQueryFromAndQuestions() throws JsonProcessingException {
+		System.out.println("    starting test");
 		String query = "{ form(formId: 1) { questions { id } } }";
 		Map<String, Map<String, Object>> result = excQuery(query);
 		assertEquals(1, result.size());
@@ -71,12 +75,15 @@ public class Survey2 {
 		assertEquals("{\"form\":{\"questions\":[{\"id\":\"1\"},{\"id\":\"2\"}]}}", json);
 	}
 
+	@Transactional
 	@Test
-	public void canUserGroupsAndUSers() throws JsonProcessingException {
-		String query = "{ userGroups { users { id } } }";
+	public void canGetUserGroupsAndUsers() throws JsonProcessingException {
+		String query = "{ userGroups { id users { id } } }";
 		Map<String, Map<String, Object>> result = excQuery(query);
 		assertEquals(1, result.size());
 		String json = new ObjectMapper().writeValueAsString(result);
-		assertEquals("{\"form\":{\"questions\":[{\"id\":\"1\"},{\"id\":\"2\"}]}}", json);
+		String expected = "{\"userGroups\":[{\"id\":\"1\",\"users\":[{\"id\":\"2\"},{\"id\":\"3\"}]},"
+			+ "{\"id\":\"2\",\"users\":[{\"id\":\"2\"}]},{\"id\":\"3\",\"users\":[]}]}";
+		assertEquals(expected, json);
 	}
 }

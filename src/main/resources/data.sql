@@ -5,7 +5,7 @@ INSERT INTO users (id, email) VALUES
 (1, 'admin@purple.com'), (2, 'supervisor1@purple.com'), (3, 'employee1@purple.com'), (4, 'employee2@purple.com');
 
 INSERT INTO grouped_users (user_id, group_id) VALUES
-(2, 1), (3, 1), (2, 2);
+(3, 1), (4, 1), (3, 2);
 
 INSERT INTO question (id, text) VALUES
 (1, 'question1 from1'), (2, 'question2form1and2'), (3, 'this is question3');
