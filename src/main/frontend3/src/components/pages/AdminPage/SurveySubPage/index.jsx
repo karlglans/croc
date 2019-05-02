@@ -4,9 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { Drawer, MenuList, MenuItem, ListItemText } from '@material-ui/core';
 import { compose } from 'recompose'
 
-import UsersListView from './UsersListView';
-import GroupListView from './GroupListView';
-
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -30,11 +27,15 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
+const Dummy = () => (
+  <p>dummy</p>
+)
+
 
 class FormsPage extends React.Component {
   render() {
-    const { classes, location, match } = this.props;
-    const isOnUsers = location.pathname === '/admin/users';
+    const { classes, location } = this.props;
+    const isOnOngoing = location.pathname === '/admin/surveys';
     return (
       <React.Fragment>
       <Drawer
@@ -46,19 +47,19 @@ class FormsPage extends React.Component {
       >
         <div className={classes.toolbar} />
           <MenuList >
-            <MenuItem button key={'users'} selected={isOnUsers} component={Link} to='/admin/users'>
-              <ListItemText primary={'Users'} />
+            <MenuItem button key={'ongoing'} selected={isOnOngoing} component={Link} to='/admin/surveys'>
+              <ListItemText primary={'Ongoing'} />
             </MenuItem>
-            <MenuItem button key={'groups'} selected={!isOnUsers} component={Link} to='/admin/users/groups'>
-              <ListItemText primary={'Groups'} />
+            <MenuItem button key={'closed'} selected={!isOnOngoing} component={Link} to='/admin/surveys/closed'>
+              <ListItemText primary={'Closed'} />
             </MenuItem>
           </MenuList>
         </Drawer>
         <div className={classes.content} style={{marginLeft: drawerWidth }}>
           <div className={classes.toolbar} />
           <Switch>
-            <Route path="/admin/users" exact component={UsersListView}/>
-            <Route path="/admin/users/groups" exact component={GroupListView}/>
+            <Route path="/admin/surveys" exact component={Dummy}/>
+            <Route path="/admin/surveys/closed" exact component={Dummy}/>
           </Switch>
       </div>
       </React.Fragment>

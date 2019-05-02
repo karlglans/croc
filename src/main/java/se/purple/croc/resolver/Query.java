@@ -58,6 +58,9 @@ public class Query implements GraphQLQueryResolver {
 	public Survey getSurvey(int surveyId) {
 		return surveyRepo.findDistinctById(surveyId);
 	}
+//	public List<Survey> getSurveys() {
+//		return surveyRepo.findDistinctById(surveyId);
+//	}
 
 	public Iterable<UserGroupDto> getUserGroups() {
 		return userGroupService.getAllUserGroups();

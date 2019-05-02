@@ -10,6 +10,7 @@ import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@mate
 import UsersSubPage from './UsersSubPage';
 import SurveyPage from './SurveyPage';
 import FormsSubPage from './FormsSubPage';
+import SurveySubPage from './SurveySubPage';
 
 const styles = theme => ({
   root: {
@@ -75,7 +76,8 @@ class AdminPageLayout extends React.Component {
           </AppBar>
           <Switch>
             <Route path="/admin/users" component={UsersSubPage}/>
-            <Route path="/admin/surveys" component={SurveyPage}/>
+            <Route path="/admin/surveys" component={SurveySubPage}/>
+            <Route path="/admin/surveys2" component={SurveyPage}/>
             <Route path="/admin/forms" component={ props => <FormsSubPage selectedFormId={this.props.selectedFormId} />} />
           </Switch>
       </div>

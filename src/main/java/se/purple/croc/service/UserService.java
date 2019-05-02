@@ -15,8 +15,17 @@ public class UserService {
 	@Autowired
 	UserRepository userRepo;
 
+	public List<Users> getUsers() {
+		return userRepo.findAll();
+	}
+
 	public List<UserDto> getAllUSers() {
-		return new ArrayList<>();
+		List<Users> users = getUsers();
+		List<UserDto> usersDtoLsit = new ArrayList<>();
+		for (Users user : users) {
+			usersDtoLsit.add(makeUserDto(user));
+		}
+		return usersDtoLsit;
 	}
 
 	public UserDto makeUserDto(Users user) {

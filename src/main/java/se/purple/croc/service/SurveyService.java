@@ -1,11 +1,11 @@
 package se.purple.croc.service;
 
-import org.hibernate.Hibernate;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import se.purple.croc.domain.*;
 import se.purple.croc.dto.ParticipantDto;
+import se.purple.croc.dto.SurveyDto;
 import se.purple.croc.repository.AnswerRepository;
 import se.purple.croc.repository.SurveyRepository;
 import se.purple.croc.repository.UserRepository;
@@ -36,6 +36,21 @@ public class SurveyService {
 
 	}
 
+	public List<SurveyDto> getAllServeyDtos() {
+		var surveys = surveyRepo.findAll();
+		List<SurveyDto> surveyDtos = new ArrayList<>();
+		for (Survey survey: surveys) {
+			surveyDtos.add(makeSurveyDto(survey));
+		}
+		return surveyDtos;
+	}
+
+	SurveyDto makeSurveyDto(Survey survey) {
+		SurveyDto surveyDto = new SurveyDto();
+		surveyDto.setId(survey.getId());
+		return surveyDto;
+	}
+
 	void addUserToSurvey(Integer userId, Integer SurveyId) throws ServiceException {
 		Survey survey = surveyRepo.findDistinctById(SurveyId);
 		if (survey == null) {
@@ -61,7 +76,6 @@ public class SurveyService {
 		}
 	}
 
-	@Transactional
 	public List<ParticipantDto> getParticipants(Survey survey){
 		survey = surveyRepo.findDistinctById(survey.getId());
 		List<ParticipantDto> participantDtos = new ArrayList<>();
@@ -73,7 +87,6 @@ public class SurveyService {
 		return participantDtos;
 	}
 
-	@Transactional
 	public List<Answer> getAnswersBySurvey(Integer surveyId) {
 		List<Answer> answers = surveyRepo.getAnswersBySurveyId(surveyId);
 		return answers;

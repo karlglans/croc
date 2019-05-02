@@ -2,22 +2,24 @@ import React from 'react';
 import { Paper } from '@material-ui/core';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import GroupListViewLayout from './GroupListViewLayout';
 
 const GET_GROUPS = gql`
   {
-    groups {
+    userGroups {
       id
+      name
     }
   }
 `;
 
-const UsersListView = props => {
+const GroupsListView = props => {
   return (
     <Query query={GET_GROUPS} >
       {({ loading, error, data }) => {
         return (
           <Paper >
-            groups
+            <GroupListViewLayout userGroups={data.userGroups} isLoading={loading}/>
           </Paper>
         );
       }}
@@ -25,4 +27,4 @@ const UsersListView = props => {
   )
 };
 
-export default UsersListView;
+export default GroupsListView;

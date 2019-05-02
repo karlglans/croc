@@ -46,6 +46,7 @@ type Query {
     forms: [Form]!
     form(formId: ID): Form
     survey(id: Int): Survey
+#    surveys: [Survey]!
     users: [User]!
     userGroups: [UserGroup]!
     userGroup(id: ID!): UserGroup
