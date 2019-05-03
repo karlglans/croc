@@ -39,6 +39,11 @@ type UserGroup {
     users: [User]!
 }
 
+enum SurveyStatus {
+    ONGOING,
+    CLOSED
+}
+
 type Query {
     questions: [Question]!
     countQuestions: Long!
@@ -46,7 +51,7 @@ type Query {
     forms: [Form]!
     form(formId: ID): Form
     survey(id: Int): Survey
-#    surveys: [Survey]!
+    surveys(status: SurveyStatus): [Survey]!
     users: [User]!
     userGroups: [UserGroup]!
     userGroup(id: ID!): UserGroup

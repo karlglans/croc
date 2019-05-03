@@ -19,6 +19,9 @@ public class Survey {
 	@ManyToOne
 	private Form form;
 
+	@Enumerated(EnumType.STRING)
+	private SurveyStatus status;
+
 	@ManyToMany(cascade = { CascadeType.MERGE })
 	@JoinTable(
 			name = "SURVEY_PARTICIPANT",

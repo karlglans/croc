@@ -33,7 +33,7 @@ const styles = theme => ({
 
 class FormsPage extends React.Component {
   render() {
-    const { classes, location, match } = this.props;
+    const { classes, location } = this.props;
     const isOnUsers = location.pathname === '/admin/users';
     return (
       <React.Fragment>

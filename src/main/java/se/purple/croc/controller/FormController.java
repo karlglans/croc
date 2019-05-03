@@ -29,18 +29,18 @@ public class FormController {
 		this.userGroupRepository = userGroupRepository;
 	}
 
-	@GetMapping(value = "/{id}", produces = "application/json")
-	public FormDto getFormById(@PathVariable final int id) {
-		return formService.getFormById(id);
-	}
+//	@GetMapping(value = "/{id}", produces = "application/json")
+//	public FormDto getFormById(@PathVariable final int id) {
+//		return formService.getFormById(id);
+//	}
 
 	// small test
-	@GetMapping(value = "/aa", produces = "application/json")
-	public List<QuestionDto> getFormQuestions() {
-		Form form = formService.getForm(1);
-//		List<QuestionDto> questions = form.getFormQuestions();
-		return questionService.getQuestionsByForm(form);
-	}
+//	@GetMapping(value = "/aa", produces = "application/json")
+//	public List<QuestionDto> getFormQuestions() {
+//		Form form = formService.getForm(1);
+////		List<QuestionDto> questions = form.getFormQuestions();
+//		return questionService.getQuestionsByForm(form);
+//	}
 
 //	@GetMapping(value = "/bb", produces = "application/json")
 //	public List<UserGroup> getFormQuestions() {

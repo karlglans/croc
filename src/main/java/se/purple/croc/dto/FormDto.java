@@ -9,8 +9,8 @@ import java.util.List;
 
 @Data
 public class FormDto {
-	int formId;
+	int id;
 	String title;
-	List<FormQuestionDto> questions;
+	List<FormQuestionDto> questions = new ArrayList<>();
 	boolean isEditable;
 }

@@ -12,6 +12,8 @@ import se.purple.croc.domain.Form;
 import se.purple.croc.domain.FormQuestion;
 import se.purple.croc.domain.Question;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -22,6 +24,9 @@ public class FormRepoTests {
 
 	@Autowired
 	FromRepository fromRepository;
+
+	@Autowired
+	QuestionRepository questionRepository;
 
 	@Autowired
 	private TestEntityManager manager;
@@ -35,6 +40,18 @@ public class FormRepoTests {
 		Form from1 = manager.find(Form.class, form.getId());
 
 		assertEquals(4, from1.getId());
+	}
+
+	@Test
+	public void canFindFromForSurvey() {
+		Form form = fromRepository.getFromBySurveyId(3);
+		assertEquals(2, form.getId());
+	}
+
+	@Test
+	public void canGetQuestionsFromForm() {
+		List<FormQuestion> questions = questionRepository.getQuestionsByFormId(1);
+		assertEquals(2, questions.size());
 	}
 
 	@Test

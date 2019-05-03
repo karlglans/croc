@@ -1,16 +1,11 @@
 package se.purple.croc.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.Form;
 import se.purple.croc.domain.Question;
-import se.purple.croc.domain.UserGroup;
-import se.purple.croc.dto.InputQuestionDto;
-import se.purple.croc.dto.QuestionDto;
-import se.purple.croc.dto.UserDto;
-import se.purple.croc.dto.UserGroupDto;
+import se.purple.croc.dto.*;
 import se.purple.croc.repository.FromRepository;
 import se.purple.croc.repository.QuestionRepository;
 import se.purple.croc.service.FormService;
@@ -40,23 +35,21 @@ public class Mutation implements GraphQLMutationResolver {
 		return questionDto;
 	}
 
-	public Form addQuestionToForm(final Integer formId, final Integer questionId) {
+	public FormDto addQuestionToForm(final Integer formId, final Integer questionId) {
 		int formChangedId = formService.addQuestionToForm(questionId, formId);
 		if (formChangedId == 0) {
 			return null;
 		}
 
-		Form form = fromRepo.getFirstById(formId);
-
 		// should not return a questionDto
-		return form;
+		return formService.getFromDto(formId);
 	}
 
-	public Form createForm(String title) {
+	public FormDto createForm(String title) {
 		Form form = new Form();
 		form.setTitle(title);
 		fromRepo.save(form);
-		return form;
+		return formService.makeFormDtoShallow(form);
 	}
 
 	/**

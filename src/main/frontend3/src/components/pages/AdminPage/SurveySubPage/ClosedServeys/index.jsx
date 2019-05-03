@@ -6,13 +6,13 @@ import SurveyList from '../SurveyList';
 
 const GET_SURVEYS_DATA = gql`
   {
-    surveys(status: ONGOING) {
+    surveys(status: CLOSED) {
       id
     }
   }
 `;
 
-const OngoingSurveys = props => {
+const ClosedSurveys = props => {
   return (
     <Query query={GET_SURVEYS_DATA} >
       {({ loading, error, data }) => {
@@ -25,4 +25,4 @@ const OngoingSurveys = props => {
     )
 };
 
-export default OngoingSurveys;
+export default ClosedSurveys;

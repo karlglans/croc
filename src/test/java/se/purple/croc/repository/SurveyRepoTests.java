@@ -11,8 +11,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import se.purple.croc.domain.Answer;
 import se.purple.croc.domain.Form;
 import se.purple.croc.domain.Survey;
+import se.purple.croc.domain.SurveyStatus;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,7 +35,7 @@ public class SurveyRepoTests {
 		Survey survey = new Survey();
 		surveyRepository.save(survey);
 		Survey survey1 = manager.find(Survey.class, survey.getId());
-		assertEquals(3, survey1.getId());
+		assertEquals(5, survey1.getId());
 	}
 
 	@Test
@@ -41,6 +43,14 @@ public class SurveyRepoTests {
 		List<Answer> surveyAnswers = surveyRepository.getAnswersBySurveyId(1);
 		assertEquals(2, surveyAnswers.size());
 	}
+
+	@Test
+	public void findSurveyByStatusEquals() {
+		List<Survey> surveys = surveyRepository.findSurveyByStatusEquals(SurveyStatus.ONGOING);
+		assertEquals(3, surveys.size());
+	}
+
+
 
 
 }

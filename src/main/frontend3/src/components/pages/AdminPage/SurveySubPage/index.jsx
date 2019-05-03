@@ -4,6 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { Drawer, MenuList, MenuItem, ListItemText } from '@material-ui/core';
 import { compose } from 'recompose'
 
+import OngoingSurveys from './OngoingSurveys';
+import ClosedSurveys from './ClosedServeys';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -26,11 +29,6 @@ const styles = theme => ({
   },
   toolbar: theme.mixins.toolbar,
 });
-
-const Dummy = () => (
-  <p>dummy</p>
-)
-
 
 class FormsPage extends React.Component {
   render() {
@@ -58,8 +56,8 @@ class FormsPage extends React.Component {
         <div className={classes.content} style={{marginLeft: drawerWidth }}>
           <div className={classes.toolbar} />
           <Switch>
-            <Route path="/admin/surveys" exact component={Dummy}/>
-            <Route path="/admin/surveys/closed" exact component={Dummy}/>
+            <Route path="/admin/surveys" exact component={OngoingSurveys}/>
+            <Route path="/admin/surveys/closed" exact component={ClosedSurveys}/>
           </Switch>
       </div>
       </React.Fragment>

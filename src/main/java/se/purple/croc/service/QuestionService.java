@@ -9,6 +9,7 @@ import se.purple.croc.domain.Form;
 import se.purple.croc.domain.FormQuestion;
 import se.purple.croc.dto.QuestionDto;
 import se.purple.croc.repository.FromRepository;
+import se.purple.croc.repository.QuestionRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +20,19 @@ public class QuestionService {
 	FromRepository formRepo;
 
 	@Autowired
-	DebugInspect debugInspectHelper;
+	QuestionRepository questionRepo;
 
-//	@Transactional
-	public List<QuestionDto> getQuestionsByForm(Form form) {
-		debugInspectHelper.printSession("1");
-		// NOTE: Why do we need to get the entity form again?
-//		form = formRepo.findById(form.getId()).get(); // looking up item again?
+	public List<QuestionDto> getQuestionsByForm(int formId) {
 
-		List<FormQuestion> questionList = form.getFormQuestions();
+		// TODO: Check if this can be more optimized.
+		List<FormQuestion> questionList = questionRepo.getQuestionsByFormId(formId);
 		List<QuestionDto> questions = new ArrayList<>();
 		for (FormQuestion formQuestion: questionList) {
 			QuestionDto questionDto = new QuestionDto();
-			questionDto.copy(formQuestion.getQuestion());
+			questionDto.copy(formQuestion.getQuestion()); // maybe move to service
 			questionDto.setNumber(formQuestion.getNumber());
 			questions.add(questionDto);
 		}
-		debugInspectHelper.printSession("2");
 		return questions;
 	}
 }

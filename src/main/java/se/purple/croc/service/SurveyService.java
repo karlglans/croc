@@ -4,6 +4,7 @@ import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
+import se.purple.croc.dto.FormDto;
 import se.purple.croc.dto.ParticipantDto;
 import se.purple.croc.dto.SurveyDto;
 import se.purple.croc.repository.AnswerRepository;
@@ -36,8 +37,8 @@ public class SurveyService {
 
 	}
 
-	public List<SurveyDto> getAllServeyDtos() {
-		var surveys = surveyRepo.findAll();
+	public List<SurveyDto> getAllSurveyDtos(SurveyStatus surveyStatus) {
+		var surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
 		List<SurveyDto> surveyDtos = new ArrayList<>();
 		for (Survey survey: surveys) {
 			surveyDtos.add(makeSurveyDto(survey));
@@ -48,6 +49,19 @@ public class SurveyService {
 	SurveyDto makeSurveyDto(Survey survey) {
 		SurveyDto surveyDto = new SurveyDto();
 		surveyDto.setId(survey.getId());
+		FormDto formDto = new FormDto();
+//		formDto.setFormId(survey.getForm().getId());
+		formDto.setId(222);
+		surveyDto.setForm(formDto);
+		return surveyDto;
+	}
+
+	public Survey getSurveyById(int id) {
+		return surveyRepo.getOne(id);
+	}
+
+	public SurveyDto getSurveyDtoById(int id) {
+		SurveyDto surveyDto = makeSurveyDto(getSurveyById(id));
 		return surveyDto;
 	}
 

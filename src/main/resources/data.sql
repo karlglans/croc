@@ -11,10 +11,10 @@ INSERT INTO question (id, text) VALUES
 (1, 'question1 from1'), (2, 'question2form1and2'), (3, 'this is question3');
 
 INSERT INTO form (id, title, isEditable) VALUES
-(1, 'form1', true), (2, 'form2', true), (3, 'form3', true);
+(1, 'form1 ongoing survey', true), (2, 'form2 ongoing survey', true), (3, 'form3', true);
 
-INSERT INTO survey (id, form_id, creator_id) VALUES
-(1, 1, 2), (2, 1, 2);
+INSERT INTO survey (id, form_id, creator_id, status) VALUES
+(1, 1, 2, 'ONGOING'), (2, 1, 2, 'ONGOING'), (3, 2, 2, 'ONGOING'), (4, 2, 2, 'CLOSED');
 
 INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
 (1, 1, 1), (1, 2, 2), (2, 1, 1);

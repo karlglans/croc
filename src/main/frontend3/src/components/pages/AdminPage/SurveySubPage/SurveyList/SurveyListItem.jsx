@@ -9,7 +9,8 @@ const style = {
 
 const SurveyListItem = props => (
   <Paper style={style}>
-    survey
+    {props.survey.id} - 
+    survey item
   </Paper>
 );
 
