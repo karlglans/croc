@@ -9,7 +9,10 @@ import se.purple.croc.dto.*;
 import se.purple.croc.repository.FromRepository;
 import se.purple.croc.repository.QuestionRepository;
 import se.purple.croc.service.FormService;
+import se.purple.croc.service.SurveyService;
 import se.purple.croc.service.UserGroupService;
+
+import java.util.List;
 
 @Component
 public class Mutation implements GraphQLMutationResolver {
@@ -25,6 +28,9 @@ public class Mutation implements GraphQLMutationResolver {
 
 	@Autowired
 	UserGroupService userGroupService;
+
+	@Autowired
+	SurveyService surveyService;
 
 	public QuestionDto addQuestion(final InputQuestionDto inQuestion) {
 		Question question = new Question();
@@ -73,6 +79,10 @@ public class Mutation implements GraphQLMutationResolver {
 
 	public UserGroupDto addUserToGroup(final Integer userId, final Integer userGroupId) {
 		return userGroupService.addUserToGroup(userId, userGroupId);
+	}
+
+	public boolean addUserGroupToSurvey(int userGroupId, int surveyId){
+		return surveyService.addUsersToSurvey(userGroupId, surveyId);
 	}
 
 }

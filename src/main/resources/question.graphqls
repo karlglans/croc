@@ -1,3 +1,8 @@
+interface MiniUser {
+    id: ID!
+    email: String!
+}
+
 type Question {
     id: ID!
     text: String!
@@ -17,14 +22,20 @@ type Answer {
     value: Int
 }
 
-type Participant {
-    userId: ID!
+type Participant implements MiniUser {
+    id: ID!
+    email: String!
     answers: [Answer]
 }
+
+#type SurveySummary {
+#    numberOfParticipants: Int
+#}
 
 type Survey {
     id: ID!
     form: Form!
+    name: String!
     participants: [Participant]
 }
 
@@ -65,6 +76,7 @@ type Mutation {
     createForm(title: String!): Form
     createUserGroup(name: String!): UserGroup
     addUserToGroup(userId: ID!, userGroupId: ID!): UserGroup
+    addUserGroupToSurvey(userGroupId: ID!, survey: ID!): Boolean
     addQuestion(input: InputQuestion): Question
     createFormQuestion(input: InputQuestion!, formId: ID!): Question
     addQuestionToForm(formId: Int, questionId: Int): Form

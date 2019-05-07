@@ -7,6 +7,7 @@ import se.purple.croc.domain.*;
 import se.purple.croc.dto.FormDto;
 import se.purple.croc.dto.ParticipantDto;
 import se.purple.croc.dto.SurveyDto;
+import se.purple.croc.dto.UserDto;
 import se.purple.croc.repository.AnswerRepository;
 import se.purple.croc.repository.SurveyRepository;
 import se.purple.croc.repository.UserRepository;
@@ -49,6 +50,7 @@ public class SurveyService {
 	SurveyDto makeSurveyDto(Survey survey) {
 		SurveyDto surveyDto = new SurveyDto();
 		surveyDto.setId(survey.getId());
+		surveyDto.setName(survey.getName());
 		FormDto formDto = new FormDto();
 //		formDto.setFormId(survey.getForm().getId());
 		formDto.setId(222);
@@ -90,12 +92,15 @@ public class SurveyService {
 		}
 	}
 
-	public List<ParticipantDto> getParticipants(Survey survey){
-		survey = surveyRepo.findDistinctById(survey.getId());
+	public List<ParticipantDto> getParticipants(SurveyDto survey){
+		final int surveyId = survey.getId();
 		List<ParticipantDto> participantDtos = new ArrayList<>();
-		for(Users user : survey.getParticipants()) {
+		var users = surveyRepo.findParticipantsBySurveyId(survey.getId());
+		for(Users user : users) {
 			ParticipantDto participant = new ParticipantDto();
-			participant.populate(user, survey);
+			participant.setSurveyId(surveyId);
+			participant.setId(user.getId());
+			participant.setEmail(user.getEmail());
 			participantDtos.add(participant);
 		}
 		return participantDtos;
@@ -104,5 +109,11 @@ public class SurveyService {
 	public List<Answer> getAnswersBySurvey(Integer surveyId) {
 		List<Answer> answers = surveyRepo.getAnswersBySurveyId(surveyId);
 		return answers;
+	}
+
+	public boolean addUsersToSurvey(int userGroupId, int surveyId) {
+		Survey survey = getSurveyById(surveyId);
+		var users =  userRepo.findUsersByGroupId(userGroupId);
+		return survey.getParticipants().addAll(users);
 	}
 }

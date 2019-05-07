@@ -31,8 +31,7 @@ public class SurveyResolver implements GraphQLResolver<SurveyDto> {
 	}
 
 	public List<ParticipantDto> getParticipants(SurveyDto survey) {
-		List<ParticipantDto> participantDtos = new ArrayList<>();
-		return participantDtos;
+		return this.surveyService.getParticipants(survey);
 	}
 
 	public FormDto getForm(SurveyDto survey) {

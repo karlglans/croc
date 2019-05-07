@@ -71,6 +71,15 @@ public class UserGroupService {
 		return userGroupsDtos;
 	}
 
+	public List<UserDto> getUsersByGroupId(int id){
+		List<Users> users = userRepo.findUsersByGroupId(id);
+		List<UserDto> userDtoList = new ArrayList<>();
+		for (Users user : users) {
+			userDtoList.add(userService.makeUserDto(user));
+		}
+		return userDtoList;
+	}
+
 	public UserGroupDto getUserGroupDtoById(int id) {
 		return makeUserGroupDto(getUserGroupByIdd(id));
 	}

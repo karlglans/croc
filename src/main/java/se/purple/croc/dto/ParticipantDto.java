@@ -10,11 +10,8 @@ import java.util.List;
 
 @Data
 public class ParticipantDto {
-	private int userId;
+	private int id;
 	private int surveyId;
+	private String email;
 	List<Answer> answers = new ArrayList<>();
-	public void populate(Users user, Survey survey) {
-		this.userId = user.getId();
-		this.surveyId = survey.getId();
-	}
 }

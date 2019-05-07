@@ -8,10 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
-import se.purple.croc.domain.Answer;
-import se.purple.croc.domain.Form;
-import se.purple.croc.domain.Survey;
-import se.purple.croc.domain.SurveyStatus;
+import se.purple.croc.domain.*;
 
 import java.util.List;
 import java.util.Set;
@@ -50,7 +47,13 @@ public class SurveyRepoTests {
 		assertEquals(3, surveys.size());
 	}
 
-
+	@Test
+	public void findParticipantsBySurveyId() {
+//		List<Users> participants = surveyRepository.findParticipantsBySurveyId(1);
+		Survey survey = manager.find(Survey.class, 1);
+		Set<Users> users = survey.getParticipants();
+		assertEquals(2, users.size());
+	}
 
 
 }

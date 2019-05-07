@@ -1,9 +1,10 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import { List, ListItem } from '@material-ui/core';
 import { withRouter } from "react-router";
+
+import CreateSurveyButton from './CreateSurveyButton';
 
 
 const GET_QUESTIONS = gql`
@@ -30,13 +31,16 @@ const QuestionsList = props => (
       if (loading) return 'Loading...';
       if (error) return `Error! ${error.message}`;
       return (
-        <List style={styles.listItemStyle}>
-          {data.form.questions.map(question => (
-            <ListItem button key={question.id} >
-              {question.number} : {question.text}
-            </ListItem>
-          ))}
-        </List>
+        <React.Fragment>
+          <CreateSurveyButton formId={Number(props.formId)} />
+          <List style={styles.listItemStyle}>
+            {data.form.questions.map(question => (
+              <ListItem button key={question.id} >
+                {question.number} : {question.text}
+              </ListItem>
+            ))}
+          </List>
+        </React.Fragment>
       );
     }}
   </Query>

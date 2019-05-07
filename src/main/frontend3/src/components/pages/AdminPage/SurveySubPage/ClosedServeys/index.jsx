@@ -12,17 +12,20 @@ const GET_SURVEYS_DATA = gql`
   }
 `;
 
-const ClosedSurveys = props => {
-  return (
-    <Query query={GET_SURVEYS_DATA} >
-      {({ loading, error, data }) => {
-        if (error) return `Error! ${error.message}`;
-        return (
-          <SurveyList surveys={data.surveys} isLoading={loading} />
-        );
-      }}
-    </Query>
-    )
-};
+const ClosedSurveys = () => (
+  <Query query={GET_SURVEYS_DATA} >
+    {({ loading, error, data }) => {
+      if (error) return `Error! ${error.message}`;
+      return (
+        <SurveyList
+          surveys={data.surveys}
+          isLoading={loading}
+          linkSuffix={'/admin/surveys/closed'}
+          isEditable={false}
+        />
+      );
+    }}
+  </Query>
+);
 
 export default ClosedSurveys;

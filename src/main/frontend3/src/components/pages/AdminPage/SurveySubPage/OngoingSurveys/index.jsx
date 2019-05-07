@@ -8,21 +8,30 @@ const GET_SURVEYS_DATA = gql`
   {
     surveys(status: ONGOING) {
       id
+      name
+    }
+    userGroups {
+      id
+      name
     }
   }
 `;
 
-const OngoingSurveys = props => {
-  return (
-    <Query query={GET_SURVEYS_DATA} >
-      {({ loading, error, data }) => {
-        if (error) return `Error! ${error.message}`;
-        return (
-          <SurveyList surveys={data.surveys} isLoading={loading} />
-        );
-      }}
-    </Query>
-    )
-};
+const OngoingSurveys = props => (
+  <Query query={GET_SURVEYS_DATA} >
+    {({ loading, error, data }) => {
+      if (error) return `Error! ${error.message}`;
+      return (
+        <SurveyList
+          surveys={data.surveys}
+          userGroups={data.userGroups}
+          isLoading={loading}
+          linkSuffix={'/admin/surveys/ongoing'}
+          isEditable={true}
+        />
+      );
+    }}
+  </Query>
+);
 
 export default OngoingSurveys;

@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Paper } from '@material-ui/core';
 import UsersListViewLayout from './UsersListViewLayout';
 import gql from 'graphql-tag';
@@ -27,9 +26,5 @@ const UsersListView = props => {
     </Query>
   )
 };
-
-// Question.propTypes = {
-//   question: PropTypes.object.isRequired,
-// };
 
 export default UsersListView;
