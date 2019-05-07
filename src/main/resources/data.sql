@@ -16,12 +16,12 @@ INSERT INTO grouped_users (user_id, group_id) VALUES
 (14, 3), (15, 3), (16, 3), (17, 3), (18, 3), (19, 3), (20, 3), (21, 3), (22, 3),
 (12, 2), (13, 2), (14, 2), (15, 2);
 
-
-INSERT INTO question (id, text) VALUES
-(1, 'question1 from1'), (2, 'question2form1and2'), (3, 'this is question3');
-
 INSERT INTO form (id, title, isEditable) VALUES
 (1, 'form1 ongoing survey', true), (2, 'form2 ongoing survey', true), (3, 'form3', true);
+
+INSERT INTO question (id, text) VALUES
+(1, 'question1 from1'), (2, 'question2form1and2'), (3, 'question3form2'), (4, 'question4noForm');
+
 
 INSERT INTO survey (id, form_id, creator_id, status, name) VALUES
 (1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019'), (2, 1, 2, 'ONGOING', 'Undersökning'),

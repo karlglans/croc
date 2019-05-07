@@ -18,7 +18,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @DataJpaTest
-@Sql(scripts = "/testdata/data.sql")
 public class SurveyRepoTests {
 
 	@Autowired
@@ -38,7 +37,7 @@ public class SurveyRepoTests {
 	@Test
 	public void getAnswersBySurveyId() {
 		List<Answer> surveyAnswers = surveyRepository.getAnswersBySurveyId(1);
-		assertEquals(2, surveyAnswers.size());
+		assertEquals(3, surveyAnswers.size());
 	}
 
 	@Test

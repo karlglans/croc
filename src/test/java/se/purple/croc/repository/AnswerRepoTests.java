@@ -14,19 +14,18 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringRunner.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-@DataJpaTest
-@Sql(scripts = "/java/se/purple/croc/repository/data.sql")
-public class AnswerRepoTests {
-
-	@Autowired
-	AnswerRepository answerRepository;
-
-	@Autowired
-	private TestEntityManager manager;
-
-	// this test does not seem to work
+//@RunWith(SpringRunner.class)
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+//@DataJpaTest
+//public class AnswerRepoTests {
+//
+//	@Autowired
+//	AnswerRepository answerRepository;
+//
+//	@Autowired
+//	private TestEntityManager manager;
+//
+//	 this test does not seem to work
 //	@Test
 //	public void canAddAnswer() {
 //		Survey survey1 = manager.find(Survey.class, 1);
@@ -55,4 +54,4 @@ public class AnswerRepoTests {
 //		int answerVal = savedAnswer.get().getValue();
 //		assertEquals(answerValue, answerVal);
 //	}
-}
+//}

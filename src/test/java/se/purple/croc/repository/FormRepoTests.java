@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @DataJpaTest
-@Sql(scripts = "/testdata/data.sql")
 public class FormRepoTests {
 
 	@Autowired
