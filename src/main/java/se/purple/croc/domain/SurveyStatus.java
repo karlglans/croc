@@ -2,5 +2,6 @@ package se.purple.croc.domain;
 
 public enum SurveyStatus {
 	ONGOING,
-	CLOSED
+	CLOSED,
+	IN_CREATION
 }

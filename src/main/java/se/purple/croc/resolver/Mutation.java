@@ -58,6 +58,10 @@ public class Mutation implements GraphQLMutationResolver {
 		return formService.makeFormDtoShallow(form);
 	}
 
+	public SurveyDto createSurvey(int formId, String name) {
+		return surveyService.createSurvey(formId, name);
+	}
+
 	/**
 	 *  mutation($inquest: InputQuestion!, $formId: Int!) {
 	 * 		createFormQuestion(input: $inquest, formId: $formId){ ... }

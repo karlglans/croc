@@ -28,15 +28,4 @@ public class UncategorizedIT extends SimpleEndpointTests {
 		String json = new ObjectMapper().writeValueAsString(result);
 		assertEquals("{\"form\":{\"questions\":[{\"id\":\"1\"},{\"id\":\"2\"}]}}", json);
 	}
-
-//	@Test
-//	public void canGetUserGroupsAndUsers() throws JsonProcessingException {
-//		String query = "{ userGroups { id users { id } } }";
-//		Map<String, Map<String, Object>> result = excQuery(query);
-//		assertEquals(1, result.size());
-//		String json = new ObjectMapper().writeValueAsString(result);
-//		String expected = "{\"userGroups\":[{\"id\":\"1\",\"users\":[{\"id\":\"2\"},{\"id\":\"3\"}]},"
-//				+ "{\"id\":\"2\",\"users\":[{\"id\":\"2\"}]},{\"id\":\"3\",\"users\":[]}]}";
-//		assertEquals(expected, json);
-//	}
 }

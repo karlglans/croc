@@ -4,10 +4,8 @@ import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
-import se.purple.croc.dto.FormDto;
 import se.purple.croc.dto.ParticipantDto;
 import se.purple.croc.dto.SurveyDto;
-import se.purple.croc.dto.UserDto;
 import se.purple.croc.repository.AnswerRepository;
 import se.purple.croc.repository.SurveyRepository;
 import se.purple.croc.repository.UserRepository;
@@ -31,6 +29,9 @@ public class SurveyService {
 	@Autowired
 	AnswerRepository answerRepo;
 
+	@Autowired
+	FormService formService;
+
 	@PersistenceContext
 	private EntityManager manager;
 
@@ -51,10 +52,6 @@ public class SurveyService {
 		SurveyDto surveyDto = new SurveyDto();
 		surveyDto.setId(survey.getId());
 		surveyDto.setName(survey.getName());
-		FormDto formDto = new FormDto();
-//		formDto.setFormId(survey.getForm().getId());
-		formDto.setId(222);
-		surveyDto.setForm(formDto);
 		return surveyDto;
 	}
 
@@ -115,5 +112,14 @@ public class SurveyService {
 		Survey survey = getSurveyById(surveyId);
 		var users =  userRepo.findUsersByGroupId(userGroupId);
 		return survey.getParticipants().addAll(users);
+	}
+
+	public SurveyDto createSurvey(int formId, String name) {
+		Form form = formService.getForm(formId);
+		Survey survey = new Survey();
+		survey.setForm(form);
+		survey.setName(name);
+		surveyRepo.save(survey);
+		return makeSurveyDto(survey);
 	}
 }

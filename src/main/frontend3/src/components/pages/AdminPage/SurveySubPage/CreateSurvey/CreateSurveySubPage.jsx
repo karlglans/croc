@@ -1,8 +1,21 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 import Link from '@material-ui/core/Link';
 import { Paper, Typography, TextField, Button } from '@material-ui/core';
+
+import adminPageContext from '../../adminPageContext';
+
+const createSurvey = gql`
+  mutation ($formId: ID!, $name: String!) {
+    createSurvey(formId: $formId, name: $name) {
+      id
+      name
+    }
+  }
+`;
 
 const styles = {
   paper: {
@@ -29,6 +42,7 @@ class CreateSurveySubPage extends React.Component {
       inputName: ''
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -36,9 +50,17 @@ class CreateSurveySubPage extends React.Component {
     this.setState({ inputName: event.target.value, pristine: false, isFormValid })
   }
 
-  handleSubmit(event) {
+  handleSubmit(event, setOpenPopulateSurvey) {
     event.preventDefault();
-    console.log('handleSubmit');
+    // setOpenPopulateSurvey('done')
+    this.props.createSurvey({
+      variables: {
+        name: this.state.inputName,
+        formId: this.props.form.id
+      },
+    }).then((response) => {
+      console.log('response', response);
+    });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -59,36 +81,40 @@ class CreateSurveySubPage extends React.Component {
     const formTitle = this.props.isLoading ? '' : this.props.form.title;
     const linkFormPath = this.props.isLoading ? '' : '/admin/forms/' + formId;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <Paper style={styles.paper}>
-          <Typography>
-            Form Id: {formId},
-            <span> </span>
-            <Link component={RouterLink} to={linkFormPath}>
-              {formTitle}
-            </Link>
-          </Typography>
-          <h1>Create Survey</h1>
-          <TextField
-            style={styles.texfield}
-            id="standard-name"
-            label="Name"
-            value={this.state.inputName}
-            onChange={this.handleChange}
-            margin="normal"
-          />
-          <div>
-            <Button
-              disabled={!this.state.isFormValid}
-              style={styles.submit}
-              type="submit"
-              variant='contained'
-              color='primary'>
-              Create
-            </Button>
-          </div>
-        </Paper>
-      </form>
+      <adminPageContext.Consumer>
+        {({ setOpenPopulateSurvey }) => (
+          <form onSubmit={(event) => this.handleSubmit(event, setOpenPopulateSurvey)}>
+            <Paper style={styles.paper}>
+              <Typography>
+                Form Id: {formId},
+                <span> </span>
+                <Link component={RouterLink} to={linkFormPath}>
+                  {formTitle}
+                </Link>
+              </Typography>
+              <h1>Create Survey</h1>
+              <TextField
+                style={styles.texfield}
+                id="standard-name"
+                label="Name"
+                value={this.state.inputName}
+                onChange={this.handleChange}
+                margin="normal"
+              />
+              <div>
+                <Button
+                  disabled={!this.state.isFormValid}
+                  style={styles.submit}
+                  type="submit"
+                  variant='contained'
+                  color='primary'>
+                  Create
+                </Button>
+              </div>
+            </Paper>
+          </form>
+      )}
+      </adminPageContext.Consumer>
     )
   }
 };
@@ -98,4 +124,4 @@ CreateSurveySubPage.propTypes = {
   form: PropTypes.object
 };
 
-export default CreateSurveySubPage;
+export default graphql(createSurvey, {name: 'createSurvey'})(CreateSurveySubPage);

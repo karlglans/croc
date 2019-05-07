@@ -8,8 +8,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 
-import FormsList from '../../FormsList';
-
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -71,7 +69,7 @@ class FormsPage extends React.Component {
         <div className={classes.toolbar} />
         <Grid container>
           <Grid item sm={12} md={6} lg={5}>
-            <FormsList/>
+            {/* <FormsList/> */}
           </Grid>
           <Grid item sm={12} md={6} lg={5}>
             <p>ssss2 ssss2 ssss2 ssss2 ssss2</p>

@@ -52,7 +52,8 @@ type UserGroup {
 
 enum SurveyStatus {
     ONGOING,
-    CLOSED
+    CLOSED,
+    IN_CREATION,
 }
 
 type Query {
@@ -74,6 +75,7 @@ input InputQuestion {
 
 type Mutation {
     createForm(title: String!): Form
+    createSurvey(formId: ID!, name: String!): Survey
     createUserGroup(name: String!): UserGroup
     addUserToGroup(userId: ID!, userGroupId: ID!): UserGroup
     addUserGroupToSurvey(userGroupId: ID!, survey: ID!): Boolean

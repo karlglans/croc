@@ -5,6 +5,7 @@ import { Drawer, MenuList, MenuItem, ListItemText } from '@material-ui/core';
 import { compose } from 'recompose'
 
 import OngoingSurveys from './OngoingSurveys';
+import Unstarted from './InCreation'
 import ClosedSurveys from './ClosedServeys';
 import CreateSurvey from './CreateSurvey'
 
@@ -34,9 +35,10 @@ const styles = theme => ({
 class FormsPage extends React.Component {
   render() {
     const { classes, location } = this.props;
-    const isOnOngoing = location.pathname === '/admin/surveys' || location.pathname.includes('ongoing');
+    const isOnOngoing = location.pathname === '/admin/surveys' || location.pathname.includes('ongoing'); // default option
+    const isOnInCreation = location.pathname.includes('unstarted');
     const isOnCreate = location.pathname === '/admin/surveys/create';
-    const isOnClosed = !isOnOngoing && !isOnCreate; // temp solution
+    const isOnClosed = !isOnOngoing && !isOnCreate && !isOnInCreation; // temp solution
     const selectedFormIdForSurvey = this.props.selectedFormIdForSurvey || 2; // <-- 2 is temp solution
     const surveyId = 1;
     return (
@@ -53,6 +55,9 @@ class FormsPage extends React.Component {
             <MenuItem button key={'ongoing'} selected={isOnOngoing} component={Link} to='/admin/surveys'>
               <ListItemText primary={'Ongoing'} />
             </MenuItem>
+            <MenuItem button key={'unstarted'} selected={isOnInCreation} component={Link} to='/admin/surveys/unstarted'>
+              <ListItemText primary={'Unstarted'} />
+            </MenuItem>
             <MenuItem button key={'closed'} selected={isOnClosed} component={Link} to='/admin/surveys/closed'>
               <ListItemText primary={'Closed'} />
             </MenuItem>
@@ -67,6 +72,7 @@ class FormsPage extends React.Component {
           <div className={classes.toolbar} />
           <Switch>
             <Route path="/admin/surveys" exact component={OngoingSurveys}/>
+            <Route path="/admin/surveys/unstarted" exact component={Unstarted}/>
             <Route path="/admin/surveys/ongoing" exact component={OngoingSurveys}/>
             <Route path="/admin/surveys/closed" exact component={ClosedSurveys}/>
             <Route path="/admin/surveys/create" exact component={

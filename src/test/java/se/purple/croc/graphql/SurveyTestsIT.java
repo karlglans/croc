@@ -27,4 +27,13 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 		String expected = "{\"survey\":{\"participants\":[{\"id\":\"3\"},{\"id\":\"4\"}]}}";
 		assertEquals(expected, json);
 	}
+
+	@Test
+	public void canCreateNewSurvey() throws JsonProcessingException {
+		Map<String, Map<String, Object>> result = excQuery("mutation {createSurvey(formId: 1, name: \"aaa\"){id}}");
+		assertEquals(1, result.size());
+		String json = new ObjectMapper().writeValueAsString(result);
+		String expected = "{\"createSurvey\":{\"id\":\"5\"}}";
+		assertEquals(expected, json);
+	}
 }

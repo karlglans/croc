@@ -16,9 +16,8 @@ public class Form {
 
 	// maybe should be inferred from a search from surveys
 	@Column(name = "ISEDITABLE")
-	private boolean isEditable;
+	private boolean isEditable = true;
 
-//	@OneToMany(mappedBy = "form", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	@OneToMany(mappedBy = "form")
 	private List<FormQuestion> formQuestions;
 

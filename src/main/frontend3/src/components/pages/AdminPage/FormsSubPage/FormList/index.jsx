@@ -2,13 +2,15 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import { List, ListItem } from '@material-ui/core';
+import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import DraftsIcon from '@material-ui/icons/Drafts';
 
 const GET_FORMS = gql`
   {
     forms {
       id
       title
+      isEditable
     }
   }
 `;
@@ -30,7 +32,8 @@ const FormsList = () => {
           {data.forms.map(form => {
             return (
               <ListItem button key={form.id} component={Link} to={`/admin/forms/${form.id}`} >
-                {form.title}
+                <ListItemText primary={form.title} />
+                {form.isEditable && (<ListItemIcon><DraftsIcon /></ListItemIcon>)}
               </ListItem>
             )
           })}

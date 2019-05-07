@@ -24,9 +24,8 @@ public class Survey {
 	private String name = "aaaa";
 
 	@Enumerated(EnumType.STRING)
-	private SurveyStatus status;
+	private SurveyStatus status = SurveyStatus.IN_CREATION;
 
-//	@ManyToMany(cascade = { CascadeType.MERGE })
 	@ManyToMany
 	@JoinTable(
 			name = "SURVEY_PARTICIPANT",
@@ -36,8 +35,6 @@ public class Survey {
 					columnNames = {"SURVEY_ID", "PARTICIPANT_ID"})}
 	)
 	private Set<Users> participants = new HashSet<>();
-//	private List<Users> participants;
-
 
 	@OneToMany(
 			mappedBy="survey",
@@ -45,6 +42,5 @@ public class Survey {
 			orphanRemoval = true
 	)
 	private List<Answer> answers;
-
 
 }
