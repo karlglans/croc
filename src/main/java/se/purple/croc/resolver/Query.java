@@ -3,11 +3,13 @@ package se.purple.croc.resolver;
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import lombok.var;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import se.purple.croc.domain.*;
-import se.purple.croc.dto.QuestionDto;
+import se.purple.croc.dto.*;
 import se.purple.croc.repository.*;
 import se.purple.croc.service.FormService;
+import se.purple.croc.service.SurveyService;
+import se.purple.croc.service.UserGroupService;
+import se.purple.croc.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +17,18 @@ import java.util.List;
 @Component
 public class Query implements GraphQLQueryResolver {
 	private QuestionRepository questionRepo;
-	private FromRepository formRepo;
-	private SurveyRepository surveyRepo;
-	private UserRepository userRepo;
 	private FormService formService;
-	private UserGroupRepository userGroupRepository;
+	private UserGroupService userGroupService;
+	private UserService userService;
+	private SurveyService surveyService;
 
-	public Query(QuestionRepository questionRepo, FromRepository formRepo, SurveyRepository surveyRepo,
-				 UserRepository userRepository, FormService formService, UserGroupRepository userGroupRepository) {
+	public Query(QuestionRepository questionRepo, FormService formService,
+				 UserGroupService userGroupService, UserService userService, SurveyService surveyService) {
 		this.questionRepo = questionRepo;
-		this.formRepo = formRepo;
-		this.surveyRepo = surveyRepo;
-		this.userRepo = userRepository;
 		this.formService = formService;
-		this.userGroupRepository = userGroupRepository;
+		this.userGroupService = userGroupService;
+		this.userService = userService;
+		this.surveyService = surveyService;
 	}
 
 	public Iterable<QuestionDto> getQuestions() {
@@ -39,11 +39,7 @@ public class Query implements GraphQLQueryResolver {
 			questionDto.copy(question);
 			questionDtoList.add(questionDto);
 		}
-
 		return questionDtoList;
-	}
-	public Iterable<Form> getForms() {
-		return formRepo.findAll();
 	}
 
 	public QuestionDto getQuestion(int questionId) {
@@ -51,25 +47,32 @@ public class Query implements GraphQLQueryResolver {
 		questionDto.copy(questionRepo.findById(questionId).get());
 		return questionDto;
 	}
-	public Survey getSurvey(int surveyId) {
-		return surveyRepo.findDistinctById(surveyId);
+	public SurveyDto getSurvey(int surveyId) {
+		return surveyService.getSurveyDtoById(surveyId);
+	}
+	public List<SurveyDto> getSurveys(SurveyStatus surveyStatus) {
+		return surveyService.getAllSurveyDtos(surveyStatus);
 	}
 
-	@Transactional
-	public Iterable<UserGroup> getUserGroups() {
-		Iterable<UserGroup> res = userGroupRepository.findAll();
-		return res;
+	public Iterable<UserGroupDto> getUserGroups() {
+		return userGroupService.getAllUserGroups();
+	}
+	public UserGroupDto getUserGroup(int id) {
+		return userGroupService.getUserGroupDtoById(id);
 	}
 
-	public Form getForm(int formId) {
-		return formService.getForm(formId);
+	public List<FormDto> getForms() {
+		return formService.getAllFormDtos();
+	}
+	public FormDto getForm(int formId) {
+		return formService.getFromDto(formId);
 	}
 
 	public long countQuestions() {
 		return questionRepo.count();
 	}
 
-	public Iterable<Users> getUsers() {
-		return userRepo.findAll();
+	public Iterable<UserDto> getUsers() {
+		return userService.getAllUSers();
 	}
 }

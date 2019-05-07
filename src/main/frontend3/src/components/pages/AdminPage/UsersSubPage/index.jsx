@@ -5,6 +5,7 @@ import { Drawer, MenuList, MenuItem, ListItemText } from '@material-ui/core';
 import { compose } from 'recompose'
 
 import UsersListView from './UsersListView';
+import GroupListView from './GroupListView';
 
 const drawerWidth = 240;
 
@@ -32,8 +33,8 @@ const styles = theme => ({
 
 class FormsPage extends React.Component {
   render() {
-    const { classes, location, match } = this.props;
-    const isOnUsersListPage = true;
+    const { classes, location } = this.props;
+    const isOnUsers = location.pathname === '/admin/users';
     return (
       <React.Fragment>
       <Drawer
@@ -45,8 +46,11 @@ class FormsPage extends React.Component {
       >
         <div className={classes.toolbar} />
           <MenuList >
-            <MenuItem button key={'users'} selected={isOnUsersListPage} component={Link} to='/admin/users'>
-              <ListItemText primary={'List'} />
+            <MenuItem button key={'users'} selected={isOnUsers} component={Link} to='/admin/users'>
+              <ListItemText primary={'Users'} />
+            </MenuItem>
+            <MenuItem button key={'groups'} selected={!isOnUsers} component={Link} to='/admin/users/groups'>
+              <ListItemText primary={'Groups'} />
             </MenuItem>
           </MenuList>
         </Drawer>
@@ -54,6 +58,7 @@ class FormsPage extends React.Component {
           <div className={classes.toolbar} />
           <Switch>
             <Route path="/admin/users" exact component={UsersListView}/>
+            <Route path="/admin/users/groups" exact component={GroupListView}/>
           </Switch>
       </div>
       </React.Fragment>

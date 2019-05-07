@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -20,5 +21,8 @@ public class Form {
 //	@OneToMany(mappedBy = "form", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	@OneToMany(mappedBy = "form")
 	private List<FormQuestion> formQuestions;
+
+	@OneToMany(mappedBy = "form")
+	private Set<Survey> surveys;
 
 }

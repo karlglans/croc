@@ -5,11 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.Form;
 import se.purple.croc.domain.Question;
-import se.purple.croc.dto.InputQuestionDto;
-import se.purple.croc.dto.QuestionDto;
+import se.purple.croc.dto.*;
 import se.purple.croc.repository.FromRepository;
 import se.purple.croc.repository.QuestionRepository;
 import se.purple.croc.service.FormService;
+import se.purple.croc.service.SurveyService;
+import se.purple.croc.service.UserGroupService;
+
+import java.util.List;
 
 @Component
 public class Mutation implements GraphQLMutationResolver {
@@ -23,6 +26,12 @@ public class Mutation implements GraphQLMutationResolver {
 	@Autowired
 	FromRepository fromRepo;
 
+	@Autowired
+	UserGroupService userGroupService;
+
+	@Autowired
+	SurveyService surveyService;
+
 	public QuestionDto addQuestion(final InputQuestionDto inQuestion) {
 		Question question = new Question();
 		question.setText(inQuestion.getText());
@@ -32,23 +41,21 @@ public class Mutation implements GraphQLMutationResolver {
 		return questionDto;
 	}
 
-	public Form addQuestionToForm(final Integer formId, final Integer questionId) {
+	public FormDto addQuestionToForm(final Integer formId, final Integer questionId) {
 		int formChangedId = formService.addQuestionToForm(questionId, formId);
 		if (formChangedId == 0) {
 			return null;
 		}
 
-		Form form = fromRepo.getFirstById(formId);
-
 		// should not return a questionDto
-		return form;
+		return formService.getFromDto(formId);
 	}
 
-	public Form createForm(String title) {
+	public FormDto createForm(String title) {
 		Form form = new Form();
 		form.setTitle(title);
 		fromRepo.save(form);
-		return form;
+		return formService.makeFormDtoShallow(form);
 	}
 
 	/**
@@ -64,6 +71,18 @@ public class Mutation implements GraphQLMutationResolver {
 		QuestionDto questionDto = new QuestionDto();
 		questionDto.copy(question);
 		return questionDto;
+	}
+
+	public UserGroupDto createUserGroup(String name) {
+		return userGroupService.createUserGroup(name);
+	}
+
+	public UserGroupDto addUserToGroup(final Integer userId, final Integer userGroupId) {
+		return userGroupService.addUserToGroup(userId, userGroupId);
+	}
+
+	public boolean addUserGroupToSurvey(int userGroupId, int surveyId){
+		return surveyService.addUsersToSurvey(userGroupId, surveyId);
 	}
 
 }

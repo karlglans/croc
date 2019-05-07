@@ -8,11 +8,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
-import se.purple.croc.domain.Answer;
-import se.purple.croc.domain.Form;
-import se.purple.croc.domain.Survey;
+import se.purple.croc.domain.*;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,13 +32,27 @@ public class SurveyRepoTests {
 		Survey survey = new Survey();
 		surveyRepository.save(survey);
 		Survey survey1 = manager.find(Survey.class, survey.getId());
-		assertEquals(3, survey1.getId());
+		assertEquals(5, survey1.getId());
 	}
 
 	@Test
 	public void getAnswersBySurveyId() {
 		List<Answer> surveyAnswers = surveyRepository.getAnswersBySurveyId(1);
 		assertEquals(2, surveyAnswers.size());
+	}
+
+	@Test
+	public void findSurveyByStatusEquals() {
+		List<Survey> surveys = surveyRepository.findSurveyByStatusEquals(SurveyStatus.ONGOING);
+		assertEquals(3, surveys.size());
+	}
+
+	@Test
+	public void findParticipantsBySurveyId() {
+//		List<Users> participants = surveyRepository.findParticipantsBySurveyId(1);
+		Survey survey = manager.find(Survey.class, 1);
+		Set<Users> users = survey.getParticipants();
+		assertEquals(2, users.size());
 	}
 
 
