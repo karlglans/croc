@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, Redirect  } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
@@ -11,6 +11,15 @@ import adminPageContext from '../../adminPageContext';
 const createSurvey = gql`
   mutation ($formId: ID!, $name: String!) {
     createSurvey(formId: $formId, name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+const GET_UNSTARTED_SURVEYS = gql`
+  {
+    surveys(status: IN_CREATION) {
       id
       name
     }
@@ -39,7 +48,8 @@ class CreateSurveySubPage extends React.Component {
     this.state = {
       pristine: true,
       isFormValid: true,
-      inputName: ''
+      inputName: '',
+      createdSurveyId: undefined
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -50,16 +60,19 @@ class CreateSurveySubPage extends React.Component {
     this.setState({ inputName: event.target.value, pristine: false, isFormValid })
   }
 
-  handleSubmit(event, setOpenPopulateSurvey) {
+  handleSubmit(event, setOpenCreateSurvey) {
     event.preventDefault();
-    // setOpenPopulateSurvey('done')
     this.props.createSurvey({
       variables: {
         name: this.state.inputName,
         formId: this.props.form.id
       },
+      refetchQueries: [{ query: GET_UNSTARTED_SURVEYS }]
     }).then((response) => {
-      console.log('response', response);
+      // TODO: check if createSurvey.id is realy set
+      const createdSurveyId = response.data.createSurvey.id;
+      this.setState({ createdSurveyId });
+      setOpenCreateSurvey(undefined); // make sure survey creation tab is closed
     });
   }
 
@@ -80,10 +93,15 @@ class CreateSurveySubPage extends React.Component {
     const formId = this.props.isLoading ? '-' : this.props.form.id;
     const formTitle = this.props.isLoading ? '' : this.props.form.title;
     const linkFormPath = this.props.isLoading ? '' : '/admin/forms/' + formId;
+    if (!!this.state.createdSurveyId) {
+      return (
+        <Redirect to={ `/admin/surveys/unstarted/${this.state.createdSurveyId}/inspect`} />
+      )
+    }
     return (
       <adminPageContext.Consumer>
-        {({ setOpenPopulateSurvey }) => (
-          <form onSubmit={(event) => this.handleSubmit(event, setOpenPopulateSurvey)}>
+        {({ setOpenCreateSurvey }) => (
+          <form onSubmit={(event) => this.handleSubmit(event, setOpenCreateSurvey)}>
             <Paper style={styles.paper}>
               <Typography>
                 Form Id: {formId},

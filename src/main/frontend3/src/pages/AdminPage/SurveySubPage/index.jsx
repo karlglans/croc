@@ -5,7 +5,7 @@ import { Drawer, MenuList, MenuItem, ListItemText } from '@material-ui/core';
 import { compose } from 'recompose'
 
 import OngoingSurveys from './OngoingSurveys';
-import Unstarted from './InCreation'
+import Unstarted from './Unstarted'
 import ClosedSurveys from './ClosedServeys';
 import CreateSurvey from './CreateSurvey'
 
@@ -80,6 +80,9 @@ class FormsPage extends React.Component {
             />
             <Route path="/admin/surveys/ongoing/:surveyId/inspect" exact component={
               () => <OngoingSurveys surveyId={surveyId} />}
+            />
+            <Route path="/admin/surveys/unstarted/:surveyId/inspect" exact component={
+              () => <Unstarted surveyId={surveyId} />}
             />
           </Switch>
       </div>

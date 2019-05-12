@@ -18,7 +18,6 @@ const SurveyList = props => {
         {
           !props.isLoading && surveys && surveys.map(survey => (
             <SurveyListItem
-              key={survey.id}
               survey={survey}
               userGroups={userGroups}
               linkSuffix={props.linkSuffix}

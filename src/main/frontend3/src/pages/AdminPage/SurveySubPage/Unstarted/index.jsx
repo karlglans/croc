@@ -17,7 +17,7 @@ const GET_SURVEYS_DATA = gql`
   }
 `;
 
-const InCreactionSurveys = props => (
+const Unstarted = props => (
   <Query query={GET_SURVEYS_DATA} >
     {({ loading, error, data }) => {
       if (error) return `Error! ${error.message}`;
@@ -34,4 +34,4 @@ const InCreactionSurveys = props => (
   </Query>
 );
 
-export default InCreactionSurveys;
+export default Unstarted;

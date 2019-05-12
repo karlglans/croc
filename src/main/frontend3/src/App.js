@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
-import AdminPage from './components/pages/AdminPage';
-import UserPage from './components/pages/UserPage';
+import AdminPage from './pages/AdminPage';
+import UserPage from './pages/UserPage';
 
 const client = new ApolloClient();
 

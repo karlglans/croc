@@ -17,11 +17,11 @@ const SurveyListItem = props => {
   const clickPath = `${props.linkSuffix}/${props.survey.id}/inspect`
   if (!props.isSelected) {
     return (
-      <ListItem component={Link} to={clickPath} >
-        <Paper style={style}>
-          {props.survey.name}
-        </Paper>
-      </ListItem>
+        <ListItem component={Link} to={clickPath} >
+          <Paper style={style} elevation={4}>
+            {props.survey.name}
+          </Paper>
+        </ListItem>
     )
   } else {
     return (
