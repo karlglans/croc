@@ -7,10 +7,8 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import MenuIcon from '@material-ui/icons/Menu';
 import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@material-ui/core';
 
+import SurveysSubPage from './SurveySubPage';
 import UsersSubPage from './UsersSubPage';
-import SurveyPage from './SurveyPage';
-import FormsSubPage from './FormsSubPage';
-import SurveySubPage from './SurveySubPage';
 
 const styles = theme => ({
   root: {
@@ -38,11 +36,9 @@ class AdminPageLayout extends React.Component {
 
   static transfromPathToTabIndex(pathname) {
     let tabIndex = 0; // default
-    if (pathname.includes('/surveys')) {
+    if (pathname.includes('/users')) {
       tabIndex = 1;
-    } else if (pathname.includes('/forms')) {
-      tabIndex = 2;
-    }
+    } 
     return tabIndex;
   }
 
@@ -79,26 +75,24 @@ class AdminPageLayout extends React.Component {
               </Typography>
             
               <Tabs variant="fullWidth" value={tabIndex} onChange={this.handleChange} aa={this.props.selectedFormIdForSurvey}>
-                <Tab label="Users" to="/admin/users" component={Link} />
-                <Tab label="Surveys" to="/admin/surveys" component={Link} />
-                <Tab label="Forms" to="/admin/forms" component={Link} />
+                <Tab label="Surveys" to="/surveys" component={Link} />
+                <Tab label="Users" to="/users" component={Link} />
               </Tabs>
 
               <Typography variant="h6" color="inherit" style={{flexGrow: 10}}>
               </Typography>
 
-              <Button color="inherit" to="/surveys" component={Link}>Login</Button>
+              <Button color="inherit" to="/admin/surveys" component={Link} >Login</Button>
             </Toolbar>
           </AppBar>
           <Switch>
-            <Route path="/admin/users" component={UsersSubPage}/>
-            <Route path="/admin/surveys"
-              component={ props => (<SurveySubPage selectedFormIdForSurvey={this.props.selectedFormIdForSurvey} />) }
+            <Route path="/surveys"
+              component={ props => (<SurveysSubPage />) }
              />
-            <Route path="/admin/surveys2" component={SurveyPage}/>
-            <Route path="/admin/forms"
-              component={ props => (<FormsSubPage selectedFormId={this.props.selectedFormId} />) } 
-            />
+             <Route path="/survey"
+              component={ props => (<SurveysSubPage />) }
+             />
+            <Route path="/users" component={UsersSubPage}/>
           </Switch>
       </div>
     );

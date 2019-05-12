@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Button  } from '@material-ui/core';
+import { Button, Card, CardContent, Typography } from '@material-ui/core';
 
 import SimpleListMenu from './SimpleListMenu';
 
@@ -23,7 +23,14 @@ const GET_PARTICPANT_DATA = gql`
   }
 `;
 
-class AddParticipants extends React.Component {
+const style = {
+  padding: 30,
+  paddingTop: 25,
+  marginBottom: 0,
+  width: '100%',
+}
+
+class HandleAddParticipants extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,17 +59,22 @@ class AddParticipants extends React.Component {
 
   render() {
     return (
-      <div>
-        <SimpleListMenu key={this.props.surveyId} userGroups={this.props.userGroups} setSelectedGroupId={this.setSelectedGroupId} />
-        <Button variant="outlined" onClick={this.handleAddUsersToSurvey}>Add users</Button>
-      </div>
+      <Card style={style}>
+        <CardContent>
+          <Typography color="textSecondary" gutterBottom>
+            Add Users
+          </Typography>
+          <SimpleListMenu key={this.props.surveyId} userGroups={this.props.userGroups} setSelectedGroupId={this.setSelectedGroupId} />
+          <Button variant="outlined" onClick={this.handleAddUsersToSurvey}>Add users</Button>
+        </CardContent>
+      </Card>
     );
   }
 };
 
-AddParticipants.propTypes = {
+HandleAddParticipants.propTypes = {
   surveyId: PropTypes.number.isRequired,
   userGroups: PropTypes.array.isRequired
 };
 
-export default graphql(ADD_USERGROUP_TO_SURVEY, {name: 'addUserGroupToSurvey'})(AddParticipants);
+export default graphql(ADD_USERGROUP_TO_SURVEY, {name: 'addUserGroupToSurvey'})(HandleAddParticipants);

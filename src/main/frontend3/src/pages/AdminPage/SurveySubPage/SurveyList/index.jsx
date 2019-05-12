@@ -13,11 +13,12 @@ const SurveyList = props => {
     <List>
       <React.Fragment>
         { props.isLoading && (
-          <div>loading..</div>
+          <div>loading...</div>
         )}
         {
           !props.isLoading && surveys && surveys.map(survey => (
             <SurveyListItem
+              key={survey.id}
               survey={survey}
               userGroups={userGroups}
               linkSuffix={props.linkSuffix}

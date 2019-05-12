@@ -95,7 +95,7 @@ class CreateSurveySubPage extends React.Component {
     const linkFormPath = this.props.isLoading ? '' : '/admin/forms/' + formId;
     if (!!this.state.createdSurveyId) {
       return (
-        <Redirect to={ `/admin/surveys/unstarted/${this.state.createdSurveyId}/inspect`} />
+        <Redirect to={ `/admin/surveys/unstarted/${this.state.createdSurveyId}`} />
       )
     }
     return (

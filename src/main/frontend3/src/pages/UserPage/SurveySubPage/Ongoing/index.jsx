@@ -2,36 +2,30 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-import SurveyList from '../SurveyList';
+import OngoingSurveyList from '../../../../components/OngoingSurveyList';
 
 const GET_SURVEYS_DATA = gql`
   {
-    surveys(status: IN_CREATION) {
-      id
-      name
-    }
-    userGroups {
+    surveys(status: ONGOING) {
       id
       name
     }
   }
 `;
 
-const Unstarted = props => (
+const OngoingSurveys = props => (
   <Query query={GET_SURVEYS_DATA} >
     {({ loading, error, data }) => {
       if (error) return `Error! ${error.message}`;
       return (
-        <SurveyList
-          surveys={data.surveys}
-          userGroups={data.userGroups}
+        <OngoingSurveyList
           isLoading={loading}
-          linkSuffix={'/admin/surveys/unstarted'}
-          isEditable={true}
+          surveys={data.surveys}
+          linkPrefix={'/survey'}
         />
       );
     }}
   </Query>
 );
 
-export default Unstarted;
+export default OngoingSurveys;

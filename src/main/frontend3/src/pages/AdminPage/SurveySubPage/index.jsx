@@ -5,9 +5,10 @@ import { Drawer, MenuList, MenuItem, ListItemText } from '@material-ui/core';
 import { compose } from 'recompose'
 
 import OngoingSurveys from './OngoingSurveys';
-import Unstarted from './Unstarted'
+import UnstartedSurveysList from './UnstartedSurveysList';
 import ClosedSurveys from './ClosedServeys';
-import CreateSurvey from './CreateSurvey'
+import CreateSurvey from './CreateSurvey';
+import UnstartedSurveyDetails from './UnstartedSurveyDetails';
 
 const drawerWidth = 240;
 
@@ -72,7 +73,7 @@ class FormsPage extends React.Component {
           <div className={classes.toolbar} />
           <Switch>
             <Route path="/admin/surveys" exact component={OngoingSurveys}/>
-            <Route path="/admin/surveys/unstarted" exact component={Unstarted}/>
+            <Route path="/admin/surveys/unstarted" exact component={UnstartedSurveysList}/>
             <Route path="/admin/surveys/ongoing" exact component={OngoingSurveys}/>
             <Route path="/admin/surveys/closed" exact component={ClosedSurveys}/>
             <Route path="/admin/surveys/create" exact component={
@@ -81,8 +82,8 @@ class FormsPage extends React.Component {
             <Route path="/admin/surveys/ongoing/:surveyId/inspect" exact component={
               () => <OngoingSurveys surveyId={surveyId} />}
             />
-            <Route path="/admin/surveys/unstarted/:surveyId/inspect" exact component={
-              () => <Unstarted surveyId={surveyId} />}
+            <Route path="/admin/surveys/unstarted/:surveyId" exact component={
+              () => <UnstartedSurveyDetails surveyId={surveyId} />}
             />
           </Switch>
       </div>

@@ -1,11 +1,10 @@
 import React from 'react';
-import Header from './Header'
+import Layout from './Layout';
 
 const UserPage = () => {
   return (
   <div>
-    <Header/>
-    <h1>User page2</h1>
+    <Layout/>
   </div>
   )};
 
