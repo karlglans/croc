@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Drawer, MenuList, MenuItem, ListItemText } from '@material-ui/core';
 import { compose } from 'recompose'
 
-import Ongoing from './Ongoing';
+import OngoingSurveysList from './OngoingSurveysList';
 import SurveyForm from '../../../components/SurveyForm';
 
 const drawerWidth = 240;
@@ -62,9 +62,10 @@ class SurveysSubPage extends React.Component {
         <div className={classes.content} style={{marginLeft: drawerWidth }}>
         <div className={classes.toolbar} />
           <Switch>
-            <Route path="/surveys" exact component={Ongoing}/>
-            <Route path="/survey/:surveyId" exact component={SurveyForm}/>
-            <Route path="/surveys/closed" exact component={Ongoing}/>
+            <Route path="/surveys" exact component={OngoingSurveysList}/>
+            {/* <Route path="/survey/:surveyId" exact component={SurveyForm}/> */}
+            <Route path="/surveys/ongoing/:surveyId" component={SurveyForm}/>
+            <Route path="/surveys/closed" exact component={OngoingSurveysList}/>
           </Switch>
         </div>
       </React.Fragment>

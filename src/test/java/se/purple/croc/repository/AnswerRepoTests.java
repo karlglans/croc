@@ -10,21 +10,22 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.purple.croc.domain.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
-//@RunWith(SpringRunner.class)
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-//@DataJpaTest
-//public class AnswerRepoTests {
-//
-//	@Autowired
-//	AnswerRepository answerRepository;
-//
-//	@Autowired
-//	private TestEntityManager manager;
-//
+@RunWith(SpringRunner.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@DataJpaTest
+public class AnswerRepoTests {
+
+	@Autowired
+	AnswerRepository answerRepository;
+
+	@Autowired
+	private TestEntityManager manager;
+
 //	 this test does not seem to work
 //	@Test
 //	public void canAddAnswer() {
@@ -54,4 +55,22 @@ import static org.junit.Assert.assertEquals;
 //		int answerVal = savedAnswer.get().getValue();
 //		assertEquals(answerValue, answerVal);
 //	}
-//}
+
+//	@Test
+//	public void getAnswerBySurveyAndResponder() {
+//		Survey survey = new Survey();
+//		Users users = new Users();
+//
+//		survey.setId(1);
+//		users.setId(3);
+//
+//		List<Answer> answers = answerRepository.getAnswerBySurveyAndResponder(survey, users);
+//		assertEquals(2, answers.size());
+//	}
+
+	@Test
+	public void getAnswerBySurveyAndResponder() {
+		List<Answer> answers = answerRepository.getAnswerBySurveyIdAndResponderId(1, 3);
+		assertEquals(2, answers.size());
+	}
+}

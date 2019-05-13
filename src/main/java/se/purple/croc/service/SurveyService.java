@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SurveyService {
@@ -39,13 +40,19 @@ public class SurveyService {
 
 	}
 
-	public List<SurveyDto> getAllSurveyDtos(SurveyStatus surveyStatus) {
+	public boolean startSurvey(Integer surveyId) {
+		var survey = this.getSurveyById(surveyId);
+		survey.setStatus(SurveyStatus.ONGOING);
+		return true;
+	}
+
+	public List<SurveyDto> getAllSurveyDtos(SurveyStatus surveyStatus, Integer participantId) {
+		// TODO: make different kind of selections based on existence of params
 		var surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
-		List<SurveyDto> surveyDtos = new ArrayList<>();
-		for (Survey survey: surveys) {
-			surveyDtos.add(makeSurveyDto(survey));
-		}
-		return surveyDtos;
+		return surveys.stream()
+//				.filter(survey -> participantId == null ? true : participantId.intValue() == survey.getId())
+				.map(survey -> makeSurveyDto(survey))
+				.collect(Collectors.toList());
 	}
 
 	SurveyDto makeSurveyDto(Survey survey) {

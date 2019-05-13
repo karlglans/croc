@@ -4,9 +4,9 @@ import { Query } from 'react-apollo';
 
 import OngoingSurveyList from '../../../../components/OngoingSurveyList';
 
-const GET_SURVEYS_DATA = gql`
+const GET_ONGOING_SURVEYS_FOR_USER = gql`
   {
-    surveys(status: ONGOING) {
+    surveys(status: ONGOING, participantId: 2) {
       id
       name
     }
@@ -14,14 +14,17 @@ const GET_SURVEYS_DATA = gql`
 `;
 
 const OngoingSurveys = props => (
-  <Query query={GET_SURVEYS_DATA} >
+  <Query query={GET_ONGOING_SURVEYS_FOR_USER} >
     {({ loading, error, data }) => {
       if (error) return `Error! ${error.message}`;
+      if (loading) {
+        return null;
+      }
       return (
         <OngoingSurveyList
           isLoading={loading}
           surveys={data.surveys}
-          linkPrefix={'/survey'}
+          linkPrefix={'/surveys/ongoing'}
         />
       );
     }}

@@ -16,7 +16,7 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+// @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @DataJpaTest
 public class SurveyRepoTests {
 
@@ -48,10 +48,21 @@ public class SurveyRepoTests {
 
 	@Test
 	public void findParticipantsBySurveyId() {
-//		List<Users> participants = surveyRepository.findParticipantsBySurveyId(1);
 		Survey survey = manager.find(Survey.class, 1);
 		Set<Users> users = survey.getParticipants();
 		assertEquals(2, users.size());
+	}
+
+	@Test
+	public void findSurveyByStatusAndParticipantId_canFindMultipleSurveys() {
+		List<Survey> surveysWhereUserShouldBeIn = surveyRepository.findSurveyByStatusAndParticipantId(SurveyStatus.ONGOING, 3);
+		assertEquals(2, surveysWhereUserShouldBeIn.size());
+	}
+
+	@Test
+	public void findSurveyByStatusEqualsAndParticipants_canGiveAEmptyResult() {
+		List<Survey> surveysWhereUserShouldBeIn = surveyRepository.findSurveyByStatusAndParticipantId(SurveyStatus.ONGOING, 1000);
+		assertEquals(0, surveysWhereUserShouldBeIn.size());
 	}
 
 

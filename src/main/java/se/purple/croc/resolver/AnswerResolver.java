@@ -4,6 +4,7 @@ import com.coxautodev.graphql.tools.GraphQLResolver;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.Answer;
 import se.purple.croc.domain.Form;
+import se.purple.croc.dto.AnswerDto;
 import se.purple.croc.dto.ParticipantDto;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 
 
 @Component
-public class AnswerResolver implements GraphQLResolver<Answer> {
+public class AnswerResolver implements GraphQLResolver<AnswerDto> {
 
 //	public List<Answer> getAnswers(ParticipantDto participantDto) {
 //		List<Answer> answers = new ArrayList<>();

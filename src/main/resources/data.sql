@@ -30,10 +30,10 @@ INSERT INTO survey (id, form_id, creator_id, status, name) VALUES
 INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
 (1, 1, 1), (1, 2, 2), (2, 1, 1);
 
--- survey1: 2 participants
+-- survey1: 2 participants, user3: is in 2 survyes.
 INSERT INTO survey_participant (survey_id, participant_id) VALUES
-(1, 3), (1, 4);
+(1, 3), (1, 4), (2, 3);
 
 -- employee1 has answered both questions, employee2 has just answered 1 question
 INSERT INTO answer (survey_id, responder_id, question_id, value) VALUES
-(1, 3, 1, 111), (1, 3, 2, 222), (1, 4, 1, 121)
+(1, 3, 1, 2), (1, 3, 2, 3), (1, 4, 1, 121)

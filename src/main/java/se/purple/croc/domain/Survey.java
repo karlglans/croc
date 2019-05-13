@@ -15,10 +15,10 @@ public class Survey {
 	@Column(name = "id")
 	private int id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Users creator;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Form form;
 
 	private String name = "aaaa";

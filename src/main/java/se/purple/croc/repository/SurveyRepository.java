@@ -22,4 +22,7 @@ public interface SurveyRepository extends JpaRepository<Survey, Integer> {
 	@Query("Select p from Survey s JOIN s.participants p where s.id = :surveyId ORDER BY p.id")
 	Set<Users> findParticipantsBySurveyId(@Param("surveyId") int surveyId);
 
+	@Query("Select s from Survey s JOIN s.participants p where s.status = :surveyStatus AND p.id = :participantId")
+	List<Survey> findSurveyByStatusAndParticipantId(@Param("surveyStatus") SurveyStatus surveyStatus, @Param("participantId") int participantId);
+
 }

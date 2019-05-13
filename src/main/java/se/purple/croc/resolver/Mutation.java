@@ -89,4 +89,8 @@ public class Mutation implements GraphQLMutationResolver {
 		return surveyService.addUsersToSurvey(userGroupId, surveyId);
 	}
 
+	public boolean startSurvey(int surveyId) {
+		return surveyService.startSurvey(surveyId);
+	}
+
 }
