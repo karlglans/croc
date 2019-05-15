@@ -12,9 +12,12 @@ const AnswerableQuestion = props => {
         <Typography color="textSecondary" gutterBottom>
           Question {question.number}: {question.text}
         </Typography>
-        {!!question.answer && (
-          <Answer color="textSecondary" answer={question.answer} />
-        )}
+
+          <Answer color="textSecondary" 
+            storedAnswer={question.answer}
+            questionId={question.id}
+            surveyId={props.surveyId}
+            />
       </CardContent>
     </Card>
   );

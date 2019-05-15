@@ -1,6 +1,7 @@
 package se.purple.croc.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import graphql.ExceptionWhileDataFetching;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.Form;
@@ -8,9 +9,12 @@ import se.purple.croc.domain.Question;
 import se.purple.croc.dto.*;
 import se.purple.croc.repository.FromRepository;
 import se.purple.croc.repository.QuestionRepository;
+//import se.purple.croc.resolver.exceptions.MissingData;
+import se.purple.croc.service.AnswerService;
 import se.purple.croc.service.FormService;
 import se.purple.croc.service.SurveyService;
 import se.purple.croc.service.UserGroupService;
+import se.purple.croc.service.exceptions.ServiceException;
 
 import java.util.List;
 
@@ -31,6 +35,9 @@ public class Mutation implements GraphQLMutationResolver {
 
 	@Autowired
 	SurveyService surveyService;
+
+	@Autowired
+	AnswerService answerService;
 
 	public QuestionDto addQuestion(final InputQuestionDto inQuestion) {
 		Question question = new Question();
@@ -91,6 +98,17 @@ public class Mutation implements GraphQLMutationResolver {
 
 	public boolean startSurvey(int surveyId) {
 		return surveyService.startSurvey(surveyId);
+	}
+
+	public AnswerDto updateAnswer(int surveyId, int userId, int questionId, int value) throws ServiceException {
+//		try {
+//			return answerService.updateAnswer(surveyId, userId, questionId, value);
+//		} catch (ServiceException e) {
+//			throw new MissingData(400, "missing answer");
+//		} catch (Exception ex) {
+//			throw new MissingData(400, "unknown exception when setting answer");
+//		}
+		return answerService.updateAnswer(surveyId, userId, questionId, value);
 	}
 
 }

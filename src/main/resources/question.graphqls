@@ -82,6 +82,7 @@ type Mutation {
     addUserToGroup(userId: ID!, userGroupId: ID!): UserGroup
     addUserGroupToSurvey(userGroupId: ID!, survey: ID!): Boolean
     addQuestion(input: InputQuestion): Question
+    updateAnswer(surveyId: ID!, userId: ID!, questionId: ID!, value: Int!): Answer
     createFormQuestion(input: InputQuestion!, formId: ID!): Question
     addQuestionToForm(formId: Int, questionId: Int): Form
 }

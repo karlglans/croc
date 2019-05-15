@@ -40,6 +40,14 @@ public class SurveyService {
 
 	}
 
+	Users getResponder(Survey survey, int userId) throws ServiceException {
+		Optional<Users> user = survey.getParticipants().stream().filter(u -> u.getId() == userId).findFirst();
+		if (!user.isPresent()) {
+			throw new ServiceException("user is not participating in survey");
+		}
+		return user.get();
+	}
+
 	public boolean startSurvey(Integer surveyId) {
 		var survey = this.getSurveyById(surveyId);
 		survey.setStatus(SurveyStatus.ONGOING);
@@ -63,6 +71,10 @@ public class SurveyService {
 	}
 
 	public Survey getSurveyById(int id) {
+		Survey survey = surveyRepo.getOne(id);
+//		if (survey == null) {
+//			throw new ServiceException("survey not found");
+//		}
 		return surveyRepo.getOne(id);
 	}
 

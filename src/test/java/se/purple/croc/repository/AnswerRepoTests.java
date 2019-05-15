@@ -14,9 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @DataJpaTest
 public class AnswerRepoTests {
 
@@ -26,47 +27,22 @@ public class AnswerRepoTests {
 	@Autowired
 	private TestEntityManager manager;
 
-//	 this test does not seem to work
-//	@Test
-//	public void canAddAnswer() {
-//		Survey survey1 = manager.find(Survey.class, 1);
-//		Question question1 = manager.find(Question.class, 1);
-//		Users responder = manager.find(Users.class, 3);
-//
-//		assertEquals(1, survey1.getId());
-//		assertEquals(1, question1.getId());
-//		assertEquals(3, responder.getId());
-//		int answerValue = 999;
-//
-//		Answer answer = new Answer();
-//		answer.setQuestion(question1);
-//		answer.setResponder(responder);
-//		answer.setSurvey(survey1);
-//		answer.setValue(answerValue);
-//
-//		AnswerIdentity answerIdentity = new AnswerIdentity();
-//		answerIdentity.setAnswerId(answer);
-//
-//		manager.persistAndFlush(answer);
-//
-//		Optional<Answer> savedAnswer = answerRepository.findById(answerIdentity);
-//		assertEquals(true, savedAnswer.isPresent());
-//
-//		int answerVal = savedAnswer.get().getValue();
-//		assertEquals(answerValue, answerVal);
-//	}
 
-//	@Test
-//	public void getAnswerBySurveyAndResponder() {
-//		Survey survey = new Survey();
-//		Users users = new Users();
-//
-//		survey.setId(1);
-//		users.setId(3);
-//
-//		List<Answer> answers = answerRepository.getAnswerBySurveyAndResponder(survey, users);
-//		assertEquals(2, answers.size());
-//	}
+	/**
+	 * Trying to get (survey_id, responder_id, question_id, value) VALUES (1, 3, 1, 2)
+	 * from test set
+	 */
+	@Test
+	public void canFindAnswer() {
+		AnswerIdentity answerIdentity = new AnswerIdentity();
+		answerIdentity.setSurvey(1);
+		answerIdentity.setResponder(3);
+		answerIdentity.setQuestion(1);
+
+		Optional<Answer> answerFromTestSet = answerRepository.findById(answerIdentity);
+		assertTrue(answerFromTestSet.isPresent());
+		assertEquals(2, answerFromTestSet.get().getValue().intValue());
+	}
 
 	@Test
 	public void getAnswerBySurveyAndResponder() {
