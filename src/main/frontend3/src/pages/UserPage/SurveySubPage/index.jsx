@@ -30,16 +30,11 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-const Dummy = () => (
-  <p>dummy</p>
-);
-
 class SurveysSubPage extends React.Component {
   render() {
     const { classes, location } = this.props;
     const isOnClosed = location.pathname.includes('closed'); // temp solution
     const isOnOngoing = !isOnClosed; // default option
-    const surveyId = 1;
     return (
       <React.Fragment>
       <Drawer

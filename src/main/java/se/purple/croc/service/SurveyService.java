@@ -9,6 +9,7 @@ import se.purple.croc.dto.SurveyDto;
 import se.purple.croc.repository.AnswerRepository;
 import se.purple.croc.repository.SurveyRepository;
 import se.purple.croc.repository.UserRepository;
+import se.purple.croc.service.exceptions.MissingData;
 import se.purple.croc.service.exceptions.ServiceException;
 
 import javax.persistence.EntityManager;
@@ -40,7 +41,8 @@ public class SurveyService {
 
 	}
 
-	Users getResponder(Survey survey, int userId) throws ServiceException {
+	Users getResponder(Survey survey, int userId)  {
+		// TODO make query
 		Optional<Users> user = survey.getParticipants().stream().filter(u -> u.getId() == userId).findFirst();
 		if (!user.isPresent()) {
 			throw new ServiceException("user is not participating in survey");
@@ -70,12 +72,12 @@ public class SurveyService {
 		return surveyDto;
 	}
 
-	public Survey getSurveyById(int id) {
-		Survey survey = surveyRepo.getOne(id);
-//		if (survey == null) {
-//			throw new ServiceException("survey not found");
-//		}
-		return surveyRepo.getOne(id);
+	Survey getSurveyById(int id) {
+		Optional<Survey> survey = surveyRepo.findById(id);
+		if (!survey.isPresent()) {
+			throw new MissingData(String.format("survey %d not found", id));
+		}
+		return survey.get();
 	}
 
 	public SurveyDto getSurveyDtoById(int id) {

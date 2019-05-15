@@ -5,8 +5,7 @@ import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
 import se.purple.croc.dto.AnswerDto;
 import se.purple.croc.repository.AnswerRepository;
-import se.purple.croc.repository.SurveyRepository;
-import se.purple.croc.service.exceptions.ServiceException;
+import se.purple.croc.service.exceptions.MissingData;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,15 +38,19 @@ public class AnswerService {
 				.collect(Collectors.toList());
 	}
 
-	private Optional<Answer> getExistingAnswer(Integer surveyId, Integer userId, Integer questionId) {
+	private Answer getExistingAnswer(Integer surveyId, Integer userId, Integer questionId) {
 		AnswerIdentity answerIdentity = new AnswerIdentity();
 		answerIdentity.setSurvey(surveyId);
 		answerIdentity.setResponder(userId);
 		answerIdentity.setQuestion(questionId);
-		return answerRepo.findById(answerIdentity);
+		Optional<Answer> foundAnswer = answerRepo.findById(answerIdentity);
+		if (!foundAnswer.isPresent()){
+			throw new MissingData("Missing answer");
+		}
+		return foundAnswer.get();
 	}
 
-	private Answer createAnswer(Integer surveyId, Integer userId, Integer questionId, Integer value) throws ServiceException {
+	private Answer createAnswer(Integer surveyId, Integer userId, Integer questionId, Integer value) {
 		Survey survey = surveyService.getSurveyById(surveyId);
 		Users user = surveyService.getResponder(survey, userId);
 		FormQuestion formQuestion = formService.getFormQuestion(survey.getForm(), questionId);
@@ -61,12 +64,12 @@ public class AnswerService {
 		return answer;
 	}
 
-	public AnswerDto updateAnswer(Integer surveyId, Integer userId, Integer questionId, Integer value) throws ServiceException {
-		Optional<Answer> foundAnswer = getExistingAnswer(surveyId, userId, questionId);
-		if (foundAnswer.isPresent()) {
-			foundAnswer.get().setValue(value);
-			return makeAnswerDto(foundAnswer.get());
-		}
+	public AnswerDto updateAnswer(Integer surveyId, Integer userId, Integer questionId, Integer value) {
+		try {
+			Answer existingAnswer = getExistingAnswer(surveyId, userId, questionId);
+			existingAnswer.setValue(value);
+			return makeAnswerDto(existingAnswer);
+		} catch (MissingData ignored) {}
 		return makeAnswerDto(createAnswer(surveyId, userId, questionId, value) );
 	}
 
