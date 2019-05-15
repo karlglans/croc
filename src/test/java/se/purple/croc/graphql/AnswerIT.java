@@ -34,12 +34,12 @@ public class AnswerIT extends SimpleEndpointTests {
 		assertEquals(expected, json);
 	}
 
-	@Test
-	public void canGetErrorMessage() throws JsonProcessingException {
-		var result = excQuery("mutation { updateAnswer(surveyId: 100, userId: 3, " +
-				"questionId: 1, value: 1 ){ value }}");
-		String json = new ObjectMapper().writeValueAsString(result);
-		String expected = "{\"updateAnswer\":{\"value\":1}}";
-		assertEquals(expected, json);
-	}
+//	@Test
+//	public void canGetErrorMessage() throws JsonProcessingException {
+//		var result = excQuery("mutation { updateAnswer(surveyId: 100, userId: 3, " +
+//				"questionId: 1, value: 1 ){ value }}");
+//		String json = new ObjectMapper().writeValueAsString(result);
+//		String expected = "{\"updateAnswer\":{\"value\":1}}";
+//		assertEquals(expected, json);
+//	}
 }
