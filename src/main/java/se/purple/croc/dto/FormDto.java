@@ -11,6 +11,5 @@ import java.util.List;
 public class FormDto {
 	int id;
 	String title;
-	List<FormQuestionDto> questions = new ArrayList<>();
 	boolean isEditable;
 }

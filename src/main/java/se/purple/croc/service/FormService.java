@@ -10,9 +10,11 @@ import se.purple.croc.dto.FormDto;
 import se.purple.croc.repository.FormQuestionRepository;
 import se.purple.croc.repository.FromRepository;
 import se.purple.croc.repository.QuestionRepository;
+import se.purple.croc.service.exceptions.ServiceException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
@@ -29,6 +31,15 @@ public class FormService {
 
 	@Autowired
 	FormQuestionRepository formQuestionRepo;
+
+	FormQuestion getFormQuestion(Form form, int questionId) throws ServiceException {
+		Optional<FormQuestion> formQuestion = form.getFormQuestions()
+				.stream().filter(q -> q.getQuestion().getId() == questionId).findFirst();
+		if (!formQuestion.isPresent()) {
+			throw new ServiceException("formQuestion is not found");
+		}
+		return formQuestion.get();
+	}
 
 	public Form getForm(int id) {
 		return formRepo.findById(id).get();
@@ -107,32 +118,5 @@ public class FormService {
 		formQuestionRepo.save(formQuestion);
 		return nextFormQuestionNumber;
 	}
-//
-//	public FormQuestionDto makeFormQuestionDto(FormQuestion formQuestion) {
-//		FormQuestionDto formQuestionDto = new FormQuestionDto();
-//		formQuestionDto.setText(formQuestion.getQuestion().getText());
-//		formQuestionDto.setNumber(formQuestion.getNumber());
-//		formQuestionDto.setId(formQuestion.getId());
-//		return formQuestionDto;
-//	}
 
-//	public FormDto makeFormDto(Form form) {
-//		FormDto formDto = new FormDto();
-//		formDto.setId(form.getId());
-//		formDto.setTitle(form.getTitle());
-//		List<FormQuestionDto> formQuestions = new ArrayList<>();
-//		for(FormQuestion formQuestion: form.getFormQuestions()) {
-//			formQuestions.add(makeFormQuestionDto(formQuestion));
-//		}
-//		formDto.setQuestions(formQuestions);
-//		return formDto;
-//	}
-//
-//	public FormDto getFormById(int id) {
-//		Form form = formRepo.getFirstById(id);
-//		if (form == null) {
-//			return null;
-//		}
-//		return makeFormDto(form);
-//	}
 }

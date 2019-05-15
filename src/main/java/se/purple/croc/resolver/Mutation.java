@@ -1,6 +1,8 @@
 package se.purple.croc.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
+import graphql.ExceptionWhileDataFetching;
+import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.Form;
@@ -8,9 +10,13 @@ import se.purple.croc.domain.Question;
 import se.purple.croc.dto.*;
 import se.purple.croc.repository.FromRepository;
 import se.purple.croc.repository.QuestionRepository;
+//import se.purple.croc.resolver.exceptions.MissingData;
+import se.purple.croc.resolver.exceptions.MissingData;
+import se.purple.croc.service.AnswerService;
 import se.purple.croc.service.FormService;
 import se.purple.croc.service.SurveyService;
 import se.purple.croc.service.UserGroupService;
+import se.purple.croc.service.exceptions.ServiceException;
 
 import java.util.List;
 
@@ -32,12 +38,16 @@ public class Mutation implements GraphQLMutationResolver {
 	@Autowired
 	SurveyService surveyService;
 
+	@Autowired
+	AnswerService answerService;
+
 	public QuestionDto addQuestion(final InputQuestionDto inQuestion) {
 		Question question = new Question();
 		question.setText(inQuestion.getText());
 		questionRepo.save(question);
 		QuestionDto questionDto = new QuestionDto();
 		questionDto.copy(question);
+		DataFetcher commentsDataFetcher;
 		return questionDto;
 	}
 
@@ -56,6 +66,10 @@ public class Mutation implements GraphQLMutationResolver {
 		form.setTitle(title);
 		fromRepo.save(form);
 		return formService.makeFormDtoShallow(form);
+	}
+
+	public SurveyDto createSurvey(int formId, String name) {
+		return surveyService.createSurvey(formId, name);
 	}
 
 	/**
@@ -83,6 +97,22 @@ public class Mutation implements GraphQLMutationResolver {
 
 	public boolean addUserGroupToSurvey(int userGroupId, int surveyId){
 		return surveyService.addUsersToSurvey(userGroupId, surveyId);
+	}
+
+	public boolean startSurvey(int surveyId) {
+		return surveyService.startSurvey(surveyId);
+	}
+
+	public AnswerDto updateAnswer(int surveyId, int userId, int questionId, int value) throws ServiceException {
+//		try {
+//			return answerService.updateAnswer(surveyId, userId, questionId, value);
+//		} catch (ServiceException e) {
+//			throw new MissingData(400, "missing answer");
+//		} catch (Exception ex) {
+//			throw new MissingData(400, "unknown exception when setting answer");
+//		}
+//		throw new MissingData(101, "mmmmmmmmmmmmmmmmmmiisssss");
+		return answerService.updateAnswer(surveyId, userId, questionId, value);
 	}
 
 }

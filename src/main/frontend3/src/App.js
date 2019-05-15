@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
-import AdminPage from './components/pages/AdminPage';
-import UserPage from './components/pages/UserPage';
+import AdminPage from './pages/AdminPage';
+import UserPage from './pages/UserPage';
 
 const client = new ApolloClient();
 
@@ -13,8 +13,10 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <Router>
-          <Route path="/admin" component={AdminPage} />
-          <Route path="/user" component={UserPage} />
+          <Switch>
+            <Route path="/admin" component={AdminPage} />
+            <Route path="/" component={UserPage} />
+          </Switch>
         </Router>
       </ApolloProvider>
     );

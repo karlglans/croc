@@ -16,12 +16,12 @@ INSERT INTO grouped_users (user_id, group_id) VALUES
 (14, 3), (15, 3), (16, 3), (17, 3), (18, 3), (19, 3), (20, 3), (21, 3), (22, 3),
 (12, 2), (13, 2), (14, 2), (15, 2);
 
+INSERT INTO form (id, title, isEditable) VALUES
+(1, 'form1 ongoing survey', false), (2, 'form2 ongoing survey', false), (3, 'form3', true);
 
 INSERT INTO question (id, text) VALUES
-(1, 'question1 from1'), (2, 'question2form1and2'), (3, 'this is question3');
+(1, 'question1 from1'), (2, 'question2form1and2'), (3, 'question3form2'), (4, 'question4noForm');
 
-INSERT INTO form (id, title, isEditable) VALUES
-(1, 'form1 ongoing survey', true), (2, 'form2 ongoing survey', true), (3, 'form3', true);
 
 INSERT INTO survey (id, form_id, creator_id, status, name) VALUES
 (1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019'), (2, 1, 2, 'ONGOING', 'Undersökning'),
@@ -30,10 +30,10 @@ INSERT INTO survey (id, form_id, creator_id, status, name) VALUES
 INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
 (1, 1, 1), (1, 2, 2), (2, 1, 1);
 
--- survey1: 2 participants
+-- survey1: 2 participants, user3: is in 2 survyes.
 INSERT INTO survey_participant (survey_id, participant_id) VALUES
-(1, 3), (1, 4);
+(1, 3), (1, 4), (2, 3);
 
 -- employee1 has answered both questions, employee2 has just answered 1 question
 INSERT INTO answer (survey_id, responder_id, question_id, value) VALUES
-(1, 3, 1, 111), (1, 3, 2, 222), (1, 4, 1, 121)
+(1, 3, 1, 2), (1, 3, 2, 3), (1, 4, 1, 121)

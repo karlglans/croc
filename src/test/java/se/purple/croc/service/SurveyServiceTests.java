@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import se.purple.croc.domain.Answer;
 import se.purple.croc.service.exceptions.ServiceException;
 
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-@Sql(scripts = "/testdata/data.sql")
+@Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 		classes = se.purple.croc.CrocApplication.class)
 public class SurveyServiceTests {
@@ -41,6 +42,6 @@ public class SurveyServiceTests {
 	@Test
 	public void getAnswerBySurvey() {
 		List<Answer>  answers = surveyService.getAnswersBySurvey(1);
-		assertEquals(2, answers.size());
+		assertEquals(3, answers.size());
 	}
 }

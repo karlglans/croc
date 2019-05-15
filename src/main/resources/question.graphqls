@@ -52,7 +52,8 @@ type UserGroup {
 
 enum SurveyStatus {
     ONGOING,
-    CLOSED
+    CLOSED,
+    IN_CREATION,
 }
 
 type Query {
@@ -61,11 +62,12 @@ type Query {
     question(id: Int): Question
     forms: [Form]!
     form(formId: ID): Form
-    survey(id: Int): Survey
-    surveys(status: SurveyStatus): [Survey]!
+    survey(id: ID): Survey
+    surveys(status: SurveyStatus, participantId: ID): [Survey]!
     users: [User]!
     userGroups: [UserGroup]!
     userGroup(id: ID!): UserGroup
+    answers(surveyId: ID!, userId: ID!): [Answer]!
 }
 
 input InputQuestion {
@@ -74,10 +76,13 @@ input InputQuestion {
 
 type Mutation {
     createForm(title: String!): Form
+    createSurvey(formId: ID!, name: String!): Survey
+    startSurvey(surveyId: ID!): Boolean
     createUserGroup(name: String!): UserGroup
     addUserToGroup(userId: ID!, userGroupId: ID!): UserGroup
     addUserGroupToSurvey(userGroupId: ID!, survey: ID!): Boolean
     addQuestion(input: InputQuestion): Question
+    updateAnswer(surveyId: ID!, userId: ID!, questionId: ID!, value: Int!): Answer
     createFormQuestion(input: InputQuestion!, formId: ID!): Question
     addQuestionToForm(formId: Int, questionId: Int): Form
 }

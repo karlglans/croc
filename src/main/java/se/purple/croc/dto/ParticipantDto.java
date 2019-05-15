@@ -13,5 +13,5 @@ public class ParticipantDto {
 	private int id;
 	private int surveyId;
 	private String email;
-	List<Answer> answers = new ArrayList<>();
+	List<AnswerDto> answers = new ArrayList<>();
 }

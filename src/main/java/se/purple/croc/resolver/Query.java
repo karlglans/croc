@@ -2,14 +2,12 @@ package se.purple.croc.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import lombok.var;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.*;
 import se.purple.croc.dto.*;
 import se.purple.croc.repository.*;
-import se.purple.croc.service.FormService;
-import se.purple.croc.service.SurveyService;
-import se.purple.croc.service.UserGroupService;
-import se.purple.croc.service.UserService;
+import se.purple.croc.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +19,17 @@ public class Query implements GraphQLQueryResolver {
 	private UserGroupService userGroupService;
 	private UserService userService;
 	private SurveyService surveyService;
+	private AnswerService answerService;
 
 	public Query(QuestionRepository questionRepo, FormService formService,
-				 UserGroupService userGroupService, UserService userService, SurveyService surveyService) {
+				 UserGroupService userGroupService, UserService userService, SurveyService surveyService,
+				 AnswerService answerService) {
 		this.questionRepo = questionRepo;
 		this.formService = formService;
 		this.userGroupService = userGroupService;
 		this.userService = userService;
 		this.surveyService = surveyService;
+		this.answerService = answerService;
 	}
 
 	public Iterable<QuestionDto> getQuestions() {
@@ -50,8 +51,8 @@ public class Query implements GraphQLQueryResolver {
 	public SurveyDto getSurvey(int surveyId) {
 		return surveyService.getSurveyDtoById(surveyId);
 	}
-	public List<SurveyDto> getSurveys(SurveyStatus surveyStatus) {
-		return surveyService.getAllSurveyDtos(surveyStatus);
+	public List<SurveyDto> getSurveys(SurveyStatus surveyStatus, Integer participantId) {
+		return surveyService.getAllSurveyDtos(surveyStatus, participantId);
 	}
 
 	public Iterable<UserGroupDto> getUserGroups() {
@@ -74,5 +75,9 @@ public class Query implements GraphQLQueryResolver {
 
 	public Iterable<UserDto> getUsers() {
 		return userService.getAllUSers();
+	}
+
+	public Iterable<AnswerDto> getAnswers(Integer surveyId, Integer userId) {
+		return answerService.getSurveyAnswersForParticipant(surveyId, userId);
 	}
 }
