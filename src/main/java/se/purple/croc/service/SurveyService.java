@@ -34,12 +34,6 @@ public class SurveyService {
 	@Autowired
 	FormService formService;
 
-	@PersistenceContext
-	private EntityManager manager;
-
-	void addAnserToSurvey(Integer userId, Integer SurveyId, Integer questionId) {
-
-	}
 
 	Users getResponder(Survey survey, int userId)  {
 		// TODO make query
