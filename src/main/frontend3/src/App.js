@@ -17,7 +17,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext({
     headers: {
       // simple solution: token will be used as user id
-      authorization: "Bearer " + (localStorage.getItem('apollotoken') || 3),
+      authorization: "Bearer " + (localStorage.getItem('apollotoken') || 4),
     }
   });
 

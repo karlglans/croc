@@ -22,6 +22,11 @@ const styles = {
   },
 };
 
+const TEMP_onClickLogin = () => {
+  console.log('TEMP_onClickLogin logi');
+  // localStorage.setItem('apollotoken', 4);
+}
+
 function ButtonAppBar(props) {
   const { classes } = props;
   return (
@@ -40,7 +45,7 @@ function ButtonAppBar(props) {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             <Link to='/user'>User</Link>
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" >Login sss</Button>
         </Toolbar>
       </AppBar>
     </div>
