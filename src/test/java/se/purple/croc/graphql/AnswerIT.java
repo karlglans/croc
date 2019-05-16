@@ -27,7 +27,7 @@ public class AnswerIT extends SimpleEndpointTests {
 
 	@Test
 	public void canCreateNewAnswer_whenRegisteredAsParticipant() throws JsonProcessingException {
-		var result = excQuery("mutation { updateAnswer(surveyId: 2, userId: 3, " +
+		var result = excQuery("mutation { updateAnswer(surveyId: 2, userId: 4, " +
 				"questionId: 1, value: 1 ){ value }}");
 		String json = new ObjectMapper().writeValueAsString(result);
 		String expected = "{\"updateAnswer\":{\"value\":1}}";

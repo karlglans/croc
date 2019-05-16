@@ -34,6 +34,7 @@ class AdminPageLayout extends React.Component {
     this.state = {
       tabIndex: 0 // first tab will be active 
     };
+    this.TEMP_onClickLogin = this.TEMP_onClickLogin.bind(this);
   }
 
   static transfromPathToTabIndex(pathname) {
@@ -62,6 +63,11 @@ class AdminPageLayout extends React.Component {
     this.setState({ value });
   };
 
+  TEMP_onClickLogin() {
+    console.log('TEMP_onClickLogin: setting usertoken to 4 (ordinary user)');
+    localStorage.setItem('apollotoken', 4);
+  }
+
   render() {
     const { classes } = this.props;
     const { tabIndex } = this.state;
@@ -87,7 +93,7 @@ class AdminPageLayout extends React.Component {
               <Typography variant="h6" color="inherit" style={{flexGrow: 10}}>
               </Typography>
 
-              <Button color="inherit" to="/surveys" component={Link}>Login</Button>
+              <Button color="inherit" to="/surveys" onClick={this.TEMP_onClickLogin} component={Link}>Login</Button>
             </Toolbar>
           </AppBar>
           <Switch>

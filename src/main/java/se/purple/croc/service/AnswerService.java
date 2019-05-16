@@ -1,9 +1,11 @@
 package se.purple.croc.service;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
 import se.purple.croc.dto.AnswerDto;
+import se.purple.croc.models.AuthenticatedUser;
 import se.purple.croc.repository.AnswerRepository;
 import se.purple.croc.service.exceptions.MissingData;
 
@@ -22,6 +24,9 @@ public class AnswerService {
 
 	@Autowired
 	FormService formService;
+
+	@Autowired
+	AuthService authService;
 
 
 	AnswerDto makeAnswerDto(Answer answer) {
@@ -64,13 +69,13 @@ public class AnswerService {
 		return answer;
 	}
 
-	public AnswerDto updateAnswer(Integer surveyId, Integer userId, Integer questionId, Integer value) {
+	public AnswerDto updateAnswer(Integer surveyId, AuthenticatedUser authUser, Integer questionId, Integer value) {
 		try {
-			Answer existingAnswer = getExistingAnswer(surveyId, userId, questionId);
+			Answer existingAnswer = getExistingAnswer(surveyId, authUser.getUserId(), questionId);
 			existingAnswer.setValue(value);
 			return makeAnswerDto(existingAnswer);
 		} catch (MissingData ignored) {}
-		return makeAnswerDto(createAnswer(surveyId, userId, questionId, value) );
+		return makeAnswerDto(createAnswer(surveyId, authUser.getUserId(), questionId, value) );
 	}
 
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
 import se.purple.croc.dto.ParticipantDto;
 import se.purple.croc.dto.SurveyDto;
+import se.purple.croc.models.AuthenticatedUser;
 import se.purple.croc.repository.AnswerRepository;
 import se.purple.croc.repository.SurveyRepository;
 import se.purple.croc.repository.UserRepository;
@@ -34,12 +35,9 @@ public class SurveyService {
 	@Autowired
 	FormService formService;
 
-	@PersistenceContext
-	private EntityManager manager;
+	@Autowired
+	AuthService authService;
 
-	void addAnserToSurvey(Integer userId, Integer SurveyId, Integer questionId) {
-
-	}
 
 	Users getResponder(Survey survey, int userId)  {
 		// TODO make query
@@ -56,9 +54,18 @@ public class SurveyService {
 		return true;
 	}
 
-	public List<SurveyDto> getAllSurveyDtos(SurveyStatus surveyStatus, Integer participantId) {
+	public List<SurveyDto> getAllSurveyDtos(SurveyStatus surveyStatus, Integer participantId, AuthenticatedUser authenticatedUser) {
 		// TODO: make different kind of selections based on existence of params
-		var surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
+		List<Survey> surveys;
+
+		if (authenticatedUser.hasRole(Role.user)){
+			Users users = new Users();
+			users.setId((int)authenticatedUser.getUserId());
+			surveys = surveyRepo.findSurveyByParticipantsEquals(users);
+		} else {
+			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
+		}
+
 		return surveys.stream()
 //				.filter(survey -> participantId == null ? true : participantId.intValue() == survey.getId())
 				.map(survey -> makeSurveyDto(survey))

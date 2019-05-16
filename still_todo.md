@@ -1,0 +1,1 @@
+* Don't accept answers from users who is not a participant in the survey
