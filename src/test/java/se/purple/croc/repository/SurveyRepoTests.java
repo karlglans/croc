@@ -55,7 +55,7 @@ public class SurveyRepoTests {
 
 	@Test
 	public void findSurveyByStatusAndParticipantId_canFindMultipleSurveys() {
-		List<Survey> surveysWhereUserShouldBeIn = surveyRepository.findSurveyByStatusAndParticipantId(SurveyStatus.ONGOING, 3);
+		List<Survey> surveysWhereUserShouldBeIn = surveyRepository.findSurveyByStatusAndParticipantId(SurveyStatus.ONGOING, 4);
 		assertEquals(2, surveysWhereUserShouldBeIn.size());
 	}
 
@@ -65,5 +65,12 @@ public class SurveyRepoTests {
 		assertEquals(0, surveysWhereUserShouldBeIn.size());
 	}
 
+	@Test
+	public void findSurveyByParticipantsEquals() {
+		Users user = new Users();
+		user.setId(4);
+		List<Survey> surveys = surveyRepository.findSurveyByParticipantsEquals(user);
+		assertEquals(2, surveys.size());
+	}
 
 }

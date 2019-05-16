@@ -12,10 +12,7 @@ import se.purple.croc.repository.FromRepository;
 import se.purple.croc.repository.QuestionRepository;
 //import se.purple.croc.resolver.exceptions.MissingData;
 import se.purple.croc.resolver.exceptions.MissingData;
-import se.purple.croc.service.AnswerService;
-import se.purple.croc.service.FormService;
-import se.purple.croc.service.SurveyService;
-import se.purple.croc.service.UserGroupService;
+import se.purple.croc.service.*;
 import se.purple.croc.service.exceptions.ServiceException;
 
 import java.util.List;
@@ -30,16 +27,19 @@ public class Mutation implements GraphQLMutationResolver {
 	private FormService formService;
 
 	@Autowired
-	FromRepository fromRepo;
+	private FromRepository fromRepo;
 
 	@Autowired
-	UserGroupService userGroupService;
+	private UserGroupService userGroupService;
 
 	@Autowired
-	SurveyService surveyService;
+	private SurveyService surveyService;
 
 	@Autowired
-	AnswerService answerService;
+	private AnswerService answerService;
+
+	@Autowired
+	private AuthService authService;
 
 	public QuestionDto addQuestion(final InputQuestionDto inQuestion) {
 		Question question = new Question();
@@ -104,15 +104,7 @@ public class Mutation implements GraphQLMutationResolver {
 	}
 
 	public AnswerDto updateAnswer(int surveyId, int userId, int questionId, int value) throws ServiceException {
-//		try {
-//			return answerService.updateAnswer(surveyId, userId, questionId, value);
-//		} catch (ServiceException e) {
-//			throw new MissingData(400, "missing answer");
-//		} catch (Exception ex) {
-//			throw new MissingData(400, "unknown exception when setting answer");
-//		}
-//		throw new MissingData(101, "mmmmmmmmmmmmmmmmmmiisssss");
-		return answerService.updateAnswer(surveyId, userId, questionId, value);
+		return answerService.updateAnswer(surveyId, authService.getPrincipal(), questionId, value);
 	}
 
 }

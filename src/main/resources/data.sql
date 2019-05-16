@@ -1,3 +1,6 @@
+INSERT INTO roles (id, role) VALUES
+(1, 'user'), (2, 'supervisor'), (3, 'administrator');
+
 INSERT INTO user_group (id, name) VALUES
 (1, 'Everyone from A'), (2, 'Subset of A and B'), (3, 'Everyone from B');
 
@@ -10,6 +13,9 @@ INSERT INTO users (id, email) VALUES
 (17, 'employee14@purple.com'), (18, 'employee15@purple.com'), (19, 'employee16@purple.com'),
 (20, 'employee17@purple.com'), (21, 'employee18@purple.com'), (22, 'employee19@purple.com');
 
+INSERT INTO user_roles (user_id, role_id) VALUES
+(1, 3), (2, 1), (2, 2), (3, 1), (3, 2), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1),
+(13, 1), (14, 1), (15, 1), (16, 1), (17, 1), (18, 1), (19, 1), (20, 1), (21, 1);
 
 INSERT INTO grouped_users (user_id, group_id) VALUES
 (2, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1), (13, 1),
@@ -32,7 +38,8 @@ INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
 
 -- survey1: 2 participants, user3: is in 2 survyes.
 INSERT INTO survey_participant (survey_id, participant_id) VALUES
-(1, 3), (1, 4), (2, 3);
+(1, 3), (1, 4), (2, 4);
+-- (1, 3), (1, 4), (2, 3);
 
 -- employee1 has answered both questions, employee2 has just answered 1 question
 INSERT INTO answer (survey_id, responder_id, question_id, value) VALUES

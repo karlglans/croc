@@ -65,7 +65,7 @@ class AdminPageLayout extends React.Component {
 
   TEMP_onClickLogin() {
     console.log('TEMP_onClickLogin: setting usertoken to 4 (ordinary user)');
-    localStorage.setItem('apollotoken', 3);
+    localStorage.setItem('apollotoken', 4);
   }
 
   render() {

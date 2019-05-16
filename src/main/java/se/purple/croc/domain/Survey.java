@@ -21,7 +21,7 @@ public class Survey {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Form form;
 
-	private String name = "aaaa";
+	private String name = "noname";
 
 	@Enumerated(EnumType.STRING)
 	private SurveyStatus status = SurveyStatus.IN_CREATION;

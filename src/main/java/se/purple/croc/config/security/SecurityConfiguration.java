@@ -44,6 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			new AntPathRequestMatcher("/webjars/**"),
 			new AntPathRequestMatcher("/swagger-resources/**"),
 			new AntPathRequestMatcher("/swagger-ui.html"),
+			new AntPathRequestMatcher("/h2-console/**"),
+			new AntPathRequestMatcher("/h2/**"),
 			// temp solution
 			new AntPathRequestMatcher("/graphiql")
 	);
