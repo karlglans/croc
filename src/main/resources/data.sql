@@ -43,4 +43,4 @@ INSERT INTO survey_participant (survey_id, participant_id) VALUES
 
 -- employee1 has answered both questions, employee2 has just answered 1 question
 INSERT INTO answer (survey_id, responder_id, question_id, value) VALUES
-(1, 3, 1, 2), (1, 3, 2, 3), (1, 4, 1, 121)
+(1, 4, 1, 2), (1, 4, 2, 3), (1, 3, 1, 121)
