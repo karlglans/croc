@@ -1,7 +1,7 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import adminPageContext from './adminPageContext';
 import AdminPageLayout from './AdminPageLayout';
-import { Redirect} from "react-router-dom";
 
 class AdminPage extends React.Component {
   constructor(props) {
