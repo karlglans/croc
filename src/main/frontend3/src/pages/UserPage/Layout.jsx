@@ -9,6 +9,7 @@ import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@mate
 
 import SurveysSubPage from './SurveySubPage';
 import UsersSubPage from './UsersSubPage';
+import routes from '../../constants/routes';
 
 const styles = theme => ({
   root: {
@@ -32,7 +33,7 @@ class AdminPageLayout extends React.Component {
     this.state = {
       tabIndex: 0 // first tab will be active 
     };
-    this.TEMP_onClickLogin = this.TEMP_onClickLogin.bind(this);
+    this.onClickLogout = this.onClickLogout.bind(this);
   }
 
   static transfromPathToTabIndex(pathname) {
@@ -55,9 +56,8 @@ class AdminPageLayout extends React.Component {
     return nextState;
   }
 
-  TEMP_onClickLogin() {
-    console.log('TEMP_onClickLogin: setting usertoken to 3 (an admin)');
-    localStorage.setItem('apollotoken', 3);
+  onClickLogout() {
+    localStorage.setItem('crocClient', 'none');
   }
 
   handleChange = (event, value) => {
@@ -88,7 +88,7 @@ class AdminPageLayout extends React.Component {
               <Typography variant="h6" color="inherit" style={{flexGrow: 10}}>
               </Typography>
 
-              <Button color="inherit" to="/admin/surveys" onClick={this.TEMP_onClickLogin} component={Link}>Login</Button>
+              <Button color="inherit" to={routes.toLoginPage} onClick={this.onClickLogout} component={Link}>Logout</Button>
             </Toolbar>
           </AppBar>
           <Switch>

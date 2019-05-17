@@ -9,6 +9,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
+import LoginPage from './pages/LoginPage'
 
 const httpLink = new HttpLink({ uri: '/graphql' });
 
@@ -24,7 +25,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-localStorage.setItem('apollotoken', 3); // temp, will be user id
+// localStorage.setItem('apollotoken', 3); // temp, will be user id
 
 const client = new ApolloClient({
   link: concat(authMiddleware, httpLink),
@@ -37,8 +38,9 @@ class App extends Component {
       <ApolloProvider client={client}>
         <Router>
           <Switch>
-            <Route path="/admin" component={AdminPage} />
-            <Route path="/" component={UserPage} />
+            <Route path='/admin' component={AdminPage} />
+            <Route path='/login' component={LoginPage} />
+            <Route path='/' component={UserPage} />
           </Switch>
         </Router>
       </ApolloProvider>

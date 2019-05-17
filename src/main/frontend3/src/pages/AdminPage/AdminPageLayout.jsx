@@ -7,6 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import MenuIcon from '@material-ui/icons/Menu';
 import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@material-ui/core';
 
+import routes from '../../constants/routes';
 import UsersSubPage from './UsersSubPage';
 import SurveyPage from './SurveyPage';
 import FormsSubPage from './FormsSubPage';
@@ -34,7 +35,7 @@ class AdminPageLayout extends React.Component {
     this.state = {
       tabIndex: 0 // first tab will be active 
     };
-    this.TEMP_onClickLogin = this.TEMP_onClickLogin.bind(this);
+    this.onClickLogout = this.onClickLogout.bind(this);
   }
 
   static transfromPathToTabIndex(pathname) {
@@ -63,9 +64,8 @@ class AdminPageLayout extends React.Component {
     this.setState({ value });
   };
 
-  TEMP_onClickLogin() {
-    console.log('TEMP_onClickLogin: setting usertoken to 4 (ordinary user)');
-    localStorage.setItem('apollotoken', 4);
+  onClickLogout() {
+    localStorage.setItem('crocClient', 'none');
   }
 
   render() {
@@ -93,7 +93,7 @@ class AdminPageLayout extends React.Component {
               <Typography variant="h6" color="inherit" style={{flexGrow: 10}}>
               </Typography>
 
-              <Button color="inherit" to="/surveys" onClick={this.TEMP_onClickLogin} component={Link}>Login</Button>
+              <Button color="inherit" to={routes.toLoginPage} onClick={this.onClickLogout} component={Link}>logout</Button>
             </Toolbar>
           </AppBar>
           <Switch>
