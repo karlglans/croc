@@ -63,7 +63,7 @@ type Query {
     forms: [Form]!
     form(formId: ID): Form
     survey(id: ID): Survey
-    surveys(status: SurveyStatus, participantId: ID): [Survey]!
+    surveys(status: SurveyStatus, participantId: ID, isParticipating: Boolean): [Survey]!
     users: [User]!
     userGroups: [UserGroup]!
     userGroup(id: ID!): UserGroup

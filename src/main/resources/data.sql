@@ -31,7 +31,7 @@ INSERT INTO question (id, text) VALUES
 
 INSERT INTO survey (id, form_id, creator_id, status, name) VALUES
 (1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019'), (2, 1, 2, 'ONGOING', 'Undersökning'),
-(3, 2, 2, 'ONGOING', '1111'), (4, 2, 2, 'CLOSED', '1111');
+(3, 2, 2, 'ONGOING', '1111'), (4, 2, 2, 'CLOSED', 'Det stora vårforfoluläret 2018');
 
 INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
 (1, 1, 1), (1, 2, 2), (2, 1, 1);

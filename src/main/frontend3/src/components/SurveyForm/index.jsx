@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
@@ -39,15 +40,22 @@ const SurveyFrom = props => {
         return null;
       }
       return (
-        <QuestionList
-          isLoading={loading}
-          survey={data.survey}
-          answers={data.answers}
-        />
+        <React.Fragment>
+          <h2>Survey id {surveyId} </h2>
+          <QuestionList
+            isLoading={loading}
+            survey={data.survey}
+            answers={data.answers}
+          />
+        </React.Fragment>
       );
     }}
   </Query>
   );
-}
+};
+
+SurveyFrom.propTypes = {
+  match: PropTypes.object.isRequired
+};
 
 export default withRouter(SurveyFrom);

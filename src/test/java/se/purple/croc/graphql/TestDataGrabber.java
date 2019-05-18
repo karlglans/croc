@@ -11,10 +11,17 @@ import javax.annotation.PostConstruct;
 public class TestDataGrabber {
 
 	AuthenticatedUser user4 = new AuthenticatedUser();
+	AuthenticatedUser user3supervisor = new AuthenticatedUser();
 
 	@PostConstruct
 	public void setup() {
 		// should be identical to test-set in db
+		user3supervisor.setUserId(3);
+		Roles userRoleSupervisor = new Roles();
+		userRoleSupervisor.setId(2);
+		userRoleSupervisor.setRole(Role.supervisor);
+		user3supervisor.getAuthorities().add(userRoleSupervisor);
+
 		user4.setUserId(4);
 		Roles userRole = new Roles();
 		userRole.setId(1);

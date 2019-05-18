@@ -60,8 +60,8 @@ public class Query implements GraphQLQueryResolver {
 	 * @param participantId optional. Will affect filtering.
 	 * @return
 	 */
-	public List<SurveyDto> getSurveys(SurveyStatus surveyStatus, Integer participantId) {
-		return surveyService.getAllSurveyDtos(surveyStatus, participantId, authService.getPrincipal());
+	public List<SurveyDto> getSurveys(SurveyStatus surveyStatus, Integer participantId, Boolean isParticipating) {
+		return surveyService.getAllSurveyDtos(surveyStatus, participantId, isParticipating, authService.getPrincipal());
 	}
 
 	public Iterable<UserGroupDto> getUserGroups() {

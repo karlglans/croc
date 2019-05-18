@@ -13,8 +13,6 @@ import se.purple.croc.repository.UserRepository;
 import se.purple.croc.service.exceptions.MissingData;
 import se.purple.croc.service.exceptions.ServiceException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -54,11 +52,17 @@ public class SurveyService {
 		return true;
 	}
 
-	public List<SurveyDto> getAllSurveyDtos(SurveyStatus surveyStatus, Integer participantId, AuthenticatedUser authenticatedUser) {
+	public List<SurveyDto> getAllSurveyDtos(SurveyStatus surveyStatus, Integer participantId,
+											Boolean isParticipating, AuthenticatedUser authenticatedUser) {
 		// TODO: make different kind of selections based on existence of params
 		List<Survey> surveys;
 
-		if (authenticatedUser.hasRole(Role.user)){
+		// boolean isSelectingSurveysWhereClientIsParticipating = isParticipating != null && isParticipating;ö
+
+		if (authenticatedUser.hasRole(Role.supervisor)) {
+			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
+		}
+		else if (authenticatedUser.hasRole(Role.user)){
 			Users users = new Users();
 			users.setId((int)authenticatedUser.getUserId());
 			surveys = surveyRepo.findSurveyByParticipantsEquals(users);

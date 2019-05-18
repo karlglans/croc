@@ -41,10 +41,19 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 	}
 
 	@Test
-	public void canGetSurveys_forARegularUser() {
+	public void canGetOngoingSurveys_forARegularUser() {
 		when(authService.getPrincipal()).thenReturn(testDataGrabber.user4);
 		String json = excQuery("query { surveys { id } }");
+		// these should be the ongoing surveys where the user is listed as a participant
 		String expected = "{\"surveys\":[{\"id\":\"1\"},{\"id\":\"2\"}]}";
+		assertEquals(expected, json);
+	}
+
+	@Test
+	public void canGetOngoingSurveys_forSupervisor() {
+		when(authService.getPrincipal()).thenReturn(testDataGrabber.user3supervisor);
+		String json = excQuery("query { surveys(status:ONGOING) { id } }");
+		String expected = "{\"surveys\":[{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"}]}";
 		assertEquals(expected, json);
 	}
 }
