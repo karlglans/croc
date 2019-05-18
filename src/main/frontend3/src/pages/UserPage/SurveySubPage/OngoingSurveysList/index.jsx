@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-import OngoingSurveyList from '../../../../components/OngoingSurveyList';
+import SurveyClickableList from '../../../../components/SurveyClickableList';
 
 // will get surveys for this client only (since user has role: user)
 const GET_ONGOING_SURVEYS_FOR_USER = gql`
@@ -22,7 +22,7 @@ const OngoingSurveys = props => (
         return null;
       }
       return (
-        <OngoingSurveyList
+        <SurveyClickableList
           isLoading={loading}
           surveys={data.surveys}
           linkPrefix={'/surveys/ongoing'}

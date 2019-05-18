@@ -37,7 +37,7 @@ class App extends Component {
         <Router>
           <Switch>
             <Route path='/admin' component={AdminPage} />
-            <Route path='/login' component={LoginPage} />
+            <Route path='/login' component={() => <LoginPage client={client} />} />
             <Route path='/' component={UserPage} />
           </Switch>
         </Router>

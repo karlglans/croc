@@ -33,7 +33,7 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-class FormsPage extends React.Component {
+class SurveysSubPage extends React.Component {
   render() {
     const { classes, location } = this.props;
     const isOnOngoing = location.pathname === '/admin/surveys' || location.pathname.includes('ongoing'); // default option
@@ -97,4 +97,4 @@ const enhance = compose(
   withStyles(styles),
 )
 
-export default enhance(FormsPage);
+export default enhance(SurveysSubPage);

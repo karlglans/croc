@@ -26,13 +26,17 @@ const styles = {
 }
 
 class LoginPage extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       redirect: undefined
     }
     this.clickSupervicor = this.clickSupervicor.bind(this);
     this.clickUser = this.clickUser.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.client.resetStore()
   }
 
   clickSupervicor() {
