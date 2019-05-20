@@ -13,7 +13,6 @@ const GET_QUESTIONS = gql`
       questions {
         id
         text
-        number
       }
     }
   }
@@ -34,9 +33,9 @@ const QuestionsList = props => (
         <React.Fragment>
           <CreateSurveyButton formId={Number(props.formId)} />
           <List style={styles.listItemStyle}>
-            {data.form.questions.map(question => (
+            {data.form.questions.map((question, index) => (
               <ListItem button key={question.id} >
-                {question.number} : {question.text}
+                {index + 1} : {question.text}
               </ListItem>
             ))}
           </List>

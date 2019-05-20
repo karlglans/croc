@@ -4,7 +4,7 @@ import AnswerableQuestion from './AnswerableQuestion';
 
 const conmbine = (questions, answers) => {
   let questionMap = {};
-  questions.map( q => questionMap[q.id] = q );
+  questions.forEach(q => questionMap[q.id] = q)
   answers.forEach( a => {
     if (a.questionId && questionMap[a.questionId]) {
       questionMap[a.questionId].answer = a;

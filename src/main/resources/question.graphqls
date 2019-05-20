@@ -6,7 +6,7 @@ interface MiniUser {
 type Question {
     id: ID!
     text: String!
-    number: Int
+#    number: Int
 }
 
 type Form {
