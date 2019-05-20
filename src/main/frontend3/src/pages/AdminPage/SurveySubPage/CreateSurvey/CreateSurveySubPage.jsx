@@ -6,8 +6,6 @@ import { graphql } from 'react-apollo';
 import Link from '@material-ui/core/Link';
 import { Paper, Typography, TextField, Button } from '@material-ui/core';
 
-import adminPageContext from '../../adminPageContext';
-
 const createSurvey = gql`
   mutation ($formId: ID!, $name: String!) {
     createSurvey(formId: $formId, name: $name) {
@@ -72,7 +70,6 @@ class CreateSurveySubPage extends React.Component {
       // TODO: check if createSurvey.id is realy set
       const createdSurveyId = response.data.createSurvey.id;
       this.setState({ createdSurveyId });
-      setOpenCreateSurvey(undefined); // make sure survey creation tab is closed
     });
   }
 
@@ -99,40 +96,36 @@ class CreateSurveySubPage extends React.Component {
       )
     }
     return (
-      <adminPageContext.Consumer>
-        {({ setOpenCreateSurvey }) => (
-          <form onSubmit={(event) => this.handleSubmit(event, setOpenCreateSurvey)}>
-            <Paper style={styles.paper}>
-              <Typography>
-                Form Id: {formId},
-                <span> </span>
-                <Link component={RouterLink} to={linkFormPath}>
-                  {formTitle}
-                </Link>
-              </Typography>
-              <h1>Create Survey</h1>
-              <TextField
-                style={styles.texfield}
-                id="standard-name"
-                label="Name"
-                value={this.state.inputName}
-                onChange={this.handleChange}
-                margin="normal"
-              />
-              <div>
-                <Button
-                  disabled={!this.state.isFormValid}
-                  style={styles.submit}
-                  type="submit"
-                  variant='contained'
-                  color='primary'>
-                  Create
-                </Button>
-              </div>
-            </Paper>
-          </form>
-      )}
-      </adminPageContext.Consumer>
+      <form onSubmit={(event) => this.handleSubmit(event)}>
+        <Paper style={styles.paper}>
+          <Typography>
+            Form Id: {formId},
+            <span> </span>
+            <Link component={RouterLink} to={linkFormPath}>
+              {formTitle}
+            </Link>
+          </Typography>
+          <h1>Create Survey</h1>
+          <TextField
+            style={styles.texfield}
+            id="standard-name"
+            label="Name"
+            value={this.state.inputName}
+            onChange={this.handleChange}
+            margin="normal"
+          />
+          <div>
+            <Button
+              disabled={!this.state.isFormValid}
+              style={styles.submit}
+              type="submit"
+              variant='contained'
+              color='primary'>
+              Create
+            </Button>
+          </div>
+        </Paper>
+      </form>
     )
   }
 };
