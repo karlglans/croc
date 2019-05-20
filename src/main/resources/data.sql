@@ -26,21 +26,22 @@ INSERT INTO form (id, title, isEditable) VALUES
 (1, 'form1 ongoing survey', false), (2, 'form2 ongoing survey', false), (3, 'form3', true);
 
 INSERT INTO question (id, text) VALUES
-(1, 'question1 from1'), (2, 'question2form1and2'), (3, 'question3form2'), (4, 'question4noForm');
+(1, 'question1 from1'), (2, 'question2 form1 and form2'), (3, 'question3 form2'), (4, 'question4 no Form');
 
 
-INSERT INTO survey (id, form_id, creator_id, status, name) VALUES
-(1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019'), (2, 1, 2, 'ONGOING', 'Undersökning'),
-(3, 2, 2, 'ONGOING', '1111'), (4, 2, 2, 'CLOSED', '1111');
+INSERT INTO survey (id, form_id, creator_id, status, name, COUNTED_ANSWERING_PARTICIPANTS) VALUES
+(1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019', 1), (2, 1, 2, 'ONGOING', 'Undersökning', 3),
+(3, 2, 2, 'ONGOING', 'completely answered survey', 0), (4, 2, 2, 'CLOSED', 'Det stora vårforfoluläret 2018', 0);
 
 INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
-(1, 1, 1), (1, 2, 2), (2, 1, 1);
+(1, 1, 1), (1, 2, 2), (2, 2, 1), (2, 3, 2);
 
 -- survey1: 2 participants, user3: is in 2 survyes.
 INSERT INTO survey_participant (survey_id, participant_id) VALUES
-(1, 3), (1, 4), (2, 4);
--- (1, 3), (1, 4), (2, 3);
+(1, 3), (1, 4), (2, 4),
+(3, 10), (3, 11), (3, 12); -- Survey 3 completely answered
 
 -- employee1 has answered both questions, employee2 has just answered 1 question
 INSERT INTO answer (survey_id, responder_id, question_id, value) VALUES
-(1, 3, 1, 2), (1, 3, 2, 3), (1, 4, 1, 121)
+(1, 4, 1, 2), (1, 4, 2, 3), (1, 3, 1, 121),
+(3, 10, 2, 1), (3, 10, 3, 5),  (3, 11, 2, 1), (3, 11, 3, 5),  (3, 12, 2, 1), (3, 12, 3, 5); -- survey 3 completely answered

@@ -1,10 +1,13 @@
 package se.purple.croc.graphql;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.GraphQLError;
 import graphql.schema.GraphQLSchema;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -25,7 +28,8 @@ public class SimpleEndpointTests {
 	@Autowired
 	GraphQLSchema schema;
 
-	protected Map<String, Map<String, Object>> excQuery(String query) {
+
+	protected String excQuery(String query) {
 		GraphQL graphQL = GraphQL.newGraphQL(schema)
 				.build();
 
@@ -38,6 +42,13 @@ public class SimpleEndpointTests {
 		List<GraphQLError> errors = executionResult.getErrors();
 		assertEquals(0, errors.size());
 
-		return (Map<String, Map<String, Object>>) executionResult.getData();
+		var result = executionResult.getData();
+
+		try {
+			return new ObjectMapper().writeValueAsString(result);
+		} catch (JsonProcessingException ignored) {}
+		assert(false);
+		return "";
 	}
+
 }

@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const GET_SURVEY_DATA = gql`
-  query($surveyId: Int) {
+  query($surveyId: ID!) {
     survey(id: $surveyId) {
       name
     }

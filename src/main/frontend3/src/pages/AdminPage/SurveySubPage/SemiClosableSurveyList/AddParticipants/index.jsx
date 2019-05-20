@@ -13,7 +13,7 @@ const ADD_USERGROUP_TO_SURVEY = gql`
 `;
 
 const GET_PARTICPANT_DATA = gql`
-  query($surveyId: Int) {
+  query($surveyId: ID!) {
     survey(id: $surveyId) {
       participants {
         id

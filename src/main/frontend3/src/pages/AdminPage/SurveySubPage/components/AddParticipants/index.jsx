@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
@@ -29,5 +30,8 @@ const AddParticipants = props => (
   </Query>
 );
 
+AddParticipants.propTypes = {
+  surveyId: PropTypes.string.isRequired,
+};
 
 export default AddParticipants;

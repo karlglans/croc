@@ -28,15 +28,18 @@ type Participant implements MiniUser {
     answers: [Answer]
 }
 
-#type SurveySummary {
-#    numberOfParticipants: Int
-#}
+type SurveyCountingSummary {
+    nbParticipants: Int
+    nbAnsweringParticipants: Int
+}
 
 type Survey {
     id: ID!
     form: Form!
     name: String!
     participants: [Participant]
+#    countedAnsweringParticipants: Int!
+    summary: SurveyCountingSummary
 }
 
 type User {
@@ -63,7 +66,7 @@ type Query {
     forms: [Form]!
     form(formId: ID): Form
     survey(id: ID): Survey
-    surveys(status: SurveyStatus, participantId: ID): [Survey]!
+    surveys(status: SurveyStatus, participantId: ID, isParticipating: Boolean): [Survey]!
     users: [User]!
     userGroups: [UserGroup]!
     userGroup(id: ID!): UserGroup

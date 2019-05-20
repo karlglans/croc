@@ -26,6 +26,9 @@ public class Survey {
 	@Enumerated(EnumType.STRING)
 	private SurveyStatus status = SurveyStatus.IN_CREATION;
 
+	// to be updated when a participant store an answer
+	private int countedAnsweringParticipants;
+
 	@ManyToMany
 	@JoinTable(
 			name = "SURVEY_PARTICIPANT",

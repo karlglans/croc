@@ -2,7 +2,6 @@ package se.purple.croc.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import lombok.var;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.*;
 import se.purple.croc.dto.*;
@@ -60,8 +59,8 @@ public class Query implements GraphQLQueryResolver {
 	 * @param participantId optional. Will affect filtering.
 	 * @return
 	 */
-	public List<SurveyDto> getSurveys(SurveyStatus surveyStatus, Integer participantId) {
-		return surveyService.getAllSurveyDtos(surveyStatus, participantId, authService.getPrincipal());
+	public List<SurveyDto> getSurveys(SurveyStatus surveyStatus, Integer participantId, Boolean isParticipating) {
+		return surveyService.getAllSurveyDtos(surveyStatus, participantId, isParticipating, authService.getPrincipal());
 	}
 
 	public Iterable<UserGroupDto> getUserGroups() {

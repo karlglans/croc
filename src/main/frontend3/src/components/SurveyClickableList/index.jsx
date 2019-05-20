@@ -13,7 +13,7 @@ const SurveyListItem = props => {
   );
 }
 
-const OngoingSurveyList = props => {
+const SurveyClickableList = props => {
   const { surveys, linkPrefix } = props;
   return (
     <List>
@@ -35,11 +35,11 @@ const OngoingSurveyList = props => {
   );
 };
 
-OngoingSurveyList.propTypes = {
+SurveyClickableList.propTypes = {
   surveys: PropTypes.array,
   isLoading: PropTypes.bool.isRequired,
   // linkSuffix: PropTypes.string.isRequired,
   linkPrefix: PropTypes.string.isRequired
 };
 
-export default OngoingSurveyList;
+export default SurveyClickableList;

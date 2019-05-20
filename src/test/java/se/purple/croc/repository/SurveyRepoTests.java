@@ -1,12 +1,11 @@
 package se.purple.croc.repository;
 
+import lombok.var;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.purple.croc.domain.*;
 
@@ -72,5 +71,58 @@ public class SurveyRepoTests {
 		List<Survey> surveys = surveyRepository.findSurveyByParticipantsEquals(user);
 		assertEquals(2, surveys.size());
 	}
+
+	@Test
+	public void canCountSurveyParticipants() {
+		int count = surveyRepository.countParticipantSurvey(3);
+		assertEquals(3, count);
+	}
+
+	@Test
+	public void findSurveyAndCountByStatusEquals() {
+		List<Object> result = surveyRepository.findSurveyAndCountByStatusEquals(SurveyStatus.ONGOING);
+
+		// expecting 3 Surveys
+		assertEquals(3, result.size());
+		Object[] Survey1Pair = (Object[]) result.get(0);
+		Object[] Survey2Pair = (Object[]) result.get(1);
+		Object[] Survey3Pair = (Object[]) result.get(2);
+
+		assertEquals(2, Survey1Pair.length);
+		assertEquals(1, ((Survey) Survey1Pair[0]).getId() );
+		assertEquals(2, (long)Survey1Pair[1] );
+
+		assertEquals(2, Survey2Pair.length);
+		assertEquals(2, ((Survey) Survey2Pair[0]).getId() );
+		assertEquals(1, (long)Survey2Pair[1] );
+
+		assertEquals(2, Survey3Pair.length);
+		assertEquals(3, ((Survey) Survey3Pair[0]).getId() );
+		assertEquals(3, (long)Survey3Pair[1] );
+	}
+
+	@Test
+	public void findSurveyByStatusAndCountAnswers() {
+		List<Object> result = surveyRepository.findSurveyByStatusAndCountAnswers(SurveyStatus.ONGOING);
+
+		// expecting 3 Surveys
+		assertEquals(3, result.size());
+		Object[] Survey1Pair = (Object[]) result.get(0);
+		Object[] Survey2Pair = (Object[]) result.get(1);
+		Object[] Survey3Pair = (Object[]) result.get(2);
+
+		assertEquals(2, Survey1Pair.length);
+		assertEquals(1, ((Survey) Survey1Pair[0]).getId() );
+		assertEquals(3, (long)Survey1Pair[1] ); // answers
+
+		assertEquals(2, Survey2Pair.length);
+		assertEquals(2, ((Survey) Survey2Pair[0]).getId() );
+		assertEquals(0, (long)Survey2Pair[1] ); // answers
+
+		assertEquals(2, Survey3Pair.length);
+		assertEquals(3, ((Survey) Survey3Pair[0]).getId() );
+		assertEquals(6, (long)Survey3Pair[1] ); // answers
+	}
+
 
 }

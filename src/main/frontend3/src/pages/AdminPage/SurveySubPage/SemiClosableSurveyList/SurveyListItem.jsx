@@ -16,10 +16,15 @@ const SurveyListItem = props => {
   const surveyId = props.survey ? Number(props.survey.id) : 0
   const clickPath = `${props.linkSuffix}/${props.survey.id}/inspect`
   if (!props.isSelected) {
+    const compleateness = props.survey.summary ? 
+      parseInt(100 * props.survey.summary.nbAnsweringParticipants /  props.survey.summary.nbParticipants) : 0;
     return (
         <ListItem component={Link} to={clickPath} >
           <Paper style={style} elevation={4}>
             {props.survey.name}
+            <span style={{color: '#33ff33', float: 'right'}}>
+            {compleateness} %
+            </span>
           </Paper>
         </ListItem>
     )

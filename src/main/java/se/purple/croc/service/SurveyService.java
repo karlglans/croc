@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
 import se.purple.croc.dto.ParticipantDto;
+import se.purple.croc.dto.SurveyCountingSummaryDto;
 import se.purple.croc.dto.SurveyDto;
 import se.purple.croc.models.AuthenticatedUser;
 import se.purple.croc.repository.AnswerRepository;
@@ -13,8 +14,6 @@ import se.purple.croc.repository.UserRepository;
 import se.purple.croc.service.exceptions.MissingData;
 import se.purple.croc.service.exceptions.ServiceException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -54,11 +53,25 @@ public class SurveyService {
 		return true;
 	}
 
-	public List<SurveyDto> getAllSurveyDtos(SurveyStatus surveyStatus, Integer participantId, AuthenticatedUser authenticatedUser) {
+	// will run some expensive counting queries, think of another way to store this data
+	private void addCountingInfoToSurvey(SurveyDto survey) {
+		// 1 count participants
+		// 2 count answers
+		// 3 count questions
+		// 4 number of answering participants
+	}
+
+	public List<SurveyDto> getAllSurveyDtos(SurveyStatus surveyStatus, Integer participantId,
+											Boolean isParticipating, AuthenticatedUser authenticatedUser) {
 		// TODO: make different kind of selections based on existence of params
 		List<Survey> surveys;
 
-		if (authenticatedUser.hasRole(Role.user)){
+		// boolean isSelectingSurveysWhereClientIsParticipating = isParticipating != null && isParticipating;ö
+
+		if (authenticatedUser.hasRole(Role.supervisor)) {
+			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
+		}
+		else if (authenticatedUser.hasRole(Role.user)){
 			Users users = new Users();
 			users.setId((int)authenticatedUser.getUserId());
 			surveys = surveyRepo.findSurveyByParticipantsEquals(users);
@@ -76,6 +89,7 @@ public class SurveyService {
 		SurveyDto surveyDto = new SurveyDto();
 		surveyDto.setId(survey.getId());
 		surveyDto.setName(survey.getName());
+//		surveyDto.setCountedAnsweringParticipants(survey.getCountedAnsweringParticipants());
 		return surveyDto;
 	}
 
@@ -149,5 +163,14 @@ public class SurveyService {
 		survey.setName(name);
 		surveyRepo.save(survey);
 		return makeSurveyDto(survey);
+	}
+
+	public SurveyCountingSummaryDto getSummary(SurveyDto survey) {
+
+		SurveyCountingSummaryDto summary = new SurveyCountingSummaryDto();
+		summary.setNbAnsweringParticipants(1);
+		summary.setNbParticipants(surveyRepo.countParticipantSurvey(survey.getId()));
+
+		return summary;
 	}
 }
