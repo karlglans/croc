@@ -12,7 +12,6 @@ const GET_FROM_DATA = gql`
       questions {
         id
         text
-        number
       }
     }
   }

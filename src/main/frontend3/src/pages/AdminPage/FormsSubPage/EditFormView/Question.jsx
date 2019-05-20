@@ -9,12 +9,13 @@ const style = {
 
 const Question = props => (
   <Paper style={style}>
-    {props.question.number} - {props.question.text}
+    {props.number} - {props.question.text}
   </Paper>
 );
 
 Question.propTypes = {
   question: PropTypes.object.isRequired,
+  number: PropTypes.number.isRequired
 };
 
 export default Question;

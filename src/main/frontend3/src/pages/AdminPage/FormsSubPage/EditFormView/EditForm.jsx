@@ -34,7 +34,6 @@ const LOAD_FORM = gql`
       questions {
         id
         text
-        number
       }
     }
   }
