@@ -20,6 +20,6 @@ const Details = props => (
 export default Details;
 
 Details.propTypes = {
-  surveyId: PropTypes.number.isRequired,
+  surveyId: PropTypes.string.isRequired,
   userGroups: PropTypes.array.isRequired
 };

@@ -54,7 +54,7 @@ class AddParticipants extends React.Component {
 };
 
 AddParticipants.propTypes = {
-  surveyId: PropTypes.number.isRequired
+  surveyId: PropTypes.string.isRequired
 };
 
 export default graphql(ADD_USERGROUP_TO_SURVEY, {name: 'startSurvey'})(AddParticipants);

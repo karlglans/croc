@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-import SemiClosableSurveyList from '../SemiClosableSurveyList';
+import SemiClosableSurveyList from '../components/SemiClosableSurveyList';
 
 const GET_SURVEYS_DATA = gql`
   {

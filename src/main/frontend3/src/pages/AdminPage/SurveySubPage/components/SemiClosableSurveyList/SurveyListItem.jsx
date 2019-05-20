@@ -13,7 +13,7 @@ const style = {
 
 const SurveyListItem = props => {
   const { userGroups } = props;
-  const surveyId = props.survey ? Number(props.survey.id) : 0
+  const surveyId = props.survey ? props.survey.id : 0
   const clickPath = `${props.linkSuffix}/${props.survey.id}/inspect`
   if (!props.isSelected) {
     const compleateness = props.survey.summary ? 

@@ -30,7 +30,7 @@ const SurveyInfo = props => (
 );
 
 SurveyInfo.propTypes = {
-  surveyId: PropTypes.number.isRequired
+  surveyId: PropTypes.string.isRequired
 };
 
 export default SurveyInfo;

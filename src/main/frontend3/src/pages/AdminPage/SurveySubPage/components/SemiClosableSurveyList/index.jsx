@@ -7,7 +7,7 @@ import { List } from '@material-ui/core';
 const SurveyList = props => {
   const { match, surveys, userGroups } = props;
   const surveyPathId = match && match.params && match.params.surveyId ?
-    Number(match.params.surveyId) : 0;
+    match.params.surveyId : 0;
   
   return (
     <List>
@@ -22,7 +22,7 @@ const SurveyList = props => {
               survey={survey}
               userGroups={userGroups}
               linkSuffix={props.linkSuffix}
-              isSelected={surveyPathId === Number(survey.id)}
+              isSelected={surveyPathId === survey.id}
             />
           ))
         }

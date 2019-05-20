@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Paper } from '@material-ui/core';
 
-import ParticipantList from '../ParticipantList';
+import ParticipantList from '../components/ParticipantList';
 import AddParticipants from '../components/AddParticipants'
 import StartSurvey from './StartSurvey';
 import SurveyInfo from './SurveyInfo';
@@ -30,7 +30,7 @@ const Layout = props => (
 );
 
 Layout.propTypes = {
-  surveyId: PropTypes.number.isRequired
+  surveyId: PropTypes.string.isRequired
 };
 
 export default Layout;
