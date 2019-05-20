@@ -12,7 +12,6 @@ mutation {
         questions{
             id
             text
-            number
         }
 	}
 }

@@ -39,7 +39,7 @@ class FormsSubPage extends React.Component {
     const editFormPath = '/admin/forms/'+this.props.selectedFormId+'/edit';
     const isOnForms = location.pathname === '/admin/forms';
     const isOnCreate = location.pathname.includes('/create');
-    console.log('FormsSubPage, selectedFormId', this.props.selectedFormId);
+    const isOnEdit = location.pathname.includes('/edit');
     return (
       <React.Fragment>
       <Drawer
@@ -59,8 +59,8 @@ class FormsSubPage extends React.Component {
                 <ListItemText primary={'Create'} />
               </MenuItem>
             )}
-            { this.props.selectedFormId && (
-              <MenuItem button key={'edit'} selected={!!formId} component={Link} to={editFormPath}>
+            { isOnEdit && (
+              <MenuItem button key={'edit'} selected={isOnEdit} component={Link} to={editFormPath}>
                 <ListItemText primary={'Edit'} />
               </MenuItem>
             )}

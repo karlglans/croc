@@ -34,7 +34,7 @@ const ParticipantList = props => (
 );
 
 ParticipantList.propTypes = {
-  surveyId: PropTypes.number.isRequired,
+  surveyId: PropTypes.string.isRequired,
 };
 
 export default ParticipantList;

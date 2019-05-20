@@ -6,8 +6,8 @@ const QuestionList = props => (
     { props.isLoading && (
       <div>loading..</div>
     )}
-    {!props.isLoading && props.questions && props.questions.map(question => (
-      <Question key={question.id} question={question} />
+    {!props.isLoading && props.questions && props.questions.map((question, number) => (
+      <Question key={question.id} question={question} number={number + 1} />
     ))}
   </React.Fragment>
 );

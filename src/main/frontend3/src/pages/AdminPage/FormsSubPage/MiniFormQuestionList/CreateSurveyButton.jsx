@@ -38,7 +38,7 @@ class CreateSurveyButton extends React.Component {
 }
 
 CreateSurveyButton.propTypes = {
-  formId: PropTypes.number.isRequired,
+  formId: PropTypes.string.isRequired,
 };
 
 export default CreateSurveyButton

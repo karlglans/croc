@@ -8,7 +8,7 @@ import se.purple.croc.domain.Question;
 public class QuestionDto {
 	private int id;
 	private String text;
-	private int number;
+//	private int number;
 
 	public void copy(Question question) {
 		this.id = question.getId();

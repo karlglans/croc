@@ -61,7 +61,7 @@ class AddParticipants extends React.Component {
 };
 
 AddParticipants.propTypes = {
-  surveyId: PropTypes.number.isRequired,
+  surveyId: PropTypes.string.isRequired,
   userGroups: PropTypes.array.isRequired
 };
 

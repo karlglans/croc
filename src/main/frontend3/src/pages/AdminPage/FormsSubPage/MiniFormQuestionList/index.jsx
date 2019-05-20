@@ -5,15 +5,15 @@ import { List, ListItem } from '@material-ui/core';
 import { withRouter } from "react-router";
 
 import CreateSurveyButton from './CreateSurveyButton';
-
+import EditFormButton from './EditFormButton';
 
 const GET_QUESTIONS = gql`
   query($formId: ID) {
     form(formId: $formId) {
+      isEditable
       questions {
         id
         text
-        number
       }
     }
   }
@@ -32,11 +32,14 @@ const QuestionsList = props => (
       if (error) return `Error! ${error.message}`;
       return (
         <React.Fragment>
-          <CreateSurveyButton formId={Number(props.formId)} />
+          <CreateSurveyButton formId={props.formId} />
+          { data.form.isEditable &&
+            (<EditFormButton formId={props.formId} />)
+          }
           <List style={styles.listItemStyle}>
-            {data.form.questions.map(question => (
+            {data.form.questions.map((question, index) => (
               <ListItem button key={question.id} >
-                {question.number} : {question.text}
+                {index + 1} : {question.text}
               </ListItem>
             ))}
           </List>

@@ -14,11 +14,4 @@ public class UncategorizedIT extends SimpleEndpointTests {
 		assertEquals("{\"createForm\":{\"id\":\"4\"}}", json);
 	}
 
-
-	@Test
-	public void canQueryFromAndQuestions() {
-		String query = "{ form(formId: 1) { questions { id } } }";
-		String json = excQuery(query);
-		assertEquals("{\"form\":{\"questions\":[{\"id\":\"1\"},{\"id\":\"2\"}]}}", json);
-	}
 }

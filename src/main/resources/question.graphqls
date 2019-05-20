@@ -6,7 +6,7 @@ interface MiniUser {
 type Question {
     id: ID!
     text: String!
-    number: Int
+#    number: Int
 }
 
 type Form {
@@ -38,7 +38,6 @@ type Survey {
     form: Form!
     name: String!
     participants: [Participant]
-#    countedAnsweringParticipants: Int!
     summary: SurveyCountingSummary
 }
 
