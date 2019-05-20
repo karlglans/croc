@@ -41,7 +41,7 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 	}
 
 	@Test
-	public void canGetOngoingSurveys_forARegularUser() {
+	public void canGetOngoingSurveys_whenRegularUser() {
 		when(authService.getPrincipal()).thenReturn(testDataGrabber.user4);
 		String json = excQuery("query { surveys { id } }");
 		// these should be the ongoing surveys where the user is listed as a participant
@@ -50,10 +50,18 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 	}
 
 	@Test
-	public void canGetOngoingSurveys_forSupervisor() {
+	public void canGetOngoingSurveys_whenSupervisor() {
 		when(authService.getPrincipal()).thenReturn(testDataGrabber.user3supervisor);
 		String json = excQuery("query { surveys(status:ONGOING) { id } }");
 		String expected = "{\"surveys\":[{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"}]}";
+		assertEquals(expected, json);
+	}
+
+	@Test
+	public void canGetCountedAnsweringForOngoingSurveys() {
+		when(authService.getPrincipal()).thenReturn(testDataGrabber.user3supervisor);
+		String json = excQuery("query { surveys(status:ONGOING) { id summary { nbParticipants }  } }");
+		String expected = "{\"surveys\":[{\"id\":\"1\",\"summary\":{\"nbParticipants\":2}},{\"id\":\"2\",\"summary\":{\"nbParticipants\":1}},{\"id\":\"3\",\"summary\":{\"nbParticipants\":3}}]}";
 		assertEquals(expected, json);
 	}
 }

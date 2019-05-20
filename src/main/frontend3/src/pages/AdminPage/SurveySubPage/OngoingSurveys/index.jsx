@@ -9,6 +9,10 @@ const GET_SURVEYS_DATA = gql`
     surveys(status: ONGOING) {
       id
       name
+      summary {
+        nbParticipants
+        nbAnsweringParticipants
+      }
     }
     userGroups {
       id

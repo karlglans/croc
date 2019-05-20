@@ -28,4 +28,13 @@ public interface SurveyRepository extends JpaRepository<Survey, Integer> {
 	// TODO: List should be a Set
 	List<Survey> findSurveyByParticipantsEquals(Users participants);
 
+	@Query("Select count(p) from Survey s JOIN s.participants p where s.id = :surveyId")
+	int countParticipantSurvey(@Param("surveyId") int surveyId);
+
+	@Query("Select s, count(p) as counted from Survey s JOIN s.participants p where s.status = :surveyStatus  group by s ORDER BY s.id")
+	List<Object> findSurveyAndCountByStatusEquals(@Param("surveyStatus") SurveyStatus surveyStatus);
+
+	@Query("Select s, count(a) as countedAnswers from Survey s LEFT OUTER JOIN s.answers a " +
+			"where s.status = :surveyStatus group by s ORDER BY s.id")
+	List<Object> findSurveyByStatusAndCountAnswers(@Param("surveyStatus") SurveyStatus surveyStatus);
 }

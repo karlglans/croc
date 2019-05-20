@@ -2,7 +2,6 @@ package se.purple.croc.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLQueryResolver;
 import lombok.var;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.*;
 import se.purple.croc.dto.*;
