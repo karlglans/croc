@@ -39,7 +39,7 @@ const LOAD_FORM = gql`
   }
 `;
 
-class EditForm extends React.Component {
+class EditQuestion extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -77,7 +77,7 @@ class EditForm extends React.Component {
     return (
       <Paper className={classes.paper}>
         <Grid container>
-          <h2>Editform</h2>
+          <h2>Edit question</h2>
           <br />
           <TextField
             id="outlined-multiline-flexible"
@@ -111,4 +111,4 @@ const enhance = compose(
   withStyles(styles)
 )
 
-export default enhance(EditForm);
+export default enhance(EditQuestion);

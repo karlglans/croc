@@ -41,6 +41,9 @@ public class Mutation implements GraphQLMutationResolver {
 	@Autowired
 	private AuthService authService;
 
+	@Autowired
+	private QuestionService questionService;
+
 	public QuestionDto addQuestion(final InputQuestionDto inQuestion) {
 		Question question = new Question();
 		question.setText(inQuestion.getText());
@@ -49,6 +52,13 @@ public class Mutation implements GraphQLMutationResolver {
 		questionDto.copy(question);
 		DataFetcher commentsDataFetcher;
 		return questionDto;
+	}
+
+	public FormDto updateQuestion(final InputQuestionDto inQuestion) {
+		// TODO: validate inQuestion. There should be an id in it
+		// NOTE: for convenience this action is now returning a form, a question would be more logic
+		questionService.updateQuestion(inQuestion);
+		return formService.getSingleFormByQuestion(inQuestion.getId());
 	}
 
 	public FormDto addQuestionToForm(final Integer formId, final Integer questionId) {

@@ -68,12 +68,23 @@ public class FormService {
 		return formDto;
 	}
 
-	Form getFormByServiceId(int serviceId) {
+	Form getFormBySurveyId(int serviceId) {
 		return serviceRepo.getFromBySurveyId(serviceId);
 	}
 
-	public FormDto getFormDtoByServiceId(int serviceId) {
-		return makeFormDtoShallow(getFormByServiceId(serviceId));
+	public FormDto getFormDtoBySurveyId(int serviceId) {
+		return makeFormDtoShallow(getFormBySurveyId(serviceId));
+	}
+
+	/*
+		There should only be one form for this question
+	 */
+	public FormDto getSingleFormByQuestion(int questionId) {
+		List<FormQuestion> formQuestions = formQuestionRepo.getFormQuestionsByQuestionId(questionId);
+		if (formQuestions.size() != 1) {
+			return null;
+		}
+		return makeFormDtoShallow(formQuestions.get(0).getForm());
 	}
 
 

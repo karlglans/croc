@@ -13,5 +13,4 @@ public class UncategorizedIT extends SimpleEndpointTests {
 		String json = excQuery("mutation {createForm(title: \"aaa\"){id}}");
 		assertEquals("{\"createForm\":{\"id\":\"4\"}}", json);
 	}
-
 }

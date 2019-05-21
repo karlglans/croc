@@ -5,7 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,6 +16,11 @@ public class Question {
 	private int id;
 
 	private String text;
+
+
+//	@OneToOne(mappedBy="question")
+//	public FormQuestion formQuestion; // new
+
 
 //	@JsonIgnore
 //	@ManyToMany(cascade = { CascadeType.MERGE })

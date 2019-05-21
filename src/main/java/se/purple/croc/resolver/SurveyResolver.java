@@ -34,7 +34,7 @@ public class SurveyResolver implements GraphQLResolver<SurveyDto> {
 	}
 
 	public FormDto getForm(SurveyDto survey) {
-		return this.formService.getFormDtoByServiceId(survey.getId());
+		return this.formService.getFormDtoBySurveyId(survey.getId());
 	}
 
 	public SurveyCountingSummaryDto getSummary(SurveyDto survey) {
