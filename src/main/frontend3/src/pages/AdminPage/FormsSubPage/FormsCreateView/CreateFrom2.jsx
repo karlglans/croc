@@ -66,7 +66,6 @@ class CreateForm extends React.Component {
       const formId = response.data.createForm.id;
       // will produce redirect
       this.setState({ createdFormId: formId });
-      this.props.setSelectedForm(formId); // using contextApi
     })
   }
 

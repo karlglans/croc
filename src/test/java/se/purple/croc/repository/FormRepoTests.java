@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.purple.croc.domain.Form;
 import se.purple.croc.domain.FormQuestion;
@@ -72,11 +71,4 @@ public class FormRepoTests {
 		assertEquals(preNumbQuestions + 1, form1.getFormQuestions().size());
 	}
 
-//	@Test
-//	public void canGetFormGroupByForm(){
-//		Form form = fromRepository.getFirstById(1);
-//		FormQuestionGroup formQuestionGroup = form.getQuestionGroups().get(0);
-//
-//		assertEquals(1, formQuestionGroup.getId());
-//	}
 }

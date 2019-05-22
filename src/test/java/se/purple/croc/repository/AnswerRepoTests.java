@@ -36,7 +36,7 @@ public class AnswerRepoTests {
 	public void canFindAnswer() {
 		AnswerIdentity answerIdentity = new AnswerIdentity();
 		answerIdentity.setSurvey(1);
-		answerIdentity.setResponder(3);
+		answerIdentity.setResponder(4);
 		answerIdentity.setQuestion(1);
 
 		Optional<Answer> answerFromTestSet = answerRepository.findById(answerIdentity);
@@ -46,7 +46,7 @@ public class AnswerRepoTests {
 
 	@Test
 	public void getAnswerBySurveyAndResponder() {
-		List<Answer> answers = answerRepository.getAnswerBySurveyIdAndResponderId(1, 3);
+		List<Answer> answers = answerRepository.getAnswerBySurveyIdAndResponderId(1, 4);
 		assertEquals(2, answers.size());
 	}
 }

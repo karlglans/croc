@@ -3,10 +3,14 @@ interface MiniUser {
     email: String!
 }
 
+type QuestionUserPrivileges {
+    isEditable: Boolean
+}
+
 type Question {
     id: ID!
     text: String!
-#    number: Int
+    privileges: QuestionUserPrivileges
 }
 
 type Form {
@@ -74,6 +78,7 @@ type Query {
 
 input InputQuestion {
     text: String!
+    id: Int
 }
 
 type Mutation {
@@ -87,4 +92,6 @@ type Mutation {
     updateAnswer(surveyId: ID!, userId: ID!, questionId: ID!, value: Int!): Answer
     createFormQuestion(input: InputQuestion!, formId: ID!): Question
     addQuestionToForm(formId: Int, questionId: Int): Form
+    updateQuestion(input: InputQuestion!): Form
+    swapQuestionOnForm(formId: ID!, questionId: ID!, destSpotNumber: Int!): Form
 }

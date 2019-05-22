@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class InputQuestionDto {
 	private String text;
+	private Integer id;
 }

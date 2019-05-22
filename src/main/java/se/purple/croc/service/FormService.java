@@ -68,12 +68,23 @@ public class FormService {
 		return formDto;
 	}
 
-	Form getFormByServiceId(int serviceId) {
+	Form getFormBySurveyId(int serviceId) {
 		return serviceRepo.getFromBySurveyId(serviceId);
 	}
 
-	public FormDto getFormDtoByServiceId(int serviceId) {
-		return makeFormDtoShallow(getFormByServiceId(serviceId));
+	public FormDto getFormDtoBySurveyId(int serviceId) {
+		return makeFormDtoShallow(getFormBySurveyId(serviceId));
+	}
+
+	/*
+		There should only be one form for this question
+	 */
+	public FormDto getSingleFormByQuestion(int questionId) {
+		List<FormQuestion> formQuestions = formQuestionRepo.getFormQuestionsByQuestionId(questionId);
+		if (formQuestions.size() != 1) {
+			return null;
+		}
+		return makeFormDtoShallow(formQuestions.get(0).getForm());
 	}
 
 
@@ -117,6 +128,28 @@ public class FormService {
 		formQuestions.add(formQuestion);
 		formQuestionRepo.save(formQuestion);
 		return nextFormQuestionNumber;
+	}
+
+	public FormDto swapQuestionOnForm(final int formId, final int questionId, final int destSpotNumber) {
+		Form form = getForm(formId);
+		var questions = form.getFormQuestions();
+		int srcSpotNumber = -1;
+		FormQuestion destQuestion = null, srcQuestion = null;
+		for (FormQuestion question : questions) {
+			if (question.getNumber() == destSpotNumber){
+				destQuestion = question;
+			}
+			if (question.getQuestion().getId() == questionId) {
+				srcSpotNumber = question.getNumber();
+				srcQuestion = question;
+			}
+			if (destQuestion != null && srcQuestion != null) {
+				destQuestion.setNumber(srcSpotNumber);
+				srcQuestion.setNumber(destSpotNumber);
+				break;
+			}
+		}
+		return makeFormDtoShallow(form);
 	}
 
 }

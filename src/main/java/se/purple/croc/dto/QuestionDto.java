@@ -9,6 +9,7 @@ public class QuestionDto {
 	private int id;
 	private String text;
 //	private int number;
+	private QuestionUserPrivileges privileges;
 
 	public void copy(Question question) {
 		this.id = question.getId();

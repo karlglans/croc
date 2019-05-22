@@ -3,6 +3,8 @@ package se.purple.croc.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.FormQuestion;
+import se.purple.croc.domain.Question;
+import se.purple.croc.dto.InputQuestionDto;
 import se.purple.croc.dto.QuestionDto;
 import se.purple.croc.repository.QuestionRepository;
 
@@ -38,5 +40,17 @@ public class QuestionService {
 		}
 
 		return questions;
+	}
+
+	Question findQuestion(int id) {
+		return questionRepo.getFirstById(id);
+	}
+
+	public QuestionDto updateQuestion(InputQuestionDto inputQuestion) {
+		Question question = findQuestion(inputQuestion.getId());
+		question.setText(inputQuestion.getText());
+		QuestionDto questionDto = new QuestionDto();
+		questionDto.copy(question);
+		return questionDto;
 	}
 }
