@@ -130,4 +130,26 @@ public class FormService {
 		return nextFormQuestionNumber;
 	}
 
+	public FormDto swapQuestionOnForm(final int formId, final int questionId, final int destSpotNumber) {
+		Form form = getForm(formId);
+		var questions = form.getFormQuestions();
+		int srcSpotNumber = -1;
+		FormQuestion destQuestion = null, srcQuestion = null;
+		for (FormQuestion question : questions) {
+			if (question.getNumber() == destSpotNumber){
+				destQuestion = question;
+			}
+			if (question.getQuestion().getId() == questionId) {
+				srcSpotNumber = question.getNumber();
+				srcQuestion = question;
+			}
+			if (destQuestion != null && srcQuestion != null) {
+				destQuestion.setNumber(srcSpotNumber);
+				srcQuestion.setNumber(destSpotNumber);
+				break;
+			}
+		}
+		return makeFormDtoShallow(form);
+	}
+
 }

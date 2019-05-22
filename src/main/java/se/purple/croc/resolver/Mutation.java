@@ -1,7 +1,7 @@
 package se.purple.croc.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import graphql.ExceptionWhileDataFetching;
+//import graphql.ExecutionInput;
 import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,12 +10,8 @@ import se.purple.croc.domain.Question;
 import se.purple.croc.dto.*;
 import se.purple.croc.repository.FromRepository;
 import se.purple.croc.repository.QuestionRepository;
-//import se.purple.croc.resolver.exceptions.MissingData;
-import se.purple.croc.resolver.exceptions.MissingData;
 import se.purple.croc.service.*;
 import se.purple.croc.service.exceptions.ServiceException;
-
-import java.util.List;
 
 @Component
 public class Mutation implements GraphQLMutationResolver {
@@ -115,6 +111,11 @@ public class Mutation implements GraphQLMutationResolver {
 
 	public AnswerDto updateAnswer(int surveyId, int userId, int questionId, int value) throws ServiceException {
 		return answerService.updateAnswer(surveyId, authService.getPrincipal(), questionId, value);
+	}
+
+	// swapQuestionOnForm(formId: Id!, questionId: Id!, destSpotNumber: Int!): Form
+	public FormDto swapQuestionOnForm(int formId, int questionId, int destSpotNumber) {
+		return formService.swapQuestionOnForm(formId, questionId, destSpotNumber);
 	}
 
 }

@@ -3,33 +3,64 @@ import PropTypes from 'prop-types';
 import { Paper } from '@material-ui/core';
 import colors from '../../../../constants/colors';
 
-const style = {
-  padding: 10,
-  marginBottom: 20,
+import QuestionOrdering from './QuestionOrdering';
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    minHeight: 150,
+    marginBottom: 20,
+  },
+  arrowContainer: {
+    flexGrow: 0,
+    display: 'inline-block',
+    backgroundColor: '#66ff66',
+    width: 48,
+    minWidth: 40,
+    minHeight: 100,
+  },
+  paper: {
+    flexGrow: 1000,
+    padding: 10,
+  },
 }
 
 const Question = props => {
   const hasSelectedThisQuestion = props.question.id === props.editQuestionId;
+  const { number, formId, question, isLastQuestion } = props;
   return (
-    <Paper style={{backgroundColor:
-        hasSelectedThisQuestion ? colors.select1BgColor : 'white', ...style}}
-        onClick={() => {
-          if (hasSelectedThisQuestion) {
-            props.setEditQuestionId(undefined);
-          } else {
-            props.setEditQuestionId(props.question.id);
-          }
-        }}
-    >
-      {props.number} - {props.question.text}
-    </Paper>
+    <div style={styles.container} >
+      <div style={styles.arrowContainer}>
+        <QuestionOrdering
+          number={number}
+          formId={formId}
+          isLastQuestion={isLastQuestion}
+          questionId={question.id} />
+      </div>
+      <Paper style={{backgroundColor:
+          hasSelectedThisQuestion ? colors.select1BgColor : 'white', ...styles.paper}}
+          onClick={() => {
+            if (hasSelectedThisQuestion) {
+              props.setEditQuestionId(undefined);
+            } else {
+              props.setEditQuestionId(question.id);
+            }
+          }}
+      >
+        {props.number} - {props.question.text}
+      </Paper>
+    
+    </div>
   )};
 
 Question.propTypes = {
   question: PropTypes.object.isRequired,
   number: PropTypes.number.isRequired,
+  formId: PropTypes.string.isRequired,
   editQuestionId: PropTypes.string,
-  setEditQuestionId: PropTypes.func.isRequired
+  setEditQuestionId: PropTypes.func.isRequired,
+  isLastQuestion: PropTypes.bool.isRequired
 };
 
 export default Question;

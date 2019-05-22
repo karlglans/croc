@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose } from 'recompose'
+import { compose } from 'recompose';
 import { withRouter } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import { Paper, Grid, TextField, Button } from '@material-ui/core';
@@ -97,6 +97,7 @@ class CreateQuestion extends React.Component {
         }
       }).then((response) => {
         this.setState({ inputText: ''});
+        this.props.setEditQuestionId(undefined);
       })
     } else {
       console.error('missing valid question id');
@@ -106,14 +107,15 @@ class CreateQuestion extends React.Component {
     if (props.editQuestionId !== state.editQuestionId) {
       const questions = props.form.questions;
       const question = questions.find(q => q.id === props.editQuestionId);
-      const inputText = question.text;
+      const inputText = question ? question.text : '';
       return { editQuestionId: props.editQuestionId, inputText, isFormChanged: false }
     }
     return null; // no change
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, editQuestionId } = this.props;
+    const inputLabel = editQuestionId ?  'Edit Question' : 'New Question';
     // const formId = match && match.params && match.params.formId ? match.params.formId : false;
     return (
       <Paper className={classes.paper}>
@@ -121,8 +123,8 @@ class CreateQuestion extends React.Component {
           <h2>Edit question</h2>
           <br />
           <TextField
-            id="outlined-multiline-flexible"
-            label="New Question"
+            id="question-text"
+            label={inputLabel}
             multiline
             fullWidth
             rowsMax="4"
@@ -132,7 +134,7 @@ class CreateQuestion extends React.Component {
             margin="normal"
             variant="outlined"
           />
-          {!this.props.editQuestionId &&
+          {!editQuestionId &&
             (<Button
               variant='contained'
               color='primary'
@@ -141,7 +143,7 @@ class CreateQuestion extends React.Component {
               className={classes.button}>
               Store
             </Button>)}
-          {this.props.editQuestionId &&
+          {editQuestionId &&
             (<Button
               variant='contained'
               color='primary'

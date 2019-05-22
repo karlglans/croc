@@ -2,22 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 import CreateQuestion from './CreateQuestion';
-// import EditQuestion from './EditQuestion';
 import QuestionList from './QuestionList';
 
 const EditFormViewLayout = props => (
   <Grid container spacing={24}>
     <Grid item sm={12} md={6} lg={5}>
-      {props.editQuestionId && (
-        <CreateQuestion editQuestionId={props.editQuestionId} form={props.form}/>
-      )}
-      {!props.editQuestionId && (
-        <CreateQuestion form={props.form} />
-      )}
+      <CreateQuestion
+        editQuestionId={props.editQuestionId}
+        form={props.form}
+        setEditQuestionId={props.setEditQuestionId}/>
     </Grid>
     <Grid item sm={12} md={6} lg={5}>
       <QuestionList
         questions={props.form && props.form.questions}
+        formId={props.form && props.form.id}
         editQuestionId={props.editQuestionId}
         setEditQuestionId={props.setEditQuestionId}
         isLoading={props.isLoading} />
@@ -26,6 +24,7 @@ const EditFormViewLayout = props => (
 );
 
 EditFormViewLayout.propTypes = {
+  form: PropTypes.object,
   editQuestionId: PropTypes.string,
   setEditQuestionId: PropTypes.func.isRequired
 };

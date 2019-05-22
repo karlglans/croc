@@ -93,4 +93,5 @@ type Mutation {
     createFormQuestion(input: InputQuestion!, formId: ID!): Question
     addQuestionToForm(formId: Int, questionId: Int): Form
     updateQuestion(input: InputQuestion!): Form
+    swapQuestionOnForm(formId: ID!, questionId: ID!, destSpotNumber: Int!): Form
 }

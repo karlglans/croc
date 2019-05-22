@@ -13,12 +13,15 @@ const QuestionList = props => (
         editQuestionId={props.editQuestionId}
         setEditQuestionId={props.setEditQuestionId}
         question={question}
+        formId={props.formId}
+        isLastQuestion={number === props.questions.length - 1}
         number={number + 1} />
     ))}
   </React.Fragment>
 );
 
 QuestionList.propTypes = {
+  formId:PropTypes.string,
   editQuestionId: PropTypes.string,
   setEditQuestionId: PropTypes.func.isRequired
 };

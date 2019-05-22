@@ -22,4 +22,5 @@ public class FormIT extends SimpleEndpointTests {
 		String json = excQuery(query);
 		assertEquals("{\"form\":{\"questions\":[{\"id\":\"2\",\"privileges\":{\"isEditable\":false}},{\"id\":\"3\",\"privileges\":{\"isEditable\":true}}]}}", json);
 	}
+
 }
