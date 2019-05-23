@@ -79,9 +79,6 @@ class SurveysSubPage extends React.Component {
             <Route path="/admin/surveys/create" exact component={
               () => <CreateSurvey formId={selectedFormIdForSurvey} />}
             />
-            <Route path="/admin/surveys/ongoing/:surveyId/inspect" exact component={
-              () => <OngoingSurveys surveyId={surveyId} />}
-            />
             <Route path="/admin/surveys/unstarted/:surveyId" exact component={
               () => <UnstartedSurveyDetails surveyId={surveyId} />}
             />
