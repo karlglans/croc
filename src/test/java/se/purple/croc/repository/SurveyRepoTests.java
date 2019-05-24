@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 // @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -46,29 +47,28 @@ public class SurveyRepoTests {
 	}
 
 	@Test
-	public void findParticipantsBySurveyId() {
-		Survey survey = manager.find(Survey.class, 1);
-		Set<Users> users = survey.getParticipants();
+	public void findSurveyParticipantsUsersBySurveyId() {
+		List<Users> users = surveyRepository.findSurveyParticipantsUsersBySurveyId(1);
 		assertEquals(2, users.size());
 	}
 
-	@Test
-	public void findSurveyByStatusAndParticipantId_canFindMultipleSurveys() {
-		List<Survey> surveysWhereUserShouldBeIn = surveyRepository.findSurveyByStatusAndParticipantId(SurveyStatus.ONGOING, 4);
-		assertEquals(2, surveysWhereUserShouldBeIn.size());
-	}
 
-	@Test
-	public void findSurveyByStatusEqualsAndParticipants_canGiveAEmptyResult() {
-		List<Survey> surveysWhereUserShouldBeIn = surveyRepository.findSurveyByStatusAndParticipantId(SurveyStatus.ONGOING, 1000);
-		assertEquals(0, surveysWhereUserShouldBeIn.size());
-	}
+
+//	@Test
+//	public void findSurveyByStatusAndParticipantId_canFindMultipleSurveys() {
+//		List<Survey> surveysWhereUserShouldBeIn = surveyRepository.findSurveyByStatusAndParticipantId(SurveyStatus.ONGOING, 4);
+//		assertEquals(2, surveysWhereUserShouldBeIn.size());
+//	}
+//
+//	@Test
+//	public void findSurveyByStatusEqualsAndParticipants_canGiveAEmptyResult() {
+//		List<Survey> surveysWhereUserShouldBeIn = surveyRepository.findSurveyByStatusAndParticipantId(SurveyStatus.ONGOING, 1000);
+//		assertEquals(0, surveysWhereUserShouldBeIn.size());
+//	}
 
 	@Test
 	public void findSurveyByParticipantsEquals() {
-		Users user = new Users();
-		user.setId(4);
-		List<Survey> surveys = surveyRepository.findSurveyByParticipantsEquals(user);
+		var surveys = surveyRepository.findSurveyByParticipantsEquals(4);
 		assertEquals(2, surveys.size());
 	}
 
@@ -78,28 +78,43 @@ public class SurveyRepoTests {
 		assertEquals(3, count);
 	}
 
+
 	@Test
-	public void findSurveyAndCountByStatusEquals() {
-		List<Object> result = surveyRepository.findSurveyAndCountByStatusEquals(SurveyStatus.ONGOING);
-
-		// expecting 3 Surveys
-		assertEquals(3, result.size());
-		Object[] Survey1Pair = (Object[]) result.get(0);
-		Object[] Survey2Pair = (Object[]) result.get(1);
-		Object[] Survey3Pair = (Object[]) result.get(2);
-
-		assertEquals(2, Survey1Pair.length);
-		assertEquals(1, ((Survey) Survey1Pair[0]).getId() );
-		assertEquals(2, (long)Survey1Pair[1] );
-
-		assertEquals(2, Survey2Pair.length);
-		assertEquals(2, ((Survey) Survey2Pair[0]).getId() );
-		assertEquals(1, (long)Survey2Pair[1] );
-
-		assertEquals(2, Survey3Pair.length);
-		assertEquals(3, ((Survey) Survey3Pair[0]).getId() );
-		assertEquals(3, (long)Survey3Pair[1] );
+	public void getUserInSurvey() {
+		Users user  = surveyRepository.getUserInSurvey(4, 1);
+		assertNotNull(user);
 	}
+
+	@Test
+	public void getNumberOfQuestionsInSurvey() {
+		int nbQuestions  = surveyRepository.getNumberOfQuestionsInSurvey(1);
+		assertEquals(2, nbQuestions);
+	}
+
+
+//	@Test
+//	public void findSurveyAndCountByStatusEquals() {
+//		List<Object> result = surveyRepository.findSurveyAndCountByStatusEquals(SurveyStatus.ONGOING);
+//
+//		// expecting 3 Surveys
+//		assertEquals(3, result.size());
+//		Object[] Survey1Pair = (Object[]) result.get(0);
+//		Object[] Survey2Pair = (Object[]) result.get(1);
+//		Object[] Survey3Pair = (Object[]) result.get(2);
+//
+//		assertEquals(2, Survey1Pair.length);
+//		assertEquals(1, ((Survey) Survey1Pair[0]).getId() );
+//		assertEquals(2, (long)Survey1Pair[1] );
+//
+//		assertEquals(2, Survey2Pair.length);
+//		assertEquals(2, ((Survey) Survey2Pair[0]).getId() );
+//		assertEquals(1, (long)Survey2Pair[1] );
+//
+//		assertEquals(2, Survey3Pair.length);
+//		assertEquals(3, ((Survey) Survey3Pair[0]).getId() );
+//		assertEquals(3, (long)Survey3Pair[1] );
+//	}
+
 
 	@Test
 	public void findSurveyByStatusAndCountAnswers() {

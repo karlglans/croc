@@ -1,6 +1,5 @@
 package se.purple.croc.service;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
@@ -27,6 +26,9 @@ public class AnswerService {
 
 	@Autowired
 	AuthService authService;
+
+	@Autowired
+	SurveyParticipantService surveyParticipantService;
 
 
 	AnswerDto makeAnswerDto(Answer answer) {
@@ -57,7 +59,7 @@ public class AnswerService {
 
 	private Answer createAnswer(Integer surveyId, Integer userId, Integer questionId, Integer value) {
 		Survey survey = surveyService.getSurveyById(surveyId);
-		Users user = surveyService.getResponder(survey, userId);
+		Users user = surveyService.getParticipant(survey, userId);
 		FormQuestion formQuestion = formService.getFormQuestion(survey.getForm(), questionId);
 
 		Answer answer = new Answer();
@@ -70,12 +72,15 @@ public class AnswerService {
 	}
 
 	public AnswerDto updateAnswer(Integer surveyId, AuthenticatedUser authUser, Integer questionId, Integer value) {
+		Answer answer = null;
 		try {
-			Answer existingAnswer = getExistingAnswer(surveyId, authUser.getUserId(), questionId);
-			existingAnswer.setValue(value);
-			return makeAnswerDto(existingAnswer);
+			answer = getExistingAnswer(surveyId, authUser.getUserId(), questionId);
+			answer.setValue(value);
+			return makeAnswerDto(answer);
 		} catch (MissingData ignored) {}
-		return makeAnswerDto(createAnswer(surveyId, authUser.getUserId(), questionId, value) );
+		answer = createAnswer(surveyId, authUser.getUserId(), questionId, value);
+		surveyParticipantService.updateSurveyCompleteStatus(surveyId, authUser.getUserId());
+		return makeAnswerDto(answer);
 	}
 
 }

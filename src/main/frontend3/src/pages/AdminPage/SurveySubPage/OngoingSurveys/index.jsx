@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
-import SemiClosableSurveyList from '../components/SemiClosableSurveyList';
+import OngoingSurveysExpansionPanel from './OngoingSurveysExpansionPanel';
 
 const GET_SURVEYS_DATA = gql`
   {
@@ -26,7 +26,7 @@ const OngoingSurveys = props => (
     {({ loading, error, data }) => {
       if (error) return `Error! ${error.message}`;
       return (
-        <SemiClosableSurveyList
+        <OngoingSurveysExpansionPanel
           surveys={data.surveys}
           userGroups={data.userGroups}
           isLoading={loading}

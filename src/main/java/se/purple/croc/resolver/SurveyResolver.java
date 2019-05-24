@@ -9,6 +9,7 @@ import se.purple.croc.dto.SurveyCountingSummaryDto;
 import se.purple.croc.dto.SurveyDto;
 import se.purple.croc.repository.SurveyRepository;
 import se.purple.croc.service.FormService;
+import se.purple.croc.service.SurveyParticipantService;
 import se.purple.croc.service.SurveyService;
 
 import java.util.List;
@@ -23,14 +24,18 @@ public class SurveyResolver implements GraphQLResolver<SurveyDto> {
 
 	private FormService formService;
 
-	public SurveyResolver(SurveyService surveyService, SurveyRepository surveyRepository, FormService formService) {
+	private SurveyParticipantService surveyParticipantService;
+
+	public SurveyResolver(SurveyService surveyService, SurveyRepository surveyRepository, FormService formService,
+						  SurveyParticipantService surveyParticipantService) {
 		this.surveyService = surveyService;
 		this.surveyRepository = surveyRepository;
 		this.formService = formService;
+		this.surveyParticipantService = surveyParticipantService;
 	}
 
 	public List<ParticipantDto> getParticipants(SurveyDto survey) {
-		return this.surveyService.getParticipants(survey);
+		return surveyParticipantService.getParticipants(survey);
 	}
 
 	public FormDto getForm(SurveyDto survey) {

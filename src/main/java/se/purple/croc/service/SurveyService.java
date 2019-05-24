@@ -4,11 +4,11 @@ import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
-import se.purple.croc.dto.ParticipantDto;
 import se.purple.croc.dto.SurveyCountingSummaryDto;
 import se.purple.croc.dto.SurveyDto;
 import se.purple.croc.models.AuthenticatedUser;
 import se.purple.croc.repository.AnswerRepository;
+import se.purple.croc.repository.SurveyParticipantRepository;
 import se.purple.croc.repository.SurveyRepository;
 import se.purple.croc.repository.UserRepository;
 import se.purple.croc.service.exceptions.MissingData;
@@ -37,14 +37,19 @@ public class SurveyService {
 	@Autowired
 	AuthService authService;
 
+	@Autowired
+	SurveyParticipantRepository surveyParticipantRepo;
 
-	Users getResponder(Survey survey, int userId)  {
-		// TODO make query
-		Optional<Users> user = survey.getParticipants().stream().filter(u -> u.getId() == userId).findFirst();
-		if (!user.isPresent()) {
+	@Autowired
+	SurveyParticipantService surveyParticipantService;
+
+
+	Users getParticipant(Survey survey, int userId)  {
+		Users participant = surveyRepo.getUserInSurvey(userId, survey.getId());
+		if (participant == null) {
 			throw new ServiceException("user is not participating in survey");
 		}
-		return user.get();
+		return participant;
 	}
 
 	public boolean startSurvey(Integer surveyId) {
@@ -72,15 +77,12 @@ public class SurveyService {
 			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
 		}
 		else if (authenticatedUser.hasRole(Role.user)){
-			Users users = new Users();
-			users.setId((int)authenticatedUser.getUserId());
-			surveys = surveyRepo.findSurveyByParticipantsEquals(users);
+			surveys = surveyRepo.findSurveyByParticipantsEquals(authenticatedUser.getUserId());
 		} else {
 			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
 		}
 
 		return surveys.stream()
-//				.filter(survey -> participantId == null ? true : participantId.intValue() == survey.getId())
 				.map(survey -> makeSurveyDto(survey))
 				.collect(Collectors.toList());
 	}
@@ -89,7 +91,6 @@ public class SurveyService {
 		SurveyDto surveyDto = new SurveyDto();
 		surveyDto.setId(survey.getId());
 		surveyDto.setName(survey.getName());
-//		surveyDto.setCountedAnsweringParticipants(survey.getCountedAnsweringParticipants());
 		return surveyDto;
 	}
 
@@ -131,20 +132,6 @@ public class SurveyService {
 		}
 	}
 
-	public List<ParticipantDto> getParticipants(SurveyDto survey){
-		final int surveyId = survey.getId();
-		List<ParticipantDto> participantDtos = new ArrayList<>();
-		var users = surveyRepo.findParticipantsBySurveyId(survey.getId());
-		for(Users user : users) {
-			ParticipantDto participant = new ParticipantDto();
-			participant.setSurveyId(surveyId);
-			participant.setId(user.getId());
-			participant.setEmail(user.getEmail());
-			participantDtos.add(participant);
-		}
-		return participantDtos;
-	}
-
 	public List<Answer> getAnswersBySurvey(Integer surveyId) {
 		List<Answer> answers = surveyRepo.getAnswersBySurveyId(surveyId);
 		return answers;
@@ -153,7 +140,16 @@ public class SurveyService {
 	public boolean addUsersToSurvey(int userGroupId, int surveyId) {
 		Survey survey = getSurveyById(surveyId);
 		var users =  userRepo.findUsersByGroupId(userGroupId);
-		return survey.getParticipants().addAll(users);
+
+		for (Users user : users) {
+			SurveyParticipant sp = new SurveyParticipant();
+			sp.setSurvey(survey);
+			sp.setParticipant(user);
+			sp.setComplete(false);
+			surveyParticipantRepo.save(sp);
+		}
+
+		return true; // TODO find better
 	}
 
 	public SurveyDto createSurvey(int formId, String name) {
@@ -166,11 +162,10 @@ public class SurveyService {
 	}
 
 	public SurveyCountingSummaryDto getSummary(SurveyDto survey) {
-
 		SurveyCountingSummaryDto summary = new SurveyCountingSummaryDto();
-		summary.setNbAnsweringParticipants(1);
+		// TODO make one query
+		summary.setNbAnsweringParticipants(surveyRepo.countAnsweringParticipantsInSurvey(survey.getId()));
 		summary.setNbParticipants(surveyRepo.countParticipantSurvey(survey.getId()));
-
 		return summary;
 	}
 }
