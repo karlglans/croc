@@ -37,17 +37,23 @@ public interface SurveyRepository extends JpaRepository<Survey, Integer> {
 	@Query("Select count(p) from SurveyParticipant sp JOIN sp.participant p JOIN sp.survey s where s.id = :surveyId")
 	int countParticipantSurvey(@Param("surveyId") int surveyId);
 
+	@Query("Select count(p) from SurveyParticipant sp JOIN sp.participant p JOIN sp.survey s where s.id = :surveyId and sp.complete = true")
+	int countAnsweringParticipantsInSurvey(@Param("surveyId") int surveyId);
+
 
 	@Query("Select sp.participant from SurveyParticipant sp JOIN sp.participant p JOIN sp.survey s " +
 			"where p.id = :participantId AND s.id = :surveyId")
 	Users getUserInSurvey(@Param("participantId") int participantId, @Param("surveyId") int surveyId);
 
 
+	// this might be written into a survey when it started instead
+	@Query("Select count(fq) from Survey s JOIN s.form f JOIN f.formQuestions fq " +
+			"where s.id = :surveyId")
+	int getNumberOfQuestionsInSurvey(@Param("surveyId") int surveyId);
+
+
 //	@Query("Select s, count(p) as counted from Survey s JOIN s.participants p where s.status = :surveyStatus  group by s ORDER BY s.id")
 //	List<Object> findSurveyAndCountByStatusEquals(@Param("surveyStatus") SurveyStatus surveyStatus);
-
-
-
 
 
 

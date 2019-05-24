@@ -46,8 +46,6 @@ public class SurveyRepoTests {
 		assertEquals(3, surveys.size());
 	}
 
-
-
 	@Test
 	public void findSurveyParticipantsUsersBySurveyId() {
 		List<Users> users = surveyRepository.findSurveyParticipantsUsersBySurveyId(1);
@@ -69,11 +67,10 @@ public class SurveyRepoTests {
 //	}
 
 	@Test
-	public void findSurveyByParticipantsEquals2() {
+	public void findSurveyByParticipantsEquals() {
 		var surveys = surveyRepository.findSurveyByParticipantsEquals(4);
 		assertEquals(2, surveys.size());
 	}
-
 
 	@Test
 	public void canCountSurveyParticipants() {
@@ -86,6 +83,12 @@ public class SurveyRepoTests {
 	public void getUserInSurvey() {
 		Users user  = surveyRepository.getUserInSurvey(4, 1);
 		assertNotNull(user);
+	}
+
+	@Test
+	public void getNumberOfQuestionsInSurvey() {
+		int nbQuestions  = surveyRepository.getNumberOfQuestionsInSurvey(1);
+		assertEquals(2, nbQuestions);
 	}
 
 

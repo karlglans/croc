@@ -4,7 +4,6 @@ import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
-import se.purple.croc.dto.ParticipantDto;
 import se.purple.croc.dto.SurveyCountingSummaryDto;
 import se.purple.croc.dto.SurveyDto;
 import se.purple.croc.models.AuthenticatedUser;
@@ -41,10 +40,11 @@ public class SurveyService {
 	@Autowired
 	SurveyParticipantRepository surveyParticipantRepo;
 
+	@Autowired
+	SurveyParticipantService surveyParticipantService;
+
 
 	Users getParticipant(Survey survey, int userId)  {
-		// TODO make query
-//		Optional<SurveyParticipant> user = survey.getParticipants().stream().filter(u -> u.getParticipantId() == (long)userId).findFirst();
 		Users participant = surveyRepo.getUserInSurvey(userId, survey.getId());
 		if (participant == null) {
 			throw new ServiceException("user is not participating in survey");
@@ -83,7 +83,6 @@ public class SurveyService {
 		}
 
 		return surveys.stream()
-//				.filter(survey -> participantId == null ? true : participantId.intValue() == survey.getId())
 				.map(survey -> makeSurveyDto(survey))
 				.collect(Collectors.toList());
 	}
@@ -92,7 +91,6 @@ public class SurveyService {
 		SurveyDto surveyDto = new SurveyDto();
 		surveyDto.setId(survey.getId());
 		surveyDto.setName(survey.getName());
-//		surveyDto.setCountedAnsweringParticipants(survey.getCountedAnsweringParticipants());
 		return surveyDto;
 	}
 
@@ -134,20 +132,6 @@ public class SurveyService {
 		}
 	}
 
-	public List<ParticipantDto> getParticipants(SurveyDto survey){
-		final int surveyId = survey.getId();
-		List<ParticipantDto> participantDtos = new ArrayList<>();
-		var users = surveyRepo.findSurveyParticipantsUsersBySurveyId(survey.getId());
-		for(Users user : users) {
-			ParticipantDto participant = new ParticipantDto();
-			participant.setSurveyId(surveyId);
-			participant.setId(user.getId());
-			participant.setEmail(user.getEmail());
-			participantDtos.add(participant);
-		}
-		return participantDtos;
-	}
-
 	public List<Answer> getAnswersBySurvey(Integer surveyId) {
 		List<Answer> answers = surveyRepo.getAnswersBySurveyId(surveyId);
 		return answers;
@@ -161,7 +145,7 @@ public class SurveyService {
 			SurveyParticipant sp = new SurveyParticipant();
 			sp.setSurvey(survey);
 			sp.setParticipant(user);
-			sp.setCompleate(false);
+			sp.setComplete(false);
 			surveyParticipantRepo.save(sp);
 		}
 
@@ -178,11 +162,10 @@ public class SurveyService {
 	}
 
 	public SurveyCountingSummaryDto getSummary(SurveyDto survey) {
-
 		SurveyCountingSummaryDto summary = new SurveyCountingSummaryDto();
-		summary.setNbAnsweringParticipants(1);
+		// TODO make one query
+		summary.setNbAnsweringParticipants(surveyRepo.countAnsweringParticipantsInSurvey(survey.getId()));
 		summary.setNbParticipants(surveyRepo.countParticipantSurvey(survey.getId()));
-
 		return summary;
 	}
 }

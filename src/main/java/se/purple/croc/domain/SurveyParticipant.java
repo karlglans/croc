@@ -27,7 +27,7 @@ public class SurveyParticipant {
 	@JoinColumn(name = "participantId", updatable = false, insertable = false)
 	private Users participant;
 
-	private Boolean compleate;
+	private boolean complete = false;
 
 	public void setSurvey(Survey survey) {
 		this.setSurveyId(survey.getId());

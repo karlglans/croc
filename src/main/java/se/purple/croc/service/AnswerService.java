@@ -27,6 +27,9 @@ public class AnswerService {
 	@Autowired
 	AuthService authService;
 
+	@Autowired
+	SurveyParticipantService surveyParticipantService;
+
 
 	AnswerDto makeAnswerDto(Answer answer) {
 		AnswerDto answerDto = new AnswerDto();
@@ -69,12 +72,15 @@ public class AnswerService {
 	}
 
 	public AnswerDto updateAnswer(Integer surveyId, AuthenticatedUser authUser, Integer questionId, Integer value) {
+		Answer answer = null;
 		try {
-			Answer existingAnswer = getExistingAnswer(surveyId, authUser.getUserId(), questionId);
-			existingAnswer.setValue(value);
-			return makeAnswerDto(existingAnswer);
+			answer = getExistingAnswer(surveyId, authUser.getUserId(), questionId);
+			answer.setValue(value);
+			return makeAnswerDto(answer);
 		} catch (MissingData ignored) {}
-		return makeAnswerDto(createAnswer(surveyId, authUser.getUserId(), questionId, value) );
+		answer = createAnswer(surveyId, authUser.getUserId(), questionId, value);
+		surveyParticipantService.updateSurveyCompleteStatus(surveyId, authUser.getUserId());
+		return makeAnswerDto(answer);
 	}
 
 }

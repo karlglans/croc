@@ -49,4 +49,11 @@ public class AnswerRepoTests {
 		List<Answer> answers = answerRepository.getAnswerBySurveyIdAndResponderId(1, 4);
 		assertEquals(2, answers.size());
 	}
+
+
+	@Test
+	public void countSurveyAnswersForResponder() {
+		int nbAnswers = answerRepository.countSurveyAnswersForResponder(1, 4);
+		assertEquals(2, nbAnswers);
+	}
 }

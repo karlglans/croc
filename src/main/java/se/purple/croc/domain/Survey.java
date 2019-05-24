@@ -30,17 +30,6 @@ public class Survey {
 	// to be updated when a participant store an answer
 	private int countedAnsweringParticipants;
 
-
-//	@ManyToMany
-//	@JoinTable(
-//			name = "SURVEY_PARTICIPANT",
-//			joinColumns = { @JoinColumn(name = "SURVEY_ID") },
-//			inverseJoinColumns = { @JoinColumn(name = "PARTICIPANT_ID"), },
-//			uniqueConstraints = {@UniqueConstraint(
-//					columnNames = {"SURVEY_ID", "PARTICIPANT_ID"})}
-//	)
-//	private List<Users> participants = new ArrayList<>();
-
 //	@OneToMany
 //	@JoinTable(
 //			name = "SURVEY_PARTICIPANT",
@@ -49,22 +38,9 @@ public class Survey {
 //			uniqueConstraints = {@UniqueConstraint(
 //					columnNames = {"SURVEY_ID", "PARTICIPANT_ID"})}
 //	)
+	// TODO, this relation is still not working properly
 	@OneToMany(mappedBy="participant")
 	private List<SurveyParticipant> participants = new ArrayList<>();
-
-//	@ManyToMany
-//	@JoinTable(
-//			name = "SURVEY_PARTICIPANT2")
-////	@JoinTable(
-////			name = "SURVEY_PARTICIPANT2",
-////			joinColumns = { @JoinColumn(name = "SURVEY_ID") },
-////			inverseJoinColumns = { @JoinColumn(name = "PARTICIPANT_ID"), }
-////	)
-//	private List<SurveyParticipant2> participants2 = new ArrayList<>();
-
-
-//	@OneToMany(mappedBy="participant")
-//	private List<SurveyParticipant2> participant2;
 
 	@OneToMany(
 			mappedBy="survey",
