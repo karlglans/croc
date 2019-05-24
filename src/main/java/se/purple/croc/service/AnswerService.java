@@ -1,6 +1,5 @@
 package se.purple.croc.service;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
@@ -57,7 +56,7 @@ public class AnswerService {
 
 	private Answer createAnswer(Integer surveyId, Integer userId, Integer questionId, Integer value) {
 		Survey survey = surveyService.getSurveyById(surveyId);
-		Users user = surveyService.getResponder(survey, userId);
+		Users user = surveyService.getParticipant(survey, userId);
 		FormQuestion formQuestion = formService.getFormQuestion(survey.getForm(), questionId);
 
 		Answer answer = new Answer();

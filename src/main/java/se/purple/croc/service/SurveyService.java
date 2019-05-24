@@ -9,6 +9,7 @@ import se.purple.croc.dto.SurveyCountingSummaryDto;
 import se.purple.croc.dto.SurveyDto;
 import se.purple.croc.models.AuthenticatedUser;
 import se.purple.croc.repository.AnswerRepository;
+import se.purple.croc.repository.SurveyParticipantRepository;
 import se.purple.croc.repository.SurveyRepository;
 import se.purple.croc.repository.UserRepository;
 import se.purple.croc.service.exceptions.MissingData;
@@ -37,14 +38,18 @@ public class SurveyService {
 	@Autowired
 	AuthService authService;
 
+	@Autowired
+	SurveyParticipantRepository surveyParticipantRepo;
 
-	Users getResponder(Survey survey, int userId)  {
+
+	Users getParticipant(Survey survey, int userId)  {
 		// TODO make query
-		Optional<Users> user = survey.getParticipants().stream().filter(u -> u.getId() == userId).findFirst();
-		if (!user.isPresent()) {
+//		Optional<SurveyParticipant> user = survey.getParticipants().stream().filter(u -> u.getParticipantId() == (long)userId).findFirst();
+		Users participant = surveyRepo.getUserInSurvey(userId, survey.getId());
+		if (participant == null) {
 			throw new ServiceException("user is not participating in survey");
 		}
-		return user.get();
+		return participant;
 	}
 
 	public boolean startSurvey(Integer surveyId) {
@@ -72,9 +77,7 @@ public class SurveyService {
 			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
 		}
 		else if (authenticatedUser.hasRole(Role.user)){
-			Users users = new Users();
-			users.setId((int)authenticatedUser.getUserId());
-			surveys = surveyRepo.findSurveyByParticipantsEquals(users);
+			surveys = surveyRepo.findSurveyByParticipantsEquals(authenticatedUser.getUserId());
 		} else {
 			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
 		}
@@ -134,7 +137,7 @@ public class SurveyService {
 	public List<ParticipantDto> getParticipants(SurveyDto survey){
 		final int surveyId = survey.getId();
 		List<ParticipantDto> participantDtos = new ArrayList<>();
-		var users = surveyRepo.findParticipantsBySurveyId(survey.getId());
+		var users = surveyRepo.findSurveyParticipantsUsersBySurveyId(survey.getId());
 		for(Users user : users) {
 			ParticipantDto participant = new ParticipantDto();
 			participant.setSurveyId(surveyId);
@@ -153,7 +156,16 @@ public class SurveyService {
 	public boolean addUsersToSurvey(int userGroupId, int surveyId) {
 		Survey survey = getSurveyById(surveyId);
 		var users =  userRepo.findUsersByGroupId(userGroupId);
-		return survey.getParticipants().addAll(users);
+
+		for (Users user : users) {
+			SurveyParticipant sp = new SurveyParticipant();
+			sp.setSurvey(survey);
+			sp.setParticipant(user);
+			sp.setCompleate(false);
+			surveyParticipantRepo.save(sp);
+		}
+
+		return true; // TODO find better
 	}
 
 	public SurveyDto createSurvey(int formId, String name) {

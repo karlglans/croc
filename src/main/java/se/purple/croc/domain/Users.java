@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -33,4 +34,7 @@ public class Users {
 		inverseJoinColumns = @JoinColumn(name = "group_id"))
 	private List<UserGroup> group;
 	// private List<UserGroup> group;
+
+	@OneToMany(mappedBy="survey")
+	private List<SurveyParticipant> surveys;
 }
