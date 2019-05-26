@@ -37,12 +37,17 @@ type SurveyCountingSummary {
     nbAnsweringParticipants: Int
 }
 
+type OwnSurveyStatus {
+    completedAnswers: Boolean
+}
+
 type Survey {
     id: ID!
     form: Form!
     name: String!
     participants: [Participant]
-    summary: SurveyCountingSummary
+    summary: SurveyCountingSummary # supervisors only
+    ownStatus: OwnSurveyStatus # participants only
 }
 
 type User {

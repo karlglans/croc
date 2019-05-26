@@ -4,6 +4,7 @@ import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.*;
+import se.purple.croc.dto.OwnSurveyStatusDto;
 import se.purple.croc.dto.SurveyCountingSummaryDto;
 import se.purple.croc.dto.SurveyDto;
 import se.purple.croc.models.AuthenticatedUser;
@@ -167,5 +168,13 @@ public class SurveyService {
 		summary.setNbAnsweringParticipants(surveyRepo.countAnsweringParticipantsInSurvey(survey.getId()));
 		summary.setNbParticipants(surveyRepo.countParticipantSurvey(survey.getId()));
 		return summary;
+	}
+
+	public OwnSurveyStatusDto getOwnStatus(int userId, int surveyId) {
+		OwnSurveyStatusDto ownSurveyStatus = new OwnSurveyStatusDto();
+		int nAnswers = answerRepo.countSurveyAnswersForResponder(surveyId, userId);
+		int nQuestions = surveyRepo.getNumberOfQuestionsInSurvey(surveyId);
+		ownSurveyStatus.setCompletedAnswers(nAnswers == nQuestions);
+		return ownSurveyStatus;
 	}
 }

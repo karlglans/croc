@@ -7,8 +7,9 @@ public class SurveyDto {
 	int id;
 	String name;
 
-	// These are added to Survey
-//	int countedAnsweringParticipants;
-//	int countedParticipants;
+	// Should be only for supervisors
 	SurveyCountingSummaryDto summaryDto;
+
+	// Should only be for participating users
+	OwnSurveyStatusDto ownStatus;
 }
