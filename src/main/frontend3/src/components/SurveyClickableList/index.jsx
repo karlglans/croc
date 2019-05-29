@@ -12,7 +12,7 @@ const SurveyListItem = props => {
   return (
     <ListItem button component={Link} to={clickPath}>
       {survey.name}
-      {!!isCompleted && (<ListItemIcon style={{color: colors.okSolid}}> <Done /></ListItemIcon>)}
+      {!!isCompleted && (<ListItemIcon style={{color: colors.okSolid}}><Done /></ListItemIcon>)}
     </ListItem>
   );
 }

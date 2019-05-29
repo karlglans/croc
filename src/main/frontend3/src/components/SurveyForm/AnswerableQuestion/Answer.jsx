@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 
 import getUserId from '../../../temp/getUserId';
 
+// retruns Answer { participantId questionId value }
 const UPDATE_ANSWER = gql`
   mutation($surveyId: ID!, $userId: ID!, $questionId: ID!, $value: Int!) {
     updateAnswer(surveyId: $surveyId, userId: $userId, questionId: $questionId, value: $value) {
@@ -15,6 +16,7 @@ const UPDATE_ANSWER = gql`
   }
 `;
 
+// returns array of answers
 const GET_SURVEYS_DATA = gql`
   query($surveyId: ID!, $userId: ID!) {
     answers(surveyId: $surveyId, userId: $userId) {
@@ -50,6 +52,8 @@ class Answer extends React.Component {
     this.setState({valueFromClick: value})
   }
 
+  // participantId: ID! questionId: ID! value: Int
+
   render() {
     // the value from click will be displayed if it exists
     const value = this.state.valueFromClick || this.state.valueFromStore;
@@ -61,14 +65,23 @@ class Answer extends React.Component {
           const { questionId, surveyId }  = this.props;
           const userId = getUserId();
           // reading stored answers from cache and then modifying a stored answer
-          const { answers } = cache.readQuery({ query: GET_SURVEYS_DATA, variables: { surveyId, userId } });
-          let alreadyStoredAanswer = answers.find(answer => answer.questionId === questionId )
+          const { answers: cachAnswers } = cache.readQuery({ query: GET_SURVEYS_DATA, variables: { surveyId, userId } });
+          const alreadyStoredAanswer = cachAnswers.find(answer => answer.questionId === questionId )
           if (!!alreadyStoredAanswer) {
-            alreadyStoredAanswer.value = updateAnswer.value; // copy from graphql response
+            // This block will update the graphql-cash with the changed answer
+            alreadyStoredAanswer.value = updateAnswer.value;
             cache.writeQuery({
               query: GET_SURVEYS_DATA,
               variables: { surveyId, userId },
-              data: { answers },
+              data: { answers: cachAnswers },
+            });
+          } else {
+            // This block will add the answer to the survey in graphql-cash.
+            cachAnswers.push({questionId, value: updateAnswer.value, __typename:"Answer"})
+            cache.writeQuery({
+              query: GET_SURVEYS_DATA,
+              variables: { surveyId, userId },
+              data: { answers: cachAnswers },
             });
           }
         }}
