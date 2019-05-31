@@ -34,8 +34,8 @@ const styles = theme => ({
 
 class FormsSubPage extends React.Component {
   render() {
-    const { classes, location, match } = this.props;
-    const formId = match && match.params && match.params.formId ? match.params.formId : false;
+    const { classes, location, /* match */ } = this.props;
+    // const formId = match && match.params && match.params.formId ? match.params.formId : false;
     const editFormPath = '/admin/forms/'+this.props.selectedFormId+'/edit';
     const isOnForms = location.pathname === '/admin/forms';
     const isOnCreate = location.pathname.includes('/create');

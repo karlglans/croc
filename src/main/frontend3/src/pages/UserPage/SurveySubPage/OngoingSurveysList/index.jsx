@@ -10,6 +10,9 @@ const GET_ONGOING_SURVEYS_FOR_USER = gql`
     surveys(status: ONGOING) {
       id
       name
+      ownStatus {
+        completedAnswers
+      }
     }
   }
 `;

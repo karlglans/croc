@@ -23,23 +23,27 @@ INSERT INTO grouped_users (user_id, group_id) VALUES
 (12, 2), (13, 2), (14, 2), (15, 2);
 
 INSERT INTO form (id, title, isEditable) VALUES
-(1, 'form1 ongoing survey', false), (2, 'form2 ongoing survey', false), (3, 'form3', true);
+(1, 'form1 ongoing survey', false), (2, 'form2 ongoing survey', false), (3, 'form3', true), (4, 'form4', false);
 
 INSERT INTO question (id, text) VALUES
-(1, 'question1 from1'), (2, 'question2 form1 and form2'), (3, 'question3 form2'), (4, 'question4 no Form');
+(1, 'question1 from1'), (2, 'question2 form1 and form2'), (3, 'question3 form2'), (4, 'question4 no Form'),
+(5, 'question5 from4'), (6, 'question6 form4'), (7, 'question7 form4'), (8, 'question8 form4');
 
 
 INSERT INTO survey (id, form_id, creator_id, status, name, COUNTED_ANSWERING_PARTICIPANTS) VALUES
 (1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019', 1), (2, 1, 2, 'ONGOING', 'Undersökning', 3),
-(3, 2, 2, 'ONGOING', 'completely answered survey', 0), (4, 2, 2, 'CLOSED', 'Det stora vårforfoluläret 2018', 0);
+(3, 2, 2, 'ONGOING', 'completely answered survey', 0), (4, 2, 2, 'CLOSED', 'Det stora vårforfoluläret 2018', 0),
+(5, 4, 2, 'ONGOING', 'Massa frågor', 3);
 
 INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
-(1, 1, 1), (1, 2, 2), (2, 2, 1), (2, 3, 2);
+(1, 1, 1), (1, 2, 2), (2, 2, 1), (2, 3, 2),
+(4, 5, 1), (4, 6, 2), (4, 7, 3), (4, 8, 4);
 
 -- survey1: 2 participants, user3: is in 2 survyes. complete
 INSERT INTO survey_participant (survey_id, participant_id, complete) VALUES
 (1, 3, false), (1, 4, true), (2, 4, false),
-(3, 10, true), (3, 11, true), (3, 12, true); -- Survey 3 completely answered
+(3, 10, true), (3, 11, true), (3, 12, true), -- Survey 3 completely answered
+(5, 4, false);
 
 -- employee1 has answered both questions, employee2 has just answered 1 question
 INSERT INTO answer (survey_id, responder_id, question_id, value) VALUES

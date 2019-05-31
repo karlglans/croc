@@ -36,7 +36,7 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 	@Test
 	public void canCreateNewSurvey() {
 		String json = excQuery("mutation {createSurvey(formId: 1, name: \"aaa\"){id}}");
-		String expected = "{\"createSurvey\":{\"id\":\"5\"}}";
+		String expected = "{\"createSurvey\":{\"id\":\"6\"}}";
 		assertEquals(expected, json);
 	}
 
@@ -45,7 +45,7 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 		when(authService.getPrincipal()).thenReturn(testDataGrabber.user4);
 		String json = excQuery("query { surveys { id } }");
 		// these should be the ongoing surveys where the user is listed as a participant
-		String expected = "{\"surveys\":[{\"id\":\"1\"},{\"id\":\"2\"}]}";
+		String expected = "{\"surveys\":[{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"5\"}]}";
 		assertEquals(expected, json);
 	}
 
@@ -53,7 +53,7 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 	public void canGetOngoingSurveys_whenSupervisor() {
 		when(authService.getPrincipal()).thenReturn(testDataGrabber.user3supervisor);
 		String json = excQuery("query { surveys(status:ONGOING) { id } }");
-		String expected = "{\"surveys\":[{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"}]}";
+		String expected = "{\"surveys\":[{\"id\":\"1\"},{\"id\":\"2\"},{\"id\":\"3\"},{\"id\":\"5\"}]}";
 		assertEquals(expected, json);
 	}
 
@@ -61,7 +61,11 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 	public void canGetCountedAnsweringForOngoingSurveys() {
 		when(authService.getPrincipal()).thenReturn(testDataGrabber.user3supervisor);
 		String json = excQuery("query { surveys(status:ONGOING) { id summary { nbParticipants }  } }");
-		String expected = "{\"surveys\":[{\"id\":\"1\",\"summary\":{\"nbParticipants\":2}},{\"id\":\"2\",\"summary\":{\"nbParticipants\":1}},{\"id\":\"3\",\"summary\":{\"nbParticipants\":3}}]}";
+		String expected = "{\"surveys\":" +
+				"[{\"id\":\"1\",\"summary\":{\"nbParticipants\":2}}," +
+				"{\"id\":\"2\",\"summary\":{\"nbParticipants\":1}}," +
+				"{\"id\":\"3\",\"summary\":{\"nbParticipants\":3}}," +
+				"{\"id\":\"5\",\"summary\":{\"nbParticipants\":1}}]}";
 		assertEquals(expected, json);
 	}
 }

@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
-import { List, ListItem } from '@material-ui/core';
+import { List, ListItem, ListItemIcon } from '@material-ui/core';
+import Done from '@material-ui/icons/Done';
+
+import colors from '../../constants/colors';
 
 const SurveyListItem = props => {
-  const { survey, linkPrefix } = props;
+  const { survey, linkPrefix, isCompleted } = props;
   const clickPath = `${linkPrefix}/${survey.id}`;  // clickPath = `${linkPrefix}/${survey.id}`
   return (
     <ListItem button component={Link} to={clickPath}>
       {survey.name}
+      {!!isCompleted && (<ListItemIcon style={{color: colors.okSolid}}><Done /></ListItemIcon>)}
     </ListItem>
   );
 }
@@ -27,6 +31,7 @@ const SurveyClickableList = props => {
               key={survey.id}
               survey={survey}
               linkPrefix={linkPrefix}
+              isCompleted={survey.ownStatus && survey.ownStatus.completedAnswers}
             />
           ))
         }
