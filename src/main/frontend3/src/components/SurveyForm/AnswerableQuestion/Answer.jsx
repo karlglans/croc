@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 
 import getUserId from '../../../temp/getUserId';
 
-// retruns Answer { participantId questionId value }
+// retruns Answer: { participantId, questionId, value }
 const UPDATE_ANSWER = gql`
   mutation($surveyId: ID!, $userId: ID!, $questionId: ID!, $value: Int!) {
     updateAnswer(surveyId: $surveyId, userId: $userId, questionId: $questionId, value: $value) {
@@ -16,7 +16,18 @@ const UPDATE_ANSWER = gql`
   }
 `;
 
-// returns array of answers
+const UPDATE_SURVEY = gql`
+  query($surveyId: ID!) {
+    survey(id: $surveyId) {
+      id
+      ownStatus {
+        completedAnswers
+      }
+    }
+  }
+`;
+
+// returns array of answers [{ participantId, questionId, value }]
 const GET_SURVEYS_DATA = gql`
   query($surveyId: ID!, $userId: ID!) {
     answers(surveyId: $surveyId, userId: $userId) {
@@ -52,17 +63,17 @@ class Answer extends React.Component {
     this.setState({valueFromClick: value})
   }
 
-  // participantId: ID! questionId: ID! value: Int
-
   render() {
+    // const { querySurveyAfterUpdate } = this.props;
     // the value from click will be displayed if it exists
     const value = this.state.valueFromClick || this.state.valueFromStore;
+    const questionNumbers = [1, 2, 3, 4, 5, 6];
     return (
       <Mutation 
         mutation={UPDATE_ANSWER}
         // update the cash with the result
         update={(cache, { data: { updateAnswer } }) => {
-          const { questionId, surveyId }  = this.props;
+          const { questionId, surveyId, survey }  = this.props;
           const userId = getUserId();
           // reading stored answers from cache and then modifying a stored answer
           const { answers: cachAnswers } = cache.readQuery({ query: GET_SURVEYS_DATA, variables: { surveyId, userId } });
@@ -84,6 +95,15 @@ class Answer extends React.Component {
               data: { answers: cachAnswers },
             });
           }
+          // update survey status isComplete inCash, if needed 
+          if (!this.props.hasOtherMissingAnswers(questionId)) {
+            survey.ownStatus.completedAnswers = true;
+            cache.writeQuery({
+              query: UPDATE_SURVEY,
+              variables: { surveyId },
+              data: { survey },
+            });
+          }
         }}
       >
         {(updateAnswer, { data }) => (
@@ -101,42 +121,16 @@ class Answer extends React.Component {
                 }}
                 row
               >
-                <FormControlLabel
-                  value="1"
-                  control={<Radio color="primary" />}
-                  label="1"
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value="2"
-                  control={<Radio color="primary" />}
-                  label="2"
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value="3"
-                  control={<Radio color="primary" />}
-                  label="3"
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value="4"
-                  control={<Radio color="primary" />}
-                  label="4"
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value="5"
-                  control={<Radio color="primary" />}
-                  label="5"
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value="6"
-                  control={<Radio color="primary" />}
-                  label="6"
-                  labelPlacement="top"
-                />
+              {
+                questionNumbers.map((number) =>
+                  <FormControlLabel
+                    key={number}
+                    value={String(number)}
+                    control={<Radio color="primary" />}
+                    label={String(number)}
+                    labelPlacement="top"
+                  />)
+              }
               </RadioGroup>
             </FormControl>
         )}
@@ -149,6 +143,7 @@ Answer.propTypes = {
   storedAnswer: PropTypes.object,
   questionId: PropTypes.string.isRequired,
   surveyId: PropTypes.string.isRequired,
+  hasOtherMissingAnswers: PropTypes.func.isRequired,
 };
 
 export default Answer;
