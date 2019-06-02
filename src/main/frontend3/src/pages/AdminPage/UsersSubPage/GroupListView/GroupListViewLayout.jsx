@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import GroupList from './GroupList';
 
 const GroupListViewLayout = props => (
-  <Grid container spacing={24}>
+  <Grid container>
     <Grid item sm={12} md={6} lg={5}>
       <GroupList userGroups={props.userGroups} isLoading={props.isLoading} />
     </Grid>
