@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import { Grid, Button } from '@material-ui/core';
 
 import ParticipantList from '../components/ParticipantList';
 import AddParticipants from '../components/AddParticipants';
@@ -12,7 +13,7 @@ class SurveyListItemClosed extends React.Component {
     return (
       <Grid container>
         <Grid item sm={12} md={6}>
-          Idd: {surveyId}
+          <Button to={'/admin/surveys/results/'+surveyId} component={Link}>View Results</Button>
           { hasBeenExpanded && (
             <ParticipantList surveyId={surveyId} />) 
           }

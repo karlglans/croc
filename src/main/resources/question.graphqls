@@ -7,10 +7,15 @@ type QuestionUserPrivileges {
     isEditable: Boolean
 }
 
+enum QuestionType {
+    NUMERIC, YESNO
+}
+
 type Question {
     id: ID!
     text: String!
-    privileges: QuestionUserPrivileges
+    privileges: QuestionUserPrivileges,
+    questionType: QuestionType!
 }
 
 type Form {
