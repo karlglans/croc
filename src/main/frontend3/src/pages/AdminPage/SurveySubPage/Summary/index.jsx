@@ -10,6 +10,10 @@ const GET_SURVEYS_DATA = gql`
     survey(id: $surveyId) {
       id
       name
+      answersSum {
+        questionId
+        content
+      }
       form {
         id
         title
