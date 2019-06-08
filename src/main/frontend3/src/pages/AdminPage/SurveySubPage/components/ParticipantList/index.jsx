@@ -8,6 +8,7 @@ import PartisipantList from './List'
 const GET_PARTICPANT_DATA = gql`
   query($surveyId: ID) {
     survey(id: $surveyId) {
+      id
       participants {
         id
         email
