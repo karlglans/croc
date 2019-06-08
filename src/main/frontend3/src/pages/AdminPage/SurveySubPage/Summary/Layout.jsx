@@ -10,7 +10,7 @@ class Layout extends React.Component {
     const questions = isLoading ? []: survey.form.questions;
     const answersSum = isLoading ? []: survey.answersSum;
     return (
-      <Grid container>
+      <Grid container style={{ maxWidth: 1000 }}>
         <Grid item sm={12} md={12}>
           <QuestionList
             surveyId={surveyId}

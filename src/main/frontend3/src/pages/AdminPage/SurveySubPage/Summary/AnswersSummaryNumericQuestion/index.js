@@ -1,31 +1,69 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AnswerNumeric = ({number, maxCount, count}) => {
-  const cx = number * 100 + 50;
-  const maxheight = 30;
-  const paddingbottom = 2;
-  const height = maxCount !== 0 ? (maxheight * count) / maxCount : 0 ;
-  const diffToBottom = maxheight - height;
-  return (
-    <rect width={20} height={height + paddingbottom} x={cx} y={15 + diffToBottom} />
-  );
-}
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
 
 const deafultNoAnswers = { count: [0,0,0,0,0,0] }
 
-const AnswersSummaryNumericQuestion = ({ content }) => {
-  const answersCountList = content || deafultNoAnswers;
-  const maxCount = Math.max(...answersCountList.count);
-  return (<svg width={650} height={60} viewBox="0 0 650 60" style={{backgroundColor: '#ddd'}}>
-    {answersCountList.count.map( 
-      (count, idx) => <AnswerNumeric key={idx} number={idx} maxCount={maxCount} count={count} /> )}
-  </svg>);
-}
+class AnswersSummaryNumericQuestion extends React.Component {
+
+  componentDidMount() {
+    const { number, content } = this.props;
+    const answersCountList = content || deafultNoAnswers;
+    const chart = am4core.create('chart' + number, am4charts.XYChart);
+
+    chart.data = [{
+      "category": "1",
+      "value": answersCountList.count[0]
+    }, {
+      "category": "2",
+      "value": answersCountList.count[1]
+    }, {
+      "category": "3",
+      "value": answersCountList.count[2]
+    }, {
+      "category": "4",
+      "value": answersCountList.count[3]
+    }, {
+      "category": "5",
+      "value": answersCountList.count[4]
+    }, {
+      "category": "6",
+      "value": answersCountList.count[5]
+    }];
+
+    // Create axes
+    const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "category";
+
+    chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.valueY = "value";
+    series.dataFields.categoryX = "category";
+    series.name = "Sales";
+
+    this.chart = chart;
+  }
+
+  componentWillUnmount() {
+    if (this.chart) {
+      this.chart.dispose();
+    }
+  }
+
+  render() {
+    const { number } = this.props;
+    return (
+      <div width={650} height={60} id={'chart' + number} />
+    );
+  }
+};
 
 AnswersSummaryNumericQuestion.propTypes = {
   content: PropTypes.object
 };
-
 
 export default AnswersSummaryNumericQuestion;

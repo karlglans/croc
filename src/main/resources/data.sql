@@ -41,11 +41,11 @@ INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
 
 -- survey1: 2 participants, user3: is in 2 survyes. complete
 INSERT INTO survey_participant (survey_id, participant_id, complete) VALUES
-(1, 3, false), (1, 4, true), (2, 4, false),
+(1, 3, false), (1, 4, true), (1, 5, true), (2, 4, false),
 (3, 10, true), (3, 11, true), (3, 12, true), -- Survey 3 completely answered
 (5, 4, false);
 
 -- employee1 has answered both questions, employee2 has just answered 1 question
 INSERT INTO answer (survey_id, responder_id, question_id, value) VALUES
-(1, 4, 1, 2), (1, 4, 2, 3), (1, 3, 1, 5),
+(1, 4, 1, 2), (1, 4, 2, 3), (1, 3, 1, 5), (1, 5, 1, 5), (1, 5, 2, 3),
 (3, 10, 2, 1), (3, 10, 3, 5),  (3, 11, 2, 1), (3, 11, 3, 5),  (3, 12, 2, 1), (3, 12, 3, 5); -- survey 3 completely answered
