@@ -10,7 +10,7 @@ const QuestionStats = props => {
   return(
     <Card style={{ marginBottom: 20}}>
       <CardContent>
-        <div style={{marginBottom: 20}}>
+        <div style={{marginBottom: 20, padding: 15 }}>
           {props.number} {props.text} {props.text}
         </div>
         {props.questionType === "NUMERIC" && (
