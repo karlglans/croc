@@ -24,6 +24,8 @@ class Layout extends React.Component {
 
 Layout.propTypes = {
   surveyId: PropTypes.number.isRequired,
+  survey: PropTypes.object,
+  isLoading: PropTypes.bool.isRequired
 };
 
 export default Layout;
