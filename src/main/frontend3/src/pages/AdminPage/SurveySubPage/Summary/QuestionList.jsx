@@ -7,14 +7,16 @@ import AnswersSummaryNumericQuestion from './AnswersSummaryNumericQuestion';
 // TODO: make it able to handle more types of questions
 const QuestionStats = props => {
   const { content } = props;
-  console.log('content', content);
   return(
     <Card style={{ marginBottom: 20}}>
       <CardContent>
-        {props.number} {props.text} {props.text}
-        <br />
+        <div style={{marginBottom: 20}}>
+          {props.number} {props.text} {props.text}
+        </div>
         {props.questionType === "NUMERIC" && (
-          <AnswersSummaryNumericQuestion content={content} />
+          <AnswersSummaryNumericQuestion
+            number={props.number}
+            content={content} />
         )}
       </CardContent>
     </Card>

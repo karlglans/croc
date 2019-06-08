@@ -9,7 +9,12 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
-import LoginPage from './pages/LoginPage'
+import LoginPage from './pages/LoginPage';
+
+import * as am4core from '@amcharts/amcharts4/core';
+import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+
+am4core.useTheme(am4themes_animated);
 
 const httpLink = new HttpLink({ uri: '/graphql' });
 
