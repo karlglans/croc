@@ -29,7 +29,7 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 	@Test
 	public void canGetParticipants() {
 		String json = excQuery("query { survey(id: 1) { participants { id } }}");
-		String expected = "{\"survey\":{\"participants\":[{\"id\":\"3\"},{\"id\":\"4\"}]}}";
+		String expected = "{\"survey\":{\"participants\":[{\"id\":\"3\"},{\"id\":\"4\"},{\"id\":\"5\"}]}}";
 		assertEquals(expected, json);
 	}
 
@@ -62,7 +62,7 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 		when(authService.getPrincipal()).thenReturn(testDataGrabber.user3supervisor);
 		String json = excQuery("query { surveys(status:ONGOING) { id summary { nbParticipants }  } }");
 		String expected = "{\"surveys\":" +
-				"[{\"id\":\"1\",\"summary\":{\"nbParticipants\":2}}," +
+				"[{\"id\":\"1\",\"summary\":{\"nbParticipants\":3}}," +
 				"{\"id\":\"2\",\"summary\":{\"nbParticipants\":1}}," +
 				"{\"id\":\"3\",\"summary\":{\"nbParticipants\":3}}," +
 				"{\"id\":\"5\",\"summary\":{\"nbParticipants\":1}}]}";
