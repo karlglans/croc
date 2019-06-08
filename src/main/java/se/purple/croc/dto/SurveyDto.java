@@ -2,6 +2,8 @@ package se.purple.croc.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class SurveyDto {
 	int id;
@@ -12,4 +14,6 @@ public class SurveyDto {
 
 	// Should only be for participating users
 	OwnSurveyStatusDto ownStatus;
+
+	List<AnswersSummary> answersSum;
 }

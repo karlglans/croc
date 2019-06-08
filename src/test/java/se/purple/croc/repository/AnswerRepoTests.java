@@ -1,5 +1,6 @@
 package se.purple.croc.repository;
 
+import lombok.var;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,4 +55,11 @@ public class AnswerRepoTests {
 		int nbAnswers = answerRepository.countSurveyAnswersForResponder(1, 4);
 		assertEquals(2, nbAnswers);
 	}
+
+	@Test
+	public void getAnswersBySurveyId() {
+		var answersSurvey3 = answerRepository.getAnswersBySurveyId(3);
+		assertEquals(6, answersSurvey3.size()); // 3 participants, 3 answers per participant
+	}
+
 }

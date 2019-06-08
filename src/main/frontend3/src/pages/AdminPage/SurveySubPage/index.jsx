@@ -9,6 +9,7 @@ import UnstartedSurveysList from './UnstartedSurveysList';
 import ClosedSurveys from './ClosedServeys';
 import CreateSurvey from './CreateSurvey';
 import UnstartedSurveyDetails from './UnstartedSurveyDetails';
+import Summary from './Summary';
 
 const drawerWidth = 240;
 
@@ -39,7 +40,8 @@ class SurveysSubPage extends React.Component {
     const isOnOngoing = location.pathname === '/admin/surveys' || location.pathname.includes('ongoing'); // default option
     const isOnInCreation = location.pathname.includes('unstarted');
     const isOnCreate = location.pathname === '/admin/surveys/create';
-    const isOnClosed = !isOnOngoing && !isOnCreate && !isOnInCreation; // temp solution
+    const isResults = location.pathname.includes('results');
+    const isOnClosed = !isOnOngoing && !isOnCreate && !isOnInCreation && !isResults; // temp solution
     const selectedFormIdForSurvey = this.props.selectedFormIdForSurvey || 2; // <-- 2 is temp solution
     const surveyId = 1;
     return (
@@ -53,6 +55,11 @@ class SurveysSubPage extends React.Component {
       >
         <div className={classes.toolbar} />
           <MenuList >
+            { isResults && (
+              <MenuItem button key={'results'} selected={isResults} to='/admin/surveys/results/:surveyId'>
+                <ListItemText primary={'Results'} />
+              </MenuItem> ) 
+            }
             <MenuItem button key={'ongoing'} selected={isOnOngoing} component={Link} to='/admin/surveys'>
               <ListItemText primary={'Ongoing'} />
             </MenuItem>
@@ -81,6 +88,9 @@ class SurveysSubPage extends React.Component {
             />
             <Route path="/admin/surveys/unstarted/:surveyId" exact component={
               () => <UnstartedSurveyDetails surveyId={surveyId} />}
+            />
+            <Route path="/admin/surveys/results/:surveyId" exact component={
+              () => <Summary surveyId={surveyId} />}
             />
           </Switch>
       </div>

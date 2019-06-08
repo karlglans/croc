@@ -7,10 +7,15 @@ type QuestionUserPrivileges {
     isEditable: Boolean
 }
 
+enum QuestionType {
+    NUMERIC, YESNO
+}
+
 type Question {
     id: ID!
     text: String!
-    privileges: QuestionUserPrivileges
+    privileges: QuestionUserPrivileges,
+    questionType: QuestionType!
 }
 
 type Form {
@@ -41,6 +46,11 @@ type OwnSurveyStatus {
     completedAnswers: Boolean
 }
 
+type AnswersSummary {
+    questionId: Int!
+    content: String!
+}
+
 type Survey {
     id: ID!
     form: Form!
@@ -48,6 +58,7 @@ type Survey {
     participants: [Participant]
     summary: SurveyCountingSummary # supervisors only
     ownStatus: OwnSurveyStatus # participants only
+    answersSum: [AnswersSummary]
 }
 
 type User {

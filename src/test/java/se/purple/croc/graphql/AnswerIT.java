@@ -38,4 +38,36 @@ public class AnswerIT extends SimpleEndpointTests {
 		String expected = "{\"updateAnswer\":{\"value\":1}}";
 		assertEquals(expected, json);
 	}
+
+	@Test
+	public void canGetSurveyAnswers_whenRegisteredAsParticipant() {
+		when(authService.getPrincipal()).thenReturn(testDataGrabber.user3supervisor);
+		String json = excQuery("{\n" +
+				"    survey(id: 1) {\n" +
+				"      id\n" +
+				"      name\n" +
+				"      answersSum {\n" +
+				"        questionId\n" +
+				"        content\n" +
+				"      }\n" +
+				"      form {\n" +
+				"        id\n" +
+				"        title\n" +
+				"        questions {\n" +
+				"          id\n" +
+				"          text\n" +
+				"          questionType\n" +
+				"        }\n" +
+				"      }\n" +
+				"    }\n" +
+				"  }");
+		String expected = "{\"survey\":{\"id\":\"1\",\"name\":\"Det stora vårforfoluläret 2019\",\"answersSum\":[" +
+				"{\"questionId\":1,\"content\":\"{\\\"count\\\":[0,1,0,0,1,0]}\"}," +
+				"{\"questionId\":2,\"content\":\"{\\\"count\\\":[0,0,1,0,0,0]}\"}]," +
+				"\"form\":{\"id\":\"1\",\"title\":\"form1 ongoing survey\"," +
+				"\"questions\":[" +
+				"{\"id\":\"1\",\"text\":\"question1 from1\",\"questionType\":\"NUMERIC\"}," +
+				"{\"id\":\"2\",\"text\":\"question2 form1 and form2\",\"questionType\":\"NUMERIC\"}]}}}";
+		assertEquals(expected, json);
+	}
 }

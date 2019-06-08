@@ -121,7 +121,7 @@ public class SurveyRepoTests {
 		List<Object> result = surveyRepository.findSurveyByStatusAndCountAnswers(SurveyStatus.ONGOING);
 
 		// expecting 3 Surveys
-		assertEquals(3, result.size());
+		assertEquals(4, result.size());
 		Object[] Survey1Pair = (Object[]) result.get(0);
 		Object[] Survey2Pair = (Object[]) result.get(1);
 		Object[] Survey3Pair = (Object[]) result.get(2);
@@ -138,6 +138,4 @@ public class SurveyRepoTests {
 		assertEquals(3, ((Survey) Survey3Pair[0]).getId() );
 		assertEquals(6, (long)Survey3Pair[1] ); // answers
 	}
-
-
 }

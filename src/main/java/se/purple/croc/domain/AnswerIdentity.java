@@ -17,4 +17,14 @@ public class AnswerIdentity implements Serializable {
 		this.responder = answer.getResponder().getId();
 		this.survey = answer.getSurvey().getId();
 	}
+
+//	public boolean equals(Object object) {
+//		if (object instanceof Answer) {
+//			Answer otherId = (Answer) object;
+//			return (otherId.getQuestion().getId() == this.question.intValue()
+//					&& otherId.getSurvey().getId() == this.survey.intValue()
+//					&& otherId.getResponder().getId() == this.responder.intValue());
+//		}
+//		return false;
+//	}
 }

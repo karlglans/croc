@@ -8,6 +8,7 @@ import se.purple.croc.domain.Answer;
 import se.purple.croc.domain.AnswerIdentity;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface AnswerRepository extends CrudRepository<Answer, AnswerIdentity>, AnswerRepositoryExtension {
@@ -17,4 +18,7 @@ public interface AnswerRepository extends CrudRepository<Answer, AnswerIdentity>
 	@Query("Select count(a) from Answer a JOIN a.responder r JOIN a.survey s " +
 			"where r.id = :responderId AND s.id = :surveyId")
 	int countSurveyAnswersForResponder(@Param("surveyId") int surveyId, @Param("responderId") int responderId);
+
+	@Query("Select a from Survey s JOIN s.answers a where s.id = :surveyId")
+	List<Answer> getAnswersBySurveyId(@Param("surveyId") int surveyId);
 }
