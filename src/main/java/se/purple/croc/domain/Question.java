@@ -1,11 +1,8 @@
 package se.purple.croc.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
 
 @Data
 @Entity
@@ -16,6 +13,9 @@ public class Question {
 	private int id;
 
 	private String text;
+
+	@Enumerated(EnumType.STRING)
+	private QuestionType questionType = QuestionType.NUMERIC;
 
 
 //	@OneToOne(mappedBy="question")

@@ -25,9 +25,10 @@ INSERT INTO grouped_users (user_id, group_id) VALUES
 INSERT INTO form (id, title, isEditable) VALUES
 (1, 'form1 ongoing survey', false), (2, 'form2 ongoing survey', false), (3, 'form3', true), (4, 'form4', false);
 
-INSERT INTO question (id, text) VALUES
-(1, 'question1 from1'), (2, 'question2 form1 and form2'), (3, 'question3 form2'), (4, 'question4 no Form'),
-(5, 'question5 from4'), (6, 'question6 form4'), (7, 'question7 form4'), (8, 'question8 form4');
+INSERT INTO question (id, text, question_type) VALUES
+(1, 'question1 from1', 'NUMERIC'), (2, 'question2 form1 and form2', 'NUMERIC'), (3, 'question3 form2', 'NUMERIC'),
+(4, 'question4 no Form', 'NUMERIC'), (5, 'question5 from4', 'YESNO'), (6, 'question6 form4', 'NUMERIC'),
+(7, 'question7 form4', 'NUMERIC'), (8, 'question8 form4', 'NUMERIC');
 
 
 INSERT INTO survey (id, form_id, creator_id, status, name, COUNTED_ANSWERING_PARTICIPANTS) VALUES
@@ -39,7 +40,7 @@ INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
 (1, 1, 1), (1, 2, 2), (2, 2, 1), (2, 3, 2),
 (4, 5, 1), (4, 6, 2), (4, 7, 3), (4, 8, 4);
 
--- survey1: 2 participants, user3: is in 2 survyes. complete
+-- survey1: 2 participants, user3: is in 2 surveys. complete
 INSERT INTO survey_participant (survey_id, participant_id, complete) VALUES
 (1, 3, false), (1, 4, true), (1, 5, true), (2, 4, false),
 (3, 10, true), (3, 11, true), (3, 12, true), -- Survey 3 completely answered
