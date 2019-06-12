@@ -5,7 +5,7 @@ import CreateQuestion from './CreateQuestion';
 import QuestionList from './QuestionList';
 
 const EditFormViewLayout = props => (
-  <Grid container spacing={24}>
+  <Grid container spacing={3}>
     <Grid item sm={12} md={6} lg={5}>
       <CreateQuestion
         editQuestionId={props.editQuestionId}
