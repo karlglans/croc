@@ -1,23 +1,16 @@
 package se.purple.croc.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-//import graphql.ExecutionInput;
-import graphql.schema.DataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.purple.croc.domain.Form;
-import se.purple.croc.domain.Question;
 import se.purple.croc.dto.*;
 import se.purple.croc.repository.FromRepository;
-import se.purple.croc.repository.QuestionRepository;
 import se.purple.croc.service.*;
 import se.purple.croc.service.exceptions.ServiceException;
 
 @Component
 public class Mutation implements GraphQLMutationResolver {
-
-	@Autowired
-	private QuestionRepository questionRepo;
 
 	@Autowired
 	private FormService formService;
@@ -41,13 +34,7 @@ public class Mutation implements GraphQLMutationResolver {
 	private QuestionService questionService;
 
 	public QuestionDto addQuestion(final InputQuestionDto inQuestion) {
-		Question question = new Question();
-		question.setText(inQuestion.getText());
-		questionRepo.save(question);
-		QuestionDto questionDto = new QuestionDto();
-		questionDto.copy(question);
-		DataFetcher commentsDataFetcher;
-		return questionDto;
+		return questionService.storeQuestion(inQuestion);
 	}
 
 	public FormDto updateQuestion(final InputQuestionDto inQuestion) {
@@ -84,12 +71,8 @@ public class Mutation implements GraphQLMutationResolver {
 	 * 	}
 	 */
 	public QuestionDto createFormQuestion(InputQuestionDto inQuestion, final Integer formId) {
-		Question question = new Question();
-		question.setText(inQuestion.getText());
-		questionRepo.save(question);
-		formService.addQuestionToForm(question.getId(), formId);
-		QuestionDto questionDto = new QuestionDto();
-		questionDto.copy(question);
+		QuestionDto questionDto = questionService.storeQuestion(inQuestion);
+		formService.addQuestionToForm(questionDto.getId(), formId);
 		return questionDto;
 	}
 
