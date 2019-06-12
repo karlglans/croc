@@ -17,7 +17,8 @@ const styles = theme => ({
     margin: theme.spacing(2),
   },
   paper: {
-    padding: 20
+    padding: 20,
+    cursor: 'pointer'
   }
 });
 
@@ -68,6 +69,7 @@ class CreateQuestion extends React.Component {
     this.handleCreateQuestion = this.handleCreateQuestion.bind(this);
     this.handleUpdateQuestion = this.handleUpdateQuestion.bind(this);
     this.handleChangeQuestionType = this.handleChangeQuestionType.bind(this);
+    this.checkIfValid = this.checkIfValid.bind(this);
   }
   setInputText(event) {
     this.setState({ inputText: event.target.value, isFormChanged: true});
@@ -80,7 +82,7 @@ class CreateQuestion extends React.Component {
       this.props.createFormQuestion({
         variables: {
           inquest: {
-            'text': this.state.inputText,
+            text: this.state.inputText,
             questionType: this.state.questionType
           },
           formId
@@ -93,17 +95,19 @@ class CreateQuestion extends React.Component {
       console.error('missing valid form id');
     }
   }
+
   handleUpdateQuestion() {
     if (this.props.editQuestionId) {
       this.props.updateQuestion({
         variables: {
           inquest: {
-            'text': this.state.inputText,
+            text: this.state.inputText,
             questionType: this.state.questionType,
             id: this.props.editQuestionId
           }
         }
       }).then((response) => {
+        // NOTE: a better solution would be to update cash here instead of excessive retund form backend
         this.setState({ inputText: ''});
         this.props.setEditQuestionId(undefined);
       })
@@ -111,27 +115,33 @@ class CreateQuestion extends React.Component {
       console.error('missing valid question id');
     }
   }
+  
   handleChangeQuestionType(event) {
-    console.log('handleChangeQuestionType', event.target.value);
-    this.setState({ questionType: event.target.value});
+    this.setState({ questionType: event.target.value, isFormChanged: true });
   }
+
   static getDerivedStateFromProps(props, state) {
     if (props.editQuestionId !== state.editQuestionId) {
-      console.log('getDerivedStateFromProps')
       const { form } = props;
       const { questions } = form;
-      // const questions = props.form.questions;
       const question = questions.find(q => q.id === props.editQuestionId);
       const inputText = question ? question.text : '';
-      console.log('handleChangeQuestionType() questionType', !!question && question.questionType);
+
       const questionType = question && question.questionType ? question.questionType : questionTypes.NUMERIC;
       return { editQuestionId: props.editQuestionId, inputText, isFormChanged: false, questionType }
     }
     return null; // no change
   }
 
+  checkIfValid() {
+    const { inputText } = this.state;
+    return inputText.length > 3;
+  }
+
   render() {
     const { classes, editQuestionId } = this.props;
+    const { isFormChanged } = this.state;
+    const isAbleToSave = isFormChanged && this.checkIfValid();
     const inputLabel = editQuestionId ?  'Edit Question' : 'New Question';
     return (
       <Paper className={classes.paper}>
@@ -169,7 +179,7 @@ class CreateQuestion extends React.Component {
                 variant='contained'
                 color='primary'
                 onClick={this.handleCreateQuestion}
-                disabled={!this.state.isFormChanged}
+                disabled={!isAbleToSave}
                 className={classes.button}>
                 Store
               </Button>)}
@@ -178,7 +188,7 @@ class CreateQuestion extends React.Component {
                 variant='contained'
                 color='primary'
                 onClick={this.handleUpdateQuestion}
-                disabled={!this.state.isFormChanged}
+                disabled={!isAbleToSave}
                 className={classes.button}>
                 Update
               </Button>)}
