@@ -21,6 +21,7 @@ const GET_SURVEYS_DATA = gql`
         questions {
           id
           text
+          questionType
         }
       }
     }

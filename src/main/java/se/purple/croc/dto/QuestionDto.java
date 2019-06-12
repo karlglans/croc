@@ -14,5 +14,6 @@ public class QuestionDto {
 	public void copy(Question question) {
 		this.id = question.getId();
 		this.text = question.getText();
+		this.setQuestionType(question.getQuestionType());
 	}
 }

@@ -62,8 +62,8 @@ public class AnswerIT extends SimpleEndpointTests {
 				"    }\n" +
 				"  }");
 		String expected = "{\"survey\":{\"id\":\"1\",\"name\":\"Det stora vårforfoluläret 2019\",\"answersSum\":[" +
-				"{\"questionId\":1,\"content\":\"{\\\"count\\\":[0,1,0,0,1,0]}\"}," +
-				"{\"questionId\":2,\"content\":\"{\\\"count\\\":[0,0,1,0,0,0]}\"}]," +
+				"{\"questionId\":1,\"content\":\"{\\\"count\\\":[0,1,0,0,2,0]}\"}," +
+				"{\"questionId\":2,\"content\":\"{\\\"count\\\":[0,0,2,0,0,0]}\"}]," +
 				"\"form\":{\"id\":\"1\",\"title\":\"form1 ongoing survey\"," +
 				"\"questions\":[" +
 				"{\"id\":\"1\",\"text\":\"question1 from1\",\"questionType\":\"NUMERIC\"}," +

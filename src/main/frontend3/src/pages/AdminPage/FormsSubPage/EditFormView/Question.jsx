@@ -48,7 +48,9 @@ const Question = props => {
             }
           }}
       >
-        {props.number} - {props.question.text}
+        {props.question.text}
+        <br />
+        QuestionType: {props.question.questionType}
       </Paper>
     
     </div>

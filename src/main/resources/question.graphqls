@@ -95,6 +95,7 @@ type Query {
 input InputQuestion {
     text: String!
     id: Int
+    questionType: QuestionType
 }
 
 type Mutation {
@@ -104,7 +105,7 @@ type Mutation {
     createUserGroup(name: String!): UserGroup
     addUserToGroup(userId: ID!, userGroupId: ID!): UserGroup
     addUserGroupToSurvey(userGroupId: ID!, survey: ID!): Boolean
-    addQuestion(input: InputQuestion): Question
+#    addQuestion(input: InputQuestion): Question
     updateAnswer(surveyId: ID!, userId: ID!, questionId: ID!, value: Int!): Answer
     createFormQuestion(input: InputQuestion!, formId: ID!): Question
     addQuestionToForm(formId: Int, questionId: Int): Form

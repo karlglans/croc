@@ -9,12 +9,12 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 public class QuestionIT extends SimpleEndpointTests {
 
-	@Test
-	public void canAddQuestion() {
-		String json = excQuery("mutation { addQuestion( input: {text: \"aaa\"} ){ id }}");
-		String expected = "{\"addQuestion\":{\"id\":\"9\"}}";
-		assertEquals(expected, json);
-	}
+//	@Test
+//	public void canAddQuestion() {
+//		String json = excQuery("mutation { addQuestion( input: {text: \"aaa\"} ){ id }}");
+//		String expected = "{\"addQuestion\":{\"id\":\"9\"}}";
+//		assertEquals(expected, json);
+//	}
 
 	@Test
 	public void canAlterQuestion() {

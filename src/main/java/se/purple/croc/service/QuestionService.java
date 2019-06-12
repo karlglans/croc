@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.FormQuestion;
 import se.purple.croc.domain.Question;
+import se.purple.croc.domain.QuestionType;
 import se.purple.croc.dto.InputQuestionDto;
 import se.purple.croc.dto.QuestionDto;
 import se.purple.croc.repository.QuestionRepository;
@@ -49,8 +50,27 @@ public class QuestionService {
 	public QuestionDto updateQuestion(InputQuestionDto inputQuestion) {
 		Question question = findQuestion(inputQuestion.getId());
 		question.setText(inputQuestion.getText());
+		// since questionType is optional
+		if (inputQuestion.getQuestionType() != null) {
+			question.setQuestionType(inputQuestion.getQuestionType());
+		}
+		return makeDto(question);
+	}
+
+	private QuestionDto makeDto(Question question) {
 		QuestionDto questionDto = new QuestionDto();
-		questionDto.copy(question);
+		questionDto.setId(question.getId());
+		questionDto.setText(question.getText());
+		questionDto.setQuestionType(question.getQuestionType());
 		return questionDto;
+	}
+
+	public QuestionDto storeQuestion(InputQuestionDto inputQuestionDto) {
+		Question question = new Question();
+		question.setText(inputQuestionDto.getText());
+		QuestionType qt = inputQuestionDto.getQuestionType();
+		question.setQuestionType(qt);
+		questionRepo.save(question);
+		return makeDto(question);
 	}
 }

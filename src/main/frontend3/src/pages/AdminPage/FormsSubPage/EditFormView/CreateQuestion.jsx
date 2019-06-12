@@ -2,20 +2,23 @@ import React from 'react';
 import { compose } from 'recompose';
 import { withRouter } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
-import { Paper, Grid, TextField, Button } from '@material-ui/core';
+import { Paper, Grid, TextField, Button, Select, Input, MenuItem } from '@material-ui/core';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import * as questionTypes from '../../../../constants/domain/questionTypes';
+
 const styles = theme => ({
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(0),
+    marginRight: theme.spacing(2),
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(2),
   },
   paper: {
-    padding: 20
+    padding: 20,
+    cursor: 'pointer'
   }
 });
 
@@ -34,6 +37,7 @@ const RELOAD_FORM = gql`
       questions {
         id
         text
+        questionType
       }
     }
   }
@@ -46,6 +50,7 @@ const UPDATE_FORM_QUESTION = gql`
       questions {
         id
         text
+        questionType
       }
     }
   }
@@ -56,12 +61,15 @@ class CreateQuestion extends React.Component {
     super(props)
     this.state = {
       inputText: '',
+      questionType: questionTypes.NUMERIC,
       isFormChanged: false,
       editQuestionId: undefined
     }
     this.setInputText = this.setInputText.bind(this);
     this.handleCreateQuestion = this.handleCreateQuestion.bind(this);
     this.handleUpdateQuestion = this.handleUpdateQuestion.bind(this);
+    this.handleChangeQuestionType = this.handleChangeQuestionType.bind(this);
+    this.checkIfValid = this.checkIfValid.bind(this);
   }
   setInputText(event) {
     this.setState({ inputText: event.target.value, isFormChanged: true});
@@ -74,7 +82,8 @@ class CreateQuestion extends React.Component {
       this.props.createFormQuestion({
         variables: {
           inquest: {
-            'text': this.state.inputText
+            text: this.state.inputText,
+            questionType: this.state.questionType
           },
           formId
         },
@@ -86,16 +95,19 @@ class CreateQuestion extends React.Component {
       console.error('missing valid form id');
     }
   }
+
   handleUpdateQuestion() {
     if (this.props.editQuestionId) {
       this.props.updateQuestion({
         variables: {
           inquest: {
-            'text': this.state.inputText,
+            text: this.state.inputText,
+            questionType: this.state.questionType,
             id: this.props.editQuestionId
           }
         }
       }).then((response) => {
+        // NOTE: a better solution would be to update cash here instead of excessive retund form backend
         this.setState({ inputText: ''});
         this.props.setEditQuestionId(undefined);
       })
@@ -103,55 +115,85 @@ class CreateQuestion extends React.Component {
       console.error('missing valid question id');
     }
   }
+  
+  handleChangeQuestionType(event) {
+    this.setState({ questionType: event.target.value, isFormChanged: true });
+  }
+
   static getDerivedStateFromProps(props, state) {
     if (props.editQuestionId !== state.editQuestionId) {
-      const questions = props.form.questions;
+      const { form } = props;
+      const { questions } = form;
       const question = questions.find(q => q.id === props.editQuestionId);
       const inputText = question ? question.text : '';
-      return { editQuestionId: props.editQuestionId, inputText, isFormChanged: false }
+
+      const questionType = question && question.questionType ? question.questionType : questionTypes.NUMERIC;
+      return { editQuestionId: props.editQuestionId, inputText, isFormChanged: false, questionType }
     }
     return null; // no change
   }
 
+  checkIfValid() {
+    const { inputText } = this.state;
+    return inputText.length > 3;
+  }
+
   render() {
     const { classes, editQuestionId } = this.props;
+    const { isFormChanged } = this.state;
+    const isAbleToSave = isFormChanged && this.checkIfValid();
     const inputLabel = editQuestionId ?  'Edit Question' : 'New Question';
-    // const formId = match && match.params && match.params.formId ? match.params.formId : false;
     return (
       <Paper className={classes.paper}>
         <Grid container>
-          <h2>Edit question</h2>
-          <br />
-          <TextField
-            id="question-text"
-            label={inputLabel}
-            multiline
-            fullWidth
-            rowsMax="4"
-            value={this.state.inputText}
-            onChange={this.setInputText}
-            className={classes.textField}
-            margin="normal"
-            variant="outlined"
-          />
-          {!editQuestionId &&
-            (<Button
-              variant='contained'
-              color='primary'
-              onClick={this.handleCreateQuestion}
-              disabled={!this.state.isFormChanged}
-              className={classes.button}>
-              Store
-            </Button>)}
-          {editQuestionId &&
-            (<Button
-              variant='contained'
-              color='primary'
-              onClick={this.handleUpdateQuestion}
-              disabled={!this.state.isFormChanged}
-              className={classes.button}>
-              Update
-            </Button>)}
+          <Grid item sm={12}>
+            <h2>Edit question</h2>
+            <br />
+            <TextField
+              id="question-text"
+              label={inputLabel}
+              multiline
+              fullWidth
+              rowsMax="4"
+              value={this.state.inputText}
+              onChange={this.setInputText}
+              className={classes.textField}
+              margin="normal"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item sm={6} style={{marginTop: 20}}>
+          <Select
+              value={this.state.questionType}
+              onChange={this.handleChangeQuestionType}
+              input={<Input name="age" id="age-helper" />}
+            >
+              <MenuItem value={questionTypes.NUMERIC}>Numeric 6</MenuItem>
+              <MenuItem value={questionTypes.YESNO}>Yes or NO</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item sm={6} style={{marginTop: 20}}>
+            <div style={{float: 'right'}} >
+            {!editQuestionId &&
+              (<Button
+                variant='contained'
+                color='primary'
+                onClick={this.handleCreateQuestion}
+                disabled={!isAbleToSave}
+                className={classes.button}>
+                Store
+              </Button>)}
+            {editQuestionId &&
+              (<Button
+                variant='contained'
+                color='primary'
+                onClick={this.handleUpdateQuestion}
+                disabled={!isAbleToSave}
+                className={classes.button}>
+                Update
+              </Button>)}
+            </div>
+          </Grid>
         </Grid>
       </Paper>
     )
