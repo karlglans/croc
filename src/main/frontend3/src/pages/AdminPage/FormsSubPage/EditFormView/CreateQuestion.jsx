@@ -56,6 +56,19 @@ const UPDATE_FORM_QUESTION = gql`
   }
 `;
 
+const DELETE_FORM_QUESTION = gql`
+  mutation($questionId: ID!, $formId: ID!) {
+    removeQuestionFromForm(questionId: $questionId, formId: $formId) {
+      id
+      questions {
+        id
+        text
+        questionType
+      }
+    }
+  }
+`;
+
 class CreateQuestion extends React.Component {
   constructor(props) {
     super(props)
@@ -69,6 +82,7 @@ class CreateQuestion extends React.Component {
     this.handleCreateQuestion = this.handleCreateQuestion.bind(this);
     this.handleUpdateQuestion = this.handleUpdateQuestion.bind(this);
     this.handleChangeQuestionType = this.handleChangeQuestionType.bind(this);
+    this.handleRemoveQuestion = this.handleRemoveQuestion.bind(this);
     this.checkIfValid = this.checkIfValid.bind(this);
   }
   setInputText(event) {
@@ -107,13 +121,32 @@ class CreateQuestion extends React.Component {
           }
         }
       }).then((response) => {
-        // NOTE: a better solution would be to update cash here instead of excessive retund form backend
+        // NOTE: a better solution would be to update cash here instead of excessive retun form backend
         this.setState({ inputText: ''});
         this.props.setEditQuestionId(undefined);
       })
     } else {
       console.error('missing valid question id');
     }
+  }
+
+  handleRemoveQuestion() {
+    const { match } = this.props;
+    const formId = match && match.params && match.params.formId ? match.params.formId : false;
+    if (this.props.editQuestionId && formId) {
+      this.props.removeFormQuestion({
+        variables: {
+          questionId: this.props.editQuestionId,
+          formId
+        }
+      }).then((response) => {
+        // NOTE: a better solution would be to update cash here instead of excessive retun form backend
+        this.setState({ inputText: ''});
+        this.props.setEditQuestionId(undefined);
+      })
+    } else {
+      console.error('missing valid question id', formId, this.props.editQuestionId);
+     }
   }
   
   handleChangeQuestionType(event) {
@@ -152,6 +185,9 @@ class CreateQuestion extends React.Component {
             <TextField
               id="question-text"
               label={inputLabel}
+              inputProps={{
+                maxLength: 255,
+              }}
               multiline
               fullWidth
               rowsMax="4"
@@ -172,27 +208,37 @@ class CreateQuestion extends React.Component {
               <MenuItem value={questionTypes.YESNO}>Yes or NO</MenuItem>
             </Select>
           </Grid>
-          <Grid item sm={6} style={{marginTop: 20}}>
-            <div style={{float: 'right'}} >
-            {!editQuestionId &&
-              (<Button
-                variant='contained'
-                color='primary'
-                onClick={this.handleCreateQuestion}
-                disabled={!isAbleToSave}
-                className={classes.button}>
-                Store
-              </Button>)}
-            {editQuestionId &&
-              (<Button
-                variant='contained'
-                color='primary'
-                onClick={this.handleUpdateQuestion}
-                disabled={!isAbleToSave}
-                className={classes.button}>
-                Update
-              </Button>)}
-            </div>
+          <Grid item sm={12} style={{marginTop: 20}}>
+            
+            {!editQuestionId && (
+              <div style={{float: 'right'}} >
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={this.handleCreateQuestion}
+                  disabled={!isAbleToSave}
+                  className={classes.button}>
+                  Store
+                </Button>
+              </div>)}
+            {editQuestionId && (
+              <div style={{float: 'right'}} >
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={this.handleRemoveQuestion}
+                  className={classes.button}>
+                  Remove
+                </Button>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={this.handleUpdateQuestion}
+                  disabled={!isAbleToSave}
+                  className={classes.button}>
+                  Update
+                </Button>
+              </div>)}
           </Grid>
         </Grid>
       </Paper>
@@ -204,6 +250,7 @@ const enhance = compose(
   withRouter,
   graphql(CREATE_FORM_QUESTION, {name: 'createFormQuestion'}),
   graphql(UPDATE_FORM_QUESTION, {name: 'updateQuestion'}),
+  graphql(DELETE_FORM_QUESTION, {name: 'removeFormQuestion'}),
   withStyles(styles)
 )
 

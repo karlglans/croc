@@ -36,7 +36,7 @@ class FormsSubPage extends React.Component {
   render() {
     const { classes, location, /* match */ } = this.props;
     // const formId = match && match.params && match.params.formId ? match.params.formId : false;
-    const editFormPath = '/admin/forms/'+this.props.selectedFormId+'/edit';
+    // const editFormPath = '/admin/forms/'+this.props.selectedFormId+'/edit';
     const isOnForms = location.pathname === '/admin/forms';
     const isOnCreate = location.pathname.includes('/create');
     const isOnEdit = location.pathname.includes('/edit');
@@ -60,7 +60,7 @@ class FormsSubPage extends React.Component {
               </MenuItem>
             )}
             { isOnEdit && (
-              <MenuItem button key={'edit'} selected={isOnEdit} component={Link} to={editFormPath}>
+              <MenuItem button key={'edit'} selected={isOnEdit} >
                 <ListItemText primary={'Edit'} />
               </MenuItem>
             )}

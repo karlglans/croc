@@ -54,6 +54,11 @@ public class Mutation implements GraphQLMutationResolver {
 		return formService.getFromDto(formId);
 	}
 
+	public FormDto removeQuestionFromForm(final Integer questionId, final Integer formId) {
+		return formService.removeQuestionFromForm(questionId, formId);
+		// return new FormDto();
+	}
+
 	public FormDto createForm(String title) {
 		Form form = new Form();
 		form.setTitle(title);

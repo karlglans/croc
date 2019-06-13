@@ -23,4 +23,13 @@ public class FormIT extends SimpleEndpointTests {
 		assertEquals("{\"form\":{\"questions\":[{\"id\":\"2\",\"privileges\":{\"isEditable\":false}},{\"id\":\"3\",\"privileges\":{\"isEditable\":true}}]}}", json);
 	}
 
+	@Test
+	public void canRemoveQuestionFromForm() {
+		String query = "mutation { removeQuestionFromForm(questionId: 6, formId: 4) { questions { id } } }";
+		String json = excQuery(query);
+		assertEquals("{\"removeQuestionFromForm\":{\"questions\":" +
+				"[{\"id\":\"5\"},{\"id\":\"7\"},{\"id\":\"8\"}]}}", json);
+	}
+
+
 }

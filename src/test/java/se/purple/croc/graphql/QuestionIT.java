@@ -20,7 +20,10 @@ public class QuestionIT extends SimpleEndpointTests {
 	public void canAlterQuestion() {
 		String json = excQuery("mutation { updateQuestion( input: {text: \"aaa\", id: 3} ){ id questions { id text } }}");
 		String expected = "{\"updateQuestion\":{\"id\":\"2\"," +
-				"\"questions\":[{\"id\":\"2\",\"text\":\"question2 form1 and form2\"},{\"id\":\"3\",\"text\":\"aaa\"}]}}";
+				"\"questions\":[{\"id\":\"2\",\"text\":\"question2 form1 and form2\"}," +
+				"{\"id\":\"3\",\"text\":\"aaa\"}]}}";
 		assertEquals(expected, json);
 	}
+
+//	@l
 }
