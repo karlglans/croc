@@ -152,4 +152,16 @@ public class FormService {
 		return makeFormDtoShallow(form);
 	}
 
+	public FormDto removeQuestionFromForm(final int questionId, final int formId) {
+		Form form = getForm(formId);
+		var questions = form.getFormQuestions();
+		for (FormQuestion question : questions) {
+			if (question.getQuestion().getId() == questionId) {
+				formQuestionRepo.delete(question);
+				break;
+			}
+		}
+		return getFromDto(formId);
+	}
+
 }

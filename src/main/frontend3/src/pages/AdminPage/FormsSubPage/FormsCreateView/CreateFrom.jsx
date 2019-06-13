@@ -28,14 +28,15 @@ const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+    width: '100%',
+    padding: 30
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(4),
   }
 });
 
@@ -79,12 +80,14 @@ class CreateForm extends React.Component {
       return <Redirect to={`/admin/forms/${this.state.createdFormId}/edit`} push={true} />
     }
     return (
-      <Paper>
-        <form onSubmit={this.sendForm} >
+      <form onSubmit={this.sendForm} >
+        <Paper className={classes.container}>
+          <h2>Create new form</h2>
           <TextField
             id='standard-uncontrolled'
             label='Title'
             defaultValue=''
+            fullWidth={true}
             className={classes.textField}
             margin='normal'
             onChange={this.handleChange}
@@ -97,8 +100,8 @@ class CreateForm extends React.Component {
             className={classes.button}>
             Create
           </Button>
-        </form>
-      </Paper>
+        </Paper>
+      </form>
     );
   }
 }

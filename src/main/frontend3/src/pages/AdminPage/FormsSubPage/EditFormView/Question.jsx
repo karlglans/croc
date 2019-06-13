@@ -21,6 +21,9 @@ const styles = {
     minHeight: 100,
   },
   paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between', 
     flexGrow: 1000,
     padding: 10,
   },
@@ -48,9 +51,12 @@ const Question = props => {
             }
           }}
       >
+        <div style={{flex: 1}}>
         {props.question.text}
-        <br />
-        QuestionType: {props.question.questionType}
+        </div>
+        <div style={{flex: -1, alignSelf: 'flex-end'}}>
+          {props.question.questionType}
+        </div>
       </Paper>
     
     </div>
