@@ -12,9 +12,11 @@ const ADD_USERGROUP_TO_SURVEY = gql`
   }
 `;
 
+// this query should later be removed by single backend call
 const GET_PARTICPANT_DATA = gql`
   query($surveyId: ID) {
     survey(id: $surveyId) {
+      id
       participants {
         id
         email
