@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import se.purple.croc.domain.Answer;
@@ -42,6 +41,6 @@ public class SurveyServiceTests {
 	@Test
 	public void getAnswerBySurvey() {
 		List<Answer>  answers = surveyService.getAnswersBySurvey(1);
-		assertEquals(3, answers.size());
+		assertEquals(5, answers.size());
 	}
 }
