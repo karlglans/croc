@@ -37,7 +37,7 @@ public class FormRepoTests {
 
 		Form from1 = manager.find(Form.class, form.getId());
 
-		assertEquals(4, from1.getId());
+		assertEquals(5, from1.getId());
 	}
 
 	@Test

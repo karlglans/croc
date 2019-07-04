@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import se.purple.croc.domain.*;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -31,25 +30,25 @@ public class SurveyRepoTests {
 		Survey survey = new Survey();
 		surveyRepository.save(survey);
 		Survey survey1 = manager.find(Survey.class, survey.getId());
-		assertEquals(5, survey1.getId());
+		assertEquals(6, survey1.getId());
 	}
 
 	@Test
 	public void getAnswersBySurveyId() {
 		List<Answer> surveyAnswers = surveyRepository.getAnswersBySurveyId(1);
-		assertEquals(3, surveyAnswers.size());
+		assertEquals(5, surveyAnswers.size());
 	}
 
 	@Test
 	public void findSurveyByStatusEquals() {
 		List<Survey> surveys = surveyRepository.findSurveyByStatusEquals(SurveyStatus.ONGOING);
-		assertEquals(3, surveys.size());
+		assertEquals(4, surveys.size());
 	}
 
 	@Test
 	public void findSurveyParticipantsUsersBySurveyId() {
 		List<Users> users = surveyRepository.findSurveyParticipantsUsersBySurveyId(1);
-		assertEquals(2, users.size());
+		assertEquals(3, users.size());
 	}
 
 
@@ -69,7 +68,7 @@ public class SurveyRepoTests {
 	@Test
 	public void findSurveyByParticipantsEquals() {
 		var surveys = surveyRepository.findSurveyByParticipantsEquals(4);
-		assertEquals(2, surveys.size());
+		assertEquals(3, surveys.size());
 	}
 
 	@Test
@@ -120,7 +119,7 @@ public class SurveyRepoTests {
 	public void findSurveyByStatusAndCountAnswers() {
 		List<Object> result = surveyRepository.findSurveyByStatusAndCountAnswers(SurveyStatus.ONGOING);
 
-		// expecting 3 Surveys
+		// expecting 4 Surveys
 		assertEquals(4, result.size());
 		Object[] Survey1Pair = (Object[]) result.get(0);
 		Object[] Survey2Pair = (Object[]) result.get(1);
@@ -128,7 +127,7 @@ public class SurveyRepoTests {
 
 		assertEquals(2, Survey1Pair.length);
 		assertEquals(1, ((Survey) Survey1Pair[0]).getId() );
-		assertEquals(3, (long)Survey1Pair[1] ); // answers
+		assertEquals(5, (long)Survey1Pair[1] ); // answers
 
 		assertEquals(2, Survey2Pair.length);
 		assertEquals(2, ((Survey) Survey2Pair[0]).getId() );

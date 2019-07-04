@@ -5,13 +5,17 @@ COPY ./src/main/frontend3 ./
 RUN npm install
 RUN npm run build
 
-FROM maven:3.6.0-jdk-11-slim as serve
+FROM maven:3.6.0-jdk-11-slim as build
 WORKDIR /usr/src/jdk_appserver
 COPY ./pom.xml ./
 COPY ./src/main/java ./src/main/java
 COPY ./src/main/resources ./src/main/resources
 COPY --from=frontend /usr/src/reactapp/build ./src/main/resources/static
-RUN mvn clean -Dmaven.test.skip=true package
-ENTRYPOINT exec java -jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005 "/usr/src/jdk_appserver/target/$jar_name"
+# -Dmaven.test.skip=true
+RUN mvn clean package
+# ENTRYPOINT exec java -jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005 "/usr/src/jdk_appserver/target/$jar_name"
 
-# maybe add another buildstep for a jreserver. Keeping jdk for remote debugging
+FROM openjdk:8-jre-alpine
+WORKDIR /home/application/java
+COPY --from=build "/usr/src/jdk_appserver/target/$jar_name" .
+ENTRYPOINT exec java -jar "/home/application/java/$jar_name"
