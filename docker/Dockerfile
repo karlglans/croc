@@ -1,5 +1,6 @@
 FROM node:8 as frontend
 WORKDIR /usr/src/reactapp
+ARG jar_name
 COPY ./src/main/frontend3 ./
 RUN npm install
 RUN npm run build
@@ -11,6 +12,6 @@ COPY ./src/main/java ./src/main/java
 COPY ./src/main/resources ./src/main/resources
 COPY --from=frontend /usr/src/reactapp/build ./src/main/resources/static
 RUN mvn clean -Dmaven.test.skip=true package
-ENTRYPOINT ["java","-jar", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005", "/usr/src/jdk_appserver/target/croc-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT exec java -jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005 "/usr/src/jdk_appserver/target/$jar_name"
 
 # maybe add another buildstep for a jreserver. Keeping jdk for remote debugging
