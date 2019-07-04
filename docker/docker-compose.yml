@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  server:
+    container_name: cro_local
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - '5005:5005'
+      - '8081:8080'
+      - '35729:35729'
+    environment:
+      - jar_name=croc-0.0.1-SNAPSHOT.jar
+
