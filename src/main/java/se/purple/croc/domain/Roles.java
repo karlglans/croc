@@ -18,6 +18,7 @@ public class Roles implements GrantedAuthority {
 
 	@Override
 	public String getAuthority() {
+		// NOTE: maybe spring wants the format "ROLE_" + role.name();
 		return role.name();
 	}
 }

@@ -1,4 +1,4 @@
 const getUserId = () => {
-  return localStorage.getItem('apollotoken');
+  return localStorage.getItem('crocClientId');
 }
 export default getUserId;

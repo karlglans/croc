@@ -1,15 +1,67 @@
 package se.purple.croc.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
-import se.purple.croc.domain.Users;
+import se.purple.croc.domain.Role;
+import se.purple.croc.domain.Roles;
 import se.purple.croc.models.AuthenticatedUser;
+
+import javax.annotation.PostConstruct;
+import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class TokenAuthenticationService {
 
+	@Value("${security.token.secret}")
+	String secret;
+
+	@Value("${security.token.issuer}")
+	String issuer;
+
+	@Value("${security.token.users.expireTime}")
+	Long usersExpireTime; // milliSeconds until token expire
+
+	private final Roles userAuthority = new Roles();
+	private final Roles supervisorAuthority = new Roles();
+	// private final Roles adminAuthority = new Roles();
+
+
 	@Autowired
 	AuthService authService;
+
+	private Algorithm algorithm;
+	private JWTVerifier verifier;
+
+	@PostConstruct
+	public void init() {
+		this.algorithm = Algorithm.HMAC256(secret);
+		this.verifier = JWT.require(algorithm)
+				.withIssuer(issuer)
+				.build(); //Reusable verifier instance
+
+		// TODO maybe find a better spot for these objects
+		userAuthority.setId(1);
+		userAuthority.setRole(Role.user);
+		supervisorAuthority.setId(2);
+		supervisorAuthority.setRole(Role.supervisor);
+	}
+
+	private Date makeExpireDate() {
+		Date date = new Date();
+		date.setTime(date.getTime() + usersExpireTime);
+		return date;
+	}
 
 	public AuthenticatedUser TEMP_makeDefaulUser() {
 		AuthenticatedUser authUser = new AuthenticatedUser();
@@ -19,24 +71,33 @@ public class TokenAuthenticationService {
 		return authUser;
 	}
 
+	private void addRoles(Set<GrantedAuthority> authorities, String roles) {
+		if (roles.contains("USER")) {
+			authorities.add(userAuthority);
+		}
+		if (roles.contains("SUPER")) {
+			authorities.add(supervisorAuthority);
+		}
+	}
+
 	public AuthenticatedUser extractUserFromToken(Object token) {
 		String strToken = token.toString();
-		// no token should lead to BadCredentialsException
-		if (strToken.compareTo("null") == 0) {
-			return TEMP_makeDefaulUser();
-			// later on, put this back:
-			// throw new BadCredentialsException("Missing Authentication Token");
+		DecodedJWT jwt = null;
+		try {
+			jwt = verifier.verify(strToken);
+		} catch (JWTVerificationException exception) {
+			throw new BadCredentialsException("Missing Authentication Token");
 		}
-		int userId = Integer.parseInt(strToken);
-		Users user = authService.getUser(userId);
+		Map<String, Claim> claims = jwt.getClaims(); // Key is the Claim name
 
-		// TODO: check token.
-		System.out.println(String.format("success auth by user: %d", userId)); // remove
 		AuthenticatedUser authUser = new AuthenticatedUser();
-		authUser.setEmail(user.getEmail());
-		authUser.getAuthorities().addAll(user.getRoles());
-		authUser.setUsername("User " + token);
-		authUser.setUserId(Integer.parseInt(strToken));
+		authUser.setUsername(claims.get("email").asString());
+		authUser.setEmail(claims.get("email").asString());
+		addRoles(authUser.getAuthorities(), claims.get("roles").asString());
+		authUser.setSub(jwt.getSubject());
+		authUser.setProvider("google"); // only option for now
+		authUser.setUserId(claims.get("id").asInt());
+		System.out.println(String.format("success auth by user: %d", authUser.getUserId())); // remove
 
 		return authUser;
 	}
