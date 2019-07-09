@@ -12,7 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.Role;
-import se.purple.croc.domain.Roles;
+import se.purple.croc.models.AuthorityRole;
 import se.purple.croc.models.AuthenticatedUser;
 
 import javax.annotation.PostConstruct;
@@ -32,9 +32,8 @@ public class TokenAuthenticationService {
 	@Value("${security.token.users.expireTime}")
 	Long usersExpireTime; // milliSeconds until token expire
 
-	private final Roles userAuthority = new Roles();
-	private final Roles supervisorAuthority = new Roles();
-	// private final Roles adminAuthority = new Roles();
+	private final AuthorityRole userAuthority = new AuthorityRole();
+	private final AuthorityRole supervisorAuthority = new AuthorityRole();
 
 
 	@Autowired
@@ -51,9 +50,7 @@ public class TokenAuthenticationService {
 				.build(); //Reusable verifier instance
 
 		// TODO maybe find a better spot for these objects
-		userAuthority.setId(1);
 		userAuthority.setRole(Role.user);
-		supervisorAuthority.setId(2);
 		supervisorAuthority.setRole(Role.supervisor);
 	}
 
@@ -63,13 +60,13 @@ public class TokenAuthenticationService {
 		return date;
 	}
 
-	public AuthenticatedUser TEMP_makeDefaulUser() {
-		AuthenticatedUser authUser = new AuthenticatedUser();
-		authUser.setUsername("default user");
-		authUser.setEmail("mail1@mail.com");
-		authUser.setUserId(4);
-		return authUser;
-	}
+//	public AuthenticatedUser TEMP_makeDefaulUser() {
+//		AuthenticatedUser authUser = new AuthenticatedUser();
+//		authUser.setUsername("default user");
+//		authUser.setEmail("mail1@mail.com");
+//		authUser.setUserId(4);
+//		return authUser;
+//	}
 
 	private void addRoles(Set<GrantedAuthority> authorities, String roles) {
 		if (roles.contains("USER")) {

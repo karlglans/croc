@@ -1,5 +1,5 @@
-INSERT INTO roles (id, role) VALUES
-(1, 'user'), (2, 'supervisor'), (3, 'administrator');
+-- INSERT INTO roles (id, role) VALUES
+-- (1, 'user'), (2, 'supervisor'), (3, 'administrator');
 
 INSERT INTO user_group (id, name) VALUES
 (1, 'Everyone from A'), (2, 'Subset of A and B'), (3, 'Everyone from B');
@@ -13,9 +13,10 @@ INSERT INTO users (id, email) VALUES
 (17, 'employee14@purple.com'), (18, 'employee15@purple.com'), (19, 'employee16@purple.com'),
 (20, 'employee17@purple.com'), (21, 'employee18@purple.com'), (22, 'employee19@purple.com');
 
-INSERT INTO user_roles (user_id, role_id) VALUES
-(1, 3), (2, 1), (2, 2), (3, 1), (3, 2), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1),
-(13, 1), (14, 1), (15, 1), (16, 1), (17, 1), (18, 1), (19, 1), (20, 1), (21, 1);
+INSERT INTO user_roles (user_id, roles) VALUES
+(1, 'administrator'), (2, 'user'), (2, 'supervisor'), (3, 'user'), (3, 'supervisor'), (4, 'user'), (5, 'user'), (6, 'user'), (7, 'user'),
+(8, 'user'), (9, 'user'), (10, 'user'), (11, 'user'), (12, 'user'), (13, 'user'), (14, 'user'), (15, 'user'),
+(16, 'user'), (17, 'user'), (18, 'user'), (19, 'user'), (20, 'user'), (21, 'user');
 
 INSERT INTO grouped_users (user_id, group_id) VALUES
 (2, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1), (13, 1),
