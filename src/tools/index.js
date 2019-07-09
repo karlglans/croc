@@ -3,7 +3,7 @@
 // ideas from https://developer.atlassian.com/blog/2015/11/scripting-with-node/
 
 // TEMP: will generate tokens form example users
-// npm run tools -- token --secret cjbevb5mjfst9 --roles "USER ADMIN" --email supervisor2@purple.com --id 3
+// npm run tools -- token --secret cjbevb5mjfst9 --roles "USER SUPER" --email supervisor2@purple.com --id 3
 // npm run tools -- token --secret cjbevb5mjfst9 --roles USER --email employee1@purple.com --id 4
 
 const program = require('commander');
