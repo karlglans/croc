@@ -1,17 +1,13 @@
-package se.purple.croc.domain;
+package se.purple.croc.models;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import se.purple.croc.domain.Role;
 
 import javax.persistence.*;
 
 @Data
-@Entity
-public class Roles implements GrantedAuthority {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id;
+public class AuthorityRole implements GrantedAuthority {
 
 	@Enumerated(EnumType.STRING)
 	Role role;
