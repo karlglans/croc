@@ -3,6 +3,8 @@ import { Redirect} from "react-router-dom";
 
 import { Paper, Card, CardActionArea, Typography  } from '@material-ui/core';
 
+import * as Role from '../../constants/domain/roleTypes'
+
 const styles = {
   container: {
     display: 'flex',
@@ -40,13 +42,23 @@ class LoginPage extends Component {
   }
 
   clickSupervicor() {
-    localStorage.setItem('apollotoken', 3);
-    localStorage.setItem('crocClient', 'supervicor');
+    // user 3, a supervisor
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjcm9jIiwic3ViIjoiZ29vZ2xlL" +
+      "TExMTExIiwiZW1haWwiOiJzdXBlcnZpc29yMkBwdXJwbGUuY29tIiwicm9sZXMiOiJVU0VSIFN" +
+      "VUEVSIiwiaWQiOjMsImlhdCI6MTU2MjM0MzE3NH0.2AuO28w248jrkwQTu-CynybNSEvcPD-XQBIiJlX13qc";
+    localStorage.setItem('apollotoken', token);
+    localStorage.setItem('crocClient', Role.SUPERVISOR);
+    localStorage.setItem('crocClientId', '3');
     this.setState({redirect: '/admin/surveys'});
   }
   clickUser() {
-    localStorage.setItem('apollotoken', 4);
-    localStorage.setItem('crocClient', 'user');
+    // user 4, an ordinary user
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjcm9jIiwic3ViIjoiZ29vZ2xlL" + 
+      "TExMTExIiwiZW1haWwiOiJlbXBsb3llZTFAcHVycGxlLmNvbSIsInJvbGVzIjoiVVNFUiIsI" + 
+      "mlkIjo0LCJpYXQiOjE1NjIyNzk2MTd9.wCk6xLNczwtPBN93vEtxnKty2WHgYjM9c_fMoMxpQi4";
+    localStorage.setItem('apollotoken', token);
+    localStorage.setItem('crocClient', Role.USER);
+    localStorage.setItem('crocClientId', '4');
     this.setState({redirect: '/surveys'});
   }
 

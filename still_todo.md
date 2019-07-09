@@ -7,3 +7,4 @@
 * Gör effektivare query för att lista users (JOIN FETCH) roles
 * Se till att survesy för user startar i ongoing taben.
 * Ändra FormQuestionId så att man kan få ut ett del id utan att trigga extra query.
+* Ta reda på varför security.token grejerna behövs på nytt i application.properties i test. 

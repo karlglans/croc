@@ -86,6 +86,7 @@ public class Query implements GraphQLQueryResolver {
 	}
 
 	public Iterable<AnswerDto> getAnswers(Integer surveyId, Integer userId) {
+		// TODO check reading rights
 		return answerService.getSurveyAnswersForParticipant(surveyId, userId);
 	}
 }

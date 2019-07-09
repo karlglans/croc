@@ -21,11 +21,11 @@ public class UserService {
 
 	public List<UserDto> getAllUSers() {
 		List<Users> users = getUsers();
-		List<UserDto> usersDtoLsit = new ArrayList<>();
+		List<UserDto> usersDtoList = new ArrayList<>();
 		for (Users user : users) {
-			usersDtoLsit.add(makeUserDto(user));
+			usersDtoList.add(makeUserDto(user));
 		}
-		return usersDtoLsit;
+		return usersDtoList;
 	}
 
 	public UserDto makeUserDto(Users user) {
