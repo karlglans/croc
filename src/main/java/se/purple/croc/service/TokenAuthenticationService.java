@@ -60,14 +60,6 @@ public class TokenAuthenticationService {
 		return date;
 	}
 
-//	public AuthenticatedUser TEMP_makeDefaulUser() {
-//		AuthenticatedUser authUser = new AuthenticatedUser();
-//		authUser.setUsername("default user");
-//		authUser.setEmail("mail1@mail.com");
-//		authUser.setUserId(4);
-//		return authUser;
-//	}
-
 	private void addRoles(Set<GrantedAuthority> authorities, String roles) {
 		if (roles.contains("USER")) {
 			authorities.add(userAuthority);
