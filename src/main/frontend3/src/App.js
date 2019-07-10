@@ -11,8 +11,12 @@ import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 
+import { ThemeProvider } from '@material-ui/styles';
+
 import * as am4core from '@amcharts/amcharts4/core';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+
+import theme from './theme';
 
 am4core.useTheme(am4themes_animated);
 
@@ -38,15 +42,17 @@ const client = new ApolloClient({
 class App extends Component {
   render() {
     return (
-      <ApolloProvider client={client}>
-        <Router>
-          <Switch>
-            <Route path='/admin' component={AdminPage} />
-            <Route path='/login' component={() => <LoginPage client={client} />} />
-            <Route path='/' component={UserPage} />
-          </Switch>
-        </Router>
-      </ApolloProvider>
+      <ThemeProvider theme={theme}>
+        <ApolloProvider client={client}>
+          <Router>
+            <Switch>
+              <Route path='/admin' component={AdminPage} />
+              <Route path='/login' component={() => <LoginPage client={client} />} />
+              <Route path='/' component={UserPage} />
+            </Switch>
+          </Router>
+        </ApolloProvider>
+      </ThemeProvider>
     );
   }
 }

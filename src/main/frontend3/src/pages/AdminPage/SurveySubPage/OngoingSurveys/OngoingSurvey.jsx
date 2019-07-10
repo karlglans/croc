@@ -5,6 +5,7 @@ import { Grid, Button } from '@material-ui/core';
 
 import ParticipantList from '../components/ParticipantList';
 import AddParticipants from '../components/AddParticipants';
+import ActionPanel from './ActionPanel';
 
 class SurveyListItemClosed extends React.Component {
   render() {
@@ -20,7 +21,11 @@ class SurveyListItemClosed extends React.Component {
         </Grid>
         <Grid item sm={12} md={6}>
           { hasBeenExpanded && (
-            <AddParticipants surveyId={surveyId} userGroups={this.props.userGroups} />) 
+              <React.Fragment>
+                <ActionPanel surveyId={surveyId} />
+                <AddParticipants surveyId={surveyId} userGroups={this.props.userGroups} />
+              </React.Fragment>
+            ) 
           }
         </Grid>
       </Grid>

@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import layoutInfo from '../../../../constants/layout';
 import SurveyHeader from '../components/SurveyHeader'
 import OngoingSurvey from './OngoingSurvey';
 
@@ -33,7 +34,7 @@ class ExpandableSurveyList extends React.Component {
         { isLoading && (
           <div>loading...</div>
         )}
-        <div style={{ width: '100%'}} >
+        <div style={{ width: layoutInfo.innerPageStandardWidth}} >
           {
             !isLoading && surveys && surveys.map(survey => 
               {
