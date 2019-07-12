@@ -8,6 +8,6 @@ public class ExampleCtrl {
 
 	@RequestMapping(value = "/ex")
 	public String hello() {
-		return "Example";
+		return "Example2";
 	}
 }

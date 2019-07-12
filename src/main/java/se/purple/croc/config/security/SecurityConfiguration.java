@@ -47,7 +47,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			new AntPathRequestMatcher("/h2-console/**"),
 			new AntPathRequestMatcher("/h2/**"),
 			// temp solution
-			new AntPathRequestMatcher("/graphiql")
+//			new AntPathRequestMatcher("/graphiql"), // has to be excluded for authentication to work
+			new AntPathRequestMatcher("/"),
+			new AntPathRequestMatcher("/manifest.json"),
+			new AntPathRequestMatcher("/favicon.ico"),
+			new AntPathRequestMatcher("/static/**")
 	);
 
 	@Override
