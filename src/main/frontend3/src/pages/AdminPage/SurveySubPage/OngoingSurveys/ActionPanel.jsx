@@ -1,13 +1,15 @@
 import React from 'react';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
-import { Button, Icon } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import SaveIcon from '@material-ui/icons/Save';
+import SaveIcon from '@material-ui/icons/BarChart';
+import Warning from '@material-ui/icons/Warning';
 
 const useStyles = makeStyles(theme => ({
   button: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
+    marginBottom: theme.spacing(3),
   },
   leftIcon: {
     marginRight: theme.spacing(1),
@@ -33,16 +35,17 @@ const ActionPanel = props => {
         component={Link}
         className={classes.button}
         >
-          View Results
+          View Results &nbsp;
           <SaveIcon className={clsx(classes.leftIcon, classes.iconSmall)} />
       </Button>
       <Button
-        color="primary"
+        color="secondary"
         size='small'
         variant='contained'
         className={classes.button}
         >
-          Close Survey
+          Close Survey &nbsp;
+          <Warning className={clsx(classes.leftIcon, classes.iconSmall)} />
       </Button>
     </React.Fragment>
   );
