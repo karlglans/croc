@@ -24,7 +24,14 @@ class CreateSurveyButton extends React.Component {
     }
 
     return (
-      <Button onClick={() => this.handleClick() }> Edit Form </Button>
+      <Button
+        style={{marginLeft:'1em'}}
+        size='small'
+        color="primary"
+        variant='contained'
+        onClick={() => this.handleClick() }>
+          Edit Form
+      </Button>
     )
   }
 }
