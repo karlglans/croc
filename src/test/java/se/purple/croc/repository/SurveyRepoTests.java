@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import se.purple.croc.domain.*;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -47,7 +48,7 @@ public class SurveyRepoTests {
 
 	@Test
 	public void findSurveyParticipantsUsersBySurveyId() {
-		List<Users> users = surveyRepository.findSurveyParticipantsUsersBySurveyId(1);
+		Set<Users> users = surveyRepository.findSurveyParticipantsUsersBySurveyId(1);
 		assertEquals(3, users.size());
 	}
 

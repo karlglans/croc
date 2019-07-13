@@ -6,6 +6,8 @@ import { compose } from 'recompose'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import MenuIcon from '@material-ui/icons/Menu';
 import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 import routes from '../../constants/routes';
 import UsersSubPage from './UsersSubPage';
@@ -26,8 +28,19 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
+  }
+});
+
+// added sub-theme just change secondary color, not sure if this solution is good enogh.
+const innerTheme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: '#fff',
+    },
   },
 });
+
+
 
 class AdminPageLayout extends React.Component {
   constructor(props) {
@@ -76,6 +89,7 @@ class AdminPageLayout extends React.Component {
       <div className={classes.root}>
           <CssBaseline /> 
           <AppBar position="fixed" className={classes.appbar}>
+          <ThemeProvider theme={innerTheme}>
             <Toolbar>
               <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                 <MenuIcon />
@@ -95,6 +109,7 @@ class AdminPageLayout extends React.Component {
 
               <Button color="inherit" to={routes.toLoginPage} onClick={this.onClickLogout} component={Link}>logout</Button>
             </Toolbar>
+            </ThemeProvider>
           </AppBar>
           <Switch>
             <Route path="/admin/users" component={UsersSubPage}/>
