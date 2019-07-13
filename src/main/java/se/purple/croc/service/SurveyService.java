@@ -15,7 +15,6 @@ import se.purple.croc.repository.UserRepository;
 import se.purple.croc.service.exceptions.MissingData;
 import se.purple.croc.service.exceptions.ServiceException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -104,8 +103,7 @@ public class SurveyService {
 	}
 
 	public SurveyDto getSurveyDtoById(int id) {
-		SurveyDto surveyDto = makeSurveyDto(getSurveyById(id));
-		return surveyDto;
+		return makeSurveyDto(getSurveyById(id));
 	}
 
 	void addUserToSurvey(Integer userId, Integer SurveyId) throws ServiceException {
@@ -134,14 +132,16 @@ public class SurveyService {
 	}
 
 	public List<Answer> getAnswersBySurvey(Integer surveyId) {
-		List<Answer> answers = surveyRepo.getAnswersBySurveyId(surveyId);
-		return answers;
+		return surveyRepo.getAnswersBySurveyId(surveyId);
 	}
 
 	public boolean addUsersToSurvey(int userGroupId, int surveyId) {
 		Survey survey = getSurveyById(surveyId);
 		var users =  userRepo.findUsersByGroupId(userGroupId);
-
+		var usersInSurvey = surveyRepo.findSurveyParticipantsUsersBySurveyId(surveyId);
+		// will not add user again if already there.
+		users.removeAll(usersInSurvey);
+		// Maybe make special query for this task instead of loop
 		for (Users user : users) {
 			SurveyParticipant sp = new SurveyParticipant();
 			sp.setSurvey(survey);
@@ -149,7 +149,6 @@ public class SurveyService {
 			sp.setComplete(false);
 			surveyParticipantRepo.save(sp);
 		}
-
 		return true; // TODO find better
 	}
 

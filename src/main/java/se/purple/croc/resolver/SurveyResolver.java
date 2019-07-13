@@ -7,7 +7,6 @@ import se.purple.croc.dto.*;
 import se.purple.croc.models.AuthenticatedUser;
 import se.purple.croc.service.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,13 +47,6 @@ public class SurveyResolver implements GraphQLResolver<SurveyDto> {
 	}
 
 	public List<AnswersSummary> getAnswersSum(SurveyDto survey) {
-//		List<AnswersSummary> numericAnswersList = new ArrayList<>();
-//		NumericAnswerDto answerDto = new NumericAnswerDto();
-////		int[] count = {0, 1, 2, 3, 4, 5 };
-////		answerDto.setCount(count);
-//		answerDto.setQuestionId(1);
-//		answerDto.makeContent();
-//		numericAnswersList.add(answerDto);
 		return answerService.getAnswersSummary(survey);
 	}
 }

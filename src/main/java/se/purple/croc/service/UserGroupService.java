@@ -1,5 +1,6 @@
 package se.purple.croc.service;
 
+import lombok.var;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class UserGroupService {
 	}
 
 	public void loadUsersInGroup(UserGroupDto userGroupDto) {
-		List<Users> users = userRepo.findUsersByGroupId(userGroupDto.getId());
+		var users = userRepo.findUsersByGroupId(userGroupDto.getId());
 		List<UserDto> userDtos = new ArrayList<>();
 		for (Users user : users) {
 			userDtos.add(userService.makeUserDto(user));
@@ -72,7 +73,7 @@ public class UserGroupService {
 	}
 
 	public List<UserDto> getUsersByGroupId(int id){
-		List<Users> users = userRepo.findUsersByGroupId(id);
+		var users = userRepo.findUsersByGroupId(id);
 		List<UserDto> userDtoList = new ArrayList<>();
 		for (Users user : users) {
 			userDtoList.add(userService.makeUserDto(user));

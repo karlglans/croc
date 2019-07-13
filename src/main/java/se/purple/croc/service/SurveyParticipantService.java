@@ -15,6 +15,7 @@ import se.purple.croc.repository.SurveyRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class SurveyParticipantService {
@@ -28,7 +29,7 @@ public class SurveyParticipantService {
 	@Autowired
 	AnswerRepository answerRepo;
 
-	List<Users> getParticipantsBySurvey(int surveyId) {
+	Set<Users> getParticipantsBySurvey(int surveyId) {
 		return surveyRepo.findSurveyParticipantsUsersBySurveyId(surveyId);
 	}
 
