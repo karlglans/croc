@@ -1,23 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { Grid, Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
-import ParticipantList from '../components/ParticipantList';
 import AddParticipants from '../components/AddParticipants';
 import ActionPanel from './ActionPanel';
+import SurveyInfo from '../components/SurveyInfo';
 
 class SurveyListItemClosed extends React.Component {
   render() {
+    const { hasBeenExpanded, survey } = this.props;
     const surveyId = this.props.survey.id;
-    const { hasBeenExpanded } = this.props;
     return (
       <Grid container>
         <Grid item sm={12} md={6}>
-          <Button to={'/admin/surveys/results/'+surveyId} component={Link}>View Results</Button>
-          { hasBeenExpanded && (
-            <ParticipantList surveyId={surveyId} />) 
-          }
+          { hasBeenExpanded && ( <SurveyInfo survey={survey} /> )}
         </Grid>
         <Grid item sm={12} md={6}>
           { hasBeenExpanded && (

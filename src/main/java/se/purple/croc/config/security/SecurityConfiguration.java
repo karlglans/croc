@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -13,7 +12,6 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -32,26 +30,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		this.provider = provider;
 	}
 
-	private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
-			new AntPathRequestMatcher("/public/**"),
-			new AntPathRequestMatcher("/_ah/health"),
-			// Swagger stuff
-			new AntPathRequestMatcher("/v2/api-docs"),
-			new AntPathRequestMatcher("/configuration/ui"),
-			new AntPathRequestMatcher("/swagger-resources"),
-			new AntPathRequestMatcher("/configuration/security"),
-			new AntPathRequestMatcher("/swagger-ui.html"),
-			new AntPathRequestMatcher("/webjars/**"),
-			new AntPathRequestMatcher("/swagger-resources/**"),
-			new AntPathRequestMatcher("/swagger-ui.html"),
-			new AntPathRequestMatcher("/h2-console/**"),
-			new AntPathRequestMatcher("/h2/**"),
-			// temp solution
-//			new AntPathRequestMatcher("/graphiql"), // has to be excluded for authentication to work
-			new AntPathRequestMatcher("/"),
-			new AntPathRequestMatcher("/manifest.json"),
-			new AntPathRequestMatcher("/favicon.ico"),
-			new AntPathRequestMatcher("/static/**")
+	private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
+			new AntPathRequestMatcher("/graphql"),
+			new AntPathRequestMatcher("/api") // has to be excluded for authentication to work
 	);
 
 	@Override
@@ -83,12 +64,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(provider);
 	}
 
-	@Override
-	public void configure(final WebSecurity web) {
-		web.ignoring().requestMatchers(PUBLIC_URLS);
-	}
-
-	private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
 
 	private TokenAuthenticationFilter restAuthenticationFilter() throws Exception {
 		final TokenAuthenticationFilter filter = new TokenAuthenticationFilter(PROTECTED_URLS);

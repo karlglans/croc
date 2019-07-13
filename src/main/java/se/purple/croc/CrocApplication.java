@@ -5,13 +5,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import javax.servlet.Filter;
+
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.view.RedirectView;
 
 @EnableTransactionManagement
 @SpringBootApplication
 public class CrocApplication {
 
 	public static void main(String[] args) {
+		System.out.println("MAIN 005");
 		SpringApplication.run(CrocApplication.class, args);
 	}
 
