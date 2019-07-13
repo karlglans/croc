@@ -1,25 +1,17 @@
 package se.purple.croc.controller;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class ExampleCtrl {
+
+//	@Value("${security.token.testparam}")
+//	String testparam;
 
 	@RequestMapping(value = "/ex")
 	public String hello() {
-		return "Example2";
+		return "Example2 ";
 	}
-
-	@RequestMapping(value = "/admin/surveys")
-	public String admin() {
-		return "index";
-	}
-
-//	@RequestMapping(value="/**/{[path:[^\\.]*}")
-//	public String index() {
-//		System.out.println("rewrite");
-//		return "index";
-//	}
 }
