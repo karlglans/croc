@@ -25,39 +25,32 @@ const styles = {
   }
 }
 
-const QuestionsList = props => (
-  <Query query={GET_QUESTIONS} variables={{formId: props.formId}}>
-    {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
-      if (error) return `Error! ${error.message}`;
-      return (
-        <React.Fragment>
-          <CreateSurveyButton formId={props.formId} />
-          { data.form.isEditable &&
-            (<EditFormButton formId={props.formId} />)
-          }
-          <List style={styles.listItemStyle}>
-            {data.form.questions.map((question, index) => (
-              <ListItem button key={question.id} >
-                {index + 1} : {question.text}
-              </ListItem>
-            ))}
-          </List>
-        </React.Fragment>
-      );
-    }}
-  </Query>
-);
+const QuestionsList = ({ match }) => {
+  const formId = match.params.formId;
+  if (!formId) return null;
+  return (
+    <Query query={GET_QUESTIONS} variables={{ formId }}>
+      {({ loading, error, data }) => {
+        if (loading) return 'Loading...';
+        if (error) return `Error! ${error.message}`;
+        return (
+          <React.Fragment>
+            <CreateSurveyButton formId={ formId } />
+            { data.form.isEditable &&
+              (<EditFormButton formId={ formId } />)
+            }
+            <List style={styles.listItemStyle}>
+              {data.form.questions.map((question, index) => (
+                <ListItem button key={question.id} >
+                  {index + 1} : {question.text}
+                </ListItem>
+              ))}
+            </List>
+          </React.Fragment>
+        );
+      }}
+    </Query>
+  );
+};
 
-// http://localhost:3000/admin/forms/NNN
-const getFormIdFromPath = (url) => {
-  const lastPart = url.substring(url.lastIndexOf('/') + 1)
-  return lastPart;
-}
-
-const MaybeQuestionsList = props => {
-  if ( !props.location.pathname.includes('forms/') ) return null;
-  return (<QuestionsList formId={getFormIdFromPath(props.location.pathname)} />)
-}
-
-export default withRouter(MaybeQuestionsList);
+export default withRouter(QuestionsList);

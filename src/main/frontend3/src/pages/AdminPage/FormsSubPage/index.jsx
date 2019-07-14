@@ -34,12 +34,11 @@ const styles = theme => ({
 
 class FormsSubPage extends React.Component {
   render() {
-    const { classes, location, /* match */ } = this.props;
-    // const formId = match && match.params && match.params.formId ? match.params.formId : false;
-    // const editFormPath = '/admin/forms/'+this.props.selectedFormId+'/edit';
-    const isOnForms = location.pathname === '/admin/forms';
+    const { classes, location, /*match*/ } = this.props;
+    // const formId = match.params.formId; // is located at lower levels
     const isOnCreate = location.pathname.includes('/create');
     const isOnEdit = location.pathname.includes('/edit');
+    const isOnListForms = !isOnCreate && !isOnEdit; // default
     return (
       <React.Fragment>
       <Drawer
@@ -51,11 +50,11 @@ class FormsSubPage extends React.Component {
       >
         <div className={classes.toolbar} />
           <MenuList >
-            <MenuItem button key={'list'} selected={isOnForms} component={Link} to='/admin/forms'>
+            <MenuItem button key={'list'} selected={isOnListForms} component={Link} to='/admin/forms'>
               <ListItemText primary={'List'} />
             </MenuItem>
             { !this.props.selectedFormId && (
-              <MenuItem button key={'create'} selected={isOnCreate} component={Link} to='/admin/forms/create'>
+              <MenuItem button key={'create'} selected={isOnCreate} component={Link} to='/admin/form/create'>
                 <ListItemText primary={'Create'} />
               </MenuItem>
             )}
@@ -69,9 +68,9 @@ class FormsSubPage extends React.Component {
         <div className={classes.content} style={{marginLeft: drawerWidth }}>
           <div className={classes.toolbar} />
           <Switch>
-            <Route path="/admin/forms/create" exact component={FormsCreateView}/>
-            <Route path="/admin/forms/:formId/edit" component={EditFormView}/>
-            <Route path="/admin/forms/:formId" component={FormsListView}/>
+            <Route path="/admin/form/create" exact component={FormsCreateView}/>
+            <Route path="/admin/form/:formId/edit" component={EditFormView}/>
+            <Route path="/admin/form/:formId" component={FormsListView}/>
             <Route path="/admin/forms" component={FormsListView}/>
           </Switch>
       </div>

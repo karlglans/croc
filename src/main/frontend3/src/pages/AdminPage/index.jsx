@@ -9,7 +9,8 @@ class AdminPage extends React.Component {
     // only redirect to login if strings does not match
     const redirectPath = localStorage.getItem('crocClient') === Role.SUPERVISOR ? undefined : '/login';
     this.state = {
-      redirectPath
+      redirectPath,
+      selectedFormId: undefined // not in use yet
     };
   }
 

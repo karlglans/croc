@@ -19,7 +19,7 @@ class CreateSurveyButton extends React.Component {
   render() {
     if (this.state.redirect) {
       return (
-        <Redirect to={`/admin/surveys/create`} push={true} />
+        <Redirect to={`/admin/survey/create`} push={true} />
       )
     }
     return (

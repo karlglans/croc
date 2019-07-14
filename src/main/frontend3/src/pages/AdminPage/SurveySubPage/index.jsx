@@ -10,6 +10,8 @@ import ClosedSurveys from './ClosedServeys';
 import CreateSurvey from './CreateSurvey';
 import UnstartedSurveyDetails from './UnstartedSurveyDetails';
 import Summary from './Summary';
+import Participants from './Participants';
+import PageNotFound from '../../../components/PageNotFound';
 
 const drawerWidth = 240;
 
@@ -36,14 +38,16 @@ const styles = theme => ({
 
 class SurveysSubPage extends React.Component {
   render() {
-    const { classes, location } = this.props;
+    const { classes, location, match } = this.props;
+    const surveyId = match.params.surveyId ? match.params.surveyId : undefined;
     const isOnOngoing = location.pathname === '/admin/surveys' || location.pathname.includes('ongoing'); // default option
     const isOnInCreation = location.pathname.includes('unstarted');
     const isOnCreate = location.pathname === '/admin/surveys/create';
     const isResults = location.pathname.includes('results');
-    const isOnClosed = !isOnOngoing && !isOnCreate && !isOnInCreation && !isResults; // temp solution
+    const isOnParticipants = location.pathname.includes('participants');
+    const isOnClosed = location.pathname.includes('closed');
     const selectedFormIdForSurvey = this.props.selectedFormIdForSurvey || 2; // <-- 2 is temp solution
-    const surveyId = 1;
+    console.log('selectedFormIdForSurvey', selectedFormIdForSurvey);
     return (
       <React.Fragment>
       <Drawer
@@ -56,8 +60,13 @@ class SurveysSubPage extends React.Component {
         <div className={classes.toolbar} />
           <MenuList >
             { isResults && (
-              <MenuItem button key={'results'} selected={isResults} to='/admin/surveys/results/:surveyId'>
+              <MenuItem button key={'results'} selected={true} to='/admin/surveys/results/:surveyId'>
                 <ListItemText primary={'Results'} />
+              </MenuItem> ) 
+            }
+            { isOnParticipants && (
+              <MenuItem button key={'participants'} selected={true} to='/admin/surveys/participants/:surveyId'>
+                <ListItemText primary={'Participants'} />
               </MenuItem> ) 
             }
             <MenuItem button key={'ongoing'} selected={isOnOngoing} component={Link} to='/admin/surveys'>
@@ -70,7 +79,7 @@ class SurveysSubPage extends React.Component {
               <ListItemText primary={'Closed'} />
             </MenuItem>
             {this.props.selectedFormIdForSurvey && (
-              <MenuItem button key={'create'} selected={isOnCreate} component={Link} to='/admin/surveys/create'>
+              <MenuItem button key={'create'} selected={isOnCreate} component={Link} to='/admin/survey/create'>
               <ListItemText primary={'Create (Step 1)'} />
             </MenuItem>
             )}
@@ -83,7 +92,7 @@ class SurveysSubPage extends React.Component {
             <Route path="/admin/surveys/unstarted" exact component={UnstartedSurveysList}/>
             <Route path="/admin/surveys/ongoing" exact component={OngoingSurveys}/>
             <Route path="/admin/surveys/closed" exact component={ClosedSurveys}/>
-            <Route path="/admin/surveys/create" exact component={
+            <Route path="/admin/survey/create" exact component={
               () => <CreateSurvey formId={selectedFormIdForSurvey} />}
             />
             <Route path="/admin/surveys/unstarted/:surveyId" exact component={
@@ -92,6 +101,10 @@ class SurveysSubPage extends React.Component {
             <Route path="/admin/surveys/results/:surveyId" exact component={
               () => <Summary surveyId={surveyId} />}
             />
+            <Route path="/admin/survey/:surveyId/participants" exact component={
+              () => <Participants surveyId={surveyId} />}
+            />
+            <Route component={PageNotFound}/>
           </Switch>
       </div>
       </React.Fragment>
