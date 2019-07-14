@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
@@ -21,7 +22,8 @@ const styles = {
   }
 }
 
-const FormsList = () => {
+const FormsList = ({ match }) => {
+  const formId = match.params.formId;
   return (<Query query={GET_FORMS}>
     {({ loading, error, data }) => {
       if (loading) return 'Loading...';
@@ -31,7 +33,7 @@ const FormsList = () => {
         <List style={styles.listItemStyle}>
           {data.forms.map(form => {
             return (
-              <ListItem button key={form.id} component={Link} to={`/admin/forms/${form.id}`} >
+              <ListItem button key={form.id} selected={form.id===formId} component={Link} to={`/admin/form/${form.id}`} >
                 <ListItemText primary={form.title} />
                 {form.isEditable && (<ListItemIcon><DraftsIcon /></ListItemIcon>)}
               </ListItem>
@@ -43,4 +45,4 @@ const FormsList = () => {
   </Query>
 )};
 
-export default FormsList;
+export default withRouter(FormsList);

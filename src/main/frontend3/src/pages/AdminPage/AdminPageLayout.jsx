@@ -5,13 +5,12 @@ import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import MenuIcon from '@material-ui/icons/Menu';
-import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@material-ui/core';
+import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
 import routes from '../../constants/routes';
 import UsersSubPage from './UsersSubPage';
-import SurveyPage from './SurveyPage';
 import FormsSubPage from './FormsSubPage';
 import SurveySubPage from './SurveySubPage';
 
@@ -53,9 +52,9 @@ class AdminPageLayout extends React.Component {
 
   static transfromPathToTabIndex(pathname) {
     let tabIndex = 0; // default
-    if (pathname.includes('/surveys')) {
+    if (pathname.includes('/surveys') || pathname.includes('/survey')) {
       tabIndex = 1;
-    } else if (pathname.includes('/forms')) {
+    } else if (pathname.includes('/forms') || pathname.includes('/form')) {
       tabIndex = 2;
     }
     return tabIndex;
@@ -84,6 +83,7 @@ class AdminPageLayout extends React.Component {
   render() {
     const { classes } = this.props;
     const { tabIndex } = this.state;
+    console.log('AdminPageLayout', 'selectedFormIdForSurvey:', this.props.selectedFormIdForSurvey);
 
     return (
       <div className={classes.root}>
@@ -116,8 +116,13 @@ class AdminPageLayout extends React.Component {
             <Route path="/admin/surveys"
               component={ props => (<SurveySubPage selectedFormIdForSurvey={this.props.selectedFormIdForSurvey} />) }
              />
-            <Route path="/admin/surveys2" component={SurveyPage}/>
+             <Route path="/admin/survey/:surveyId"
+              component={ props => (<SurveySubPage selectedFormIdForSurvey={this.props.selectedFormIdForSurvey} />) }
+             />
             <Route path="/admin/forms"
+              component={ props => (<FormsSubPage selectedFormId={this.props.selectedFormId} />) } 
+            />
+            <Route path="/admin/form/:formId"
               component={ props => (<FormsSubPage selectedFormId={this.props.selectedFormId} />) } 
             />
           </Switch>

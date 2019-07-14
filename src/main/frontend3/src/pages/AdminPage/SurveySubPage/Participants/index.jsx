@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Participants = props => {
+const Participants = ({ surveyId }) => {
   return (
     <React.Fragment>
-      Participants
+      Participants {surveyId}
     </React.Fragment>
   );
 }

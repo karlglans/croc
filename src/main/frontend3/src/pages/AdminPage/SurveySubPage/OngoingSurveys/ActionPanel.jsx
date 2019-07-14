@@ -52,7 +52,7 @@ const ActionPanel = props => {
         size='small'
         color="primary"
         variant='contained'
-        to={ `/admin/surveys/participants/${surveyId}`}
+        to={ `/admin/survey/${surveyId}/participants`}
         component={Link}
         className={classes.button}
         >

@@ -38,7 +38,8 @@ const styles = theme => ({
 
 class SurveysSubPage extends React.Component {
   render() {
-    const { classes, location } = this.props;
+    const { classes, location, match } = this.props;
+    const surveyId = match.params.surveyId ? match.params.surveyId : undefined;
     const isOnOngoing = location.pathname === '/admin/surveys' || location.pathname.includes('ongoing'); // default option
     const isOnInCreation = location.pathname.includes('unstarted');
     const isOnCreate = location.pathname === '/admin/surveys/create';
@@ -46,7 +47,7 @@ class SurveysSubPage extends React.Component {
     const isOnParticipants = location.pathname.includes('participants');
     const isOnClosed = location.pathname.includes('closed');
     const selectedFormIdForSurvey = this.props.selectedFormIdForSurvey || 2; // <-- 2 is temp solution
-    const surveyId = 1;
+    console.log('selectedFormIdForSurvey', selectedFormIdForSurvey);
     return (
       <React.Fragment>
       <Drawer
@@ -78,7 +79,7 @@ class SurveysSubPage extends React.Component {
               <ListItemText primary={'Closed'} />
             </MenuItem>
             {this.props.selectedFormIdForSurvey && (
-              <MenuItem button key={'create'} selected={isOnCreate} component={Link} to='/admin/surveys/create'>
+              <MenuItem button key={'create'} selected={isOnCreate} component={Link} to='/admin/survey/create'>
               <ListItemText primary={'Create (Step 1)'} />
             </MenuItem>
             )}
@@ -91,7 +92,7 @@ class SurveysSubPage extends React.Component {
             <Route path="/admin/surveys/unstarted" exact component={UnstartedSurveysList}/>
             <Route path="/admin/surveys/ongoing" exact component={OngoingSurveys}/>
             <Route path="/admin/surveys/closed" exact component={ClosedSurveys}/>
-            <Route path="/admin/surveys/create" exact component={
+            <Route path="/admin/survey/create" exact component={
               () => <CreateSurvey formId={selectedFormIdForSurvey} />}
             />
             <Route path="/admin/surveys/unstarted/:surveyId" exact component={
@@ -100,7 +101,7 @@ class SurveysSubPage extends React.Component {
             <Route path="/admin/surveys/results/:surveyId" exact component={
               () => <Summary surveyId={surveyId} />}
             />
-            <Route path="/admin/surveys/participants/:surveyId" exact component={
+            <Route path="/admin/survey/:surveyId/participants" exact component={
               () => <Participants surveyId={surveyId} />}
             />
             <Route component={PageNotFound}/>
