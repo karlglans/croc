@@ -28,6 +28,10 @@ const FormsList = ({ match }) => {
     {({ loading, error, data }) => {
       if (loading) return 'Loading...';
       if (error) return `Error! ${error.message}`;
+      if (!data.forms) {
+        console.log('FormsList, no forms');
+        return 'missing forms';
+      }
 
       return (
         <List style={styles.listItemStyle}>

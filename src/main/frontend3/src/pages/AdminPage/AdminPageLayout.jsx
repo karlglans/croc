@@ -72,18 +72,13 @@ class AdminPageLayout extends React.Component {
     return nextState;
   }
 
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
   onClickLogout() {
     localStorage.setItem('crocClient', 'none');
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, selectedFormId } = this.props;
     const { tabIndex } = this.state;
-    console.log('AdminPageLayout', 'selectedFormIdForSurvey:', this.props.selectedFormIdForSurvey);
 
     return (
       <div className={classes.root}>
@@ -98,7 +93,7 @@ class AdminPageLayout extends React.Component {
                 Cro
               </Typography>
             
-              <Tabs variant="fullWidth" value={tabIndex} onChange={this.handleChange} aa={this.props.selectedFormIdForSurvey}>
+              <Tabs variant="fullWidth" value={tabIndex} onChange={this.handleChange} aa={selectedFormId}>
                 <Tab label="Users" to="/admin/users" component={Link} />
                 <Tab label="Surveys" to="/admin/surveys" component={Link} />
                 <Tab label="Forms" to="/admin/forms" component={Link} />
@@ -114,16 +109,16 @@ class AdminPageLayout extends React.Component {
           <Switch>
             <Route path="/admin/users" component={UsersSubPage}/>
             <Route path="/admin/surveys"
-              component={ props => (<SurveySubPage selectedFormIdForSurvey={this.props.selectedFormIdForSurvey} />) }
+              component={ props => (<SurveySubPage selectedFormId={selectedFormId} />) }
              />
              <Route path="/admin/survey/:surveyId"
-              component={ props => (<SurveySubPage selectedFormIdForSurvey={this.props.selectedFormIdForSurvey} />) }
+              component={ props => (<SurveySubPage selectedFormId={selectedFormId} />) }
              />
             <Route path="/admin/forms"
-              component={ props => (<FormsSubPage selectedFormId={this.props.selectedFormId} />) } 
+              component={ props => (<FormsSubPage selectedFormId={selectedFormId} />) } 
             />
             <Route path="/admin/form/:formId"
-              component={ props => (<FormsSubPage selectedFormId={this.props.selectedFormId} />) } 
+              component={ props => (<FormsSubPage selectedFormId={selectedFormId} />) } 
             />
           </Switch>
       </div>
@@ -133,7 +128,7 @@ class AdminPageLayout extends React.Component {
 
 AdminPageLayout.propTypes = {
   classes: PropTypes.object.isRequired,
-  selectedFormIdForSurvey: PropTypes.number
+  selectedFormId: PropTypes.string
 };
 
 const enhance = compose(

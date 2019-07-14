@@ -42,12 +42,11 @@ class SurveysSubPage extends React.Component {
     const surveyId = match.params.surveyId ? match.params.surveyId : undefined;
     const isOnOngoing = location.pathname === '/admin/surveys' || location.pathname.includes('ongoing'); // default option
     const isOnInCreation = location.pathname.includes('unstarted');
-    const isOnCreate = location.pathname === '/admin/surveys/create';
+    const isOnCreate = location.pathname === '/admin/survey/create';
     const isResults = location.pathname.includes('results');
     const isOnParticipants = location.pathname.includes('participants');
     const isOnClosed = location.pathname.includes('closed');
-    const selectedFormIdForSurvey = this.props.selectedFormIdForSurvey || 2; // <-- 2 is temp solution
-    console.log('selectedFormIdForSurvey', selectedFormIdForSurvey);
+    const selectedFormId = this.props.selectedFormId;
     return (
       <React.Fragment>
       <Drawer
@@ -78,7 +77,7 @@ class SurveysSubPage extends React.Component {
             <MenuItem button key={'closed'} selected={isOnClosed} component={Link} to='/admin/surveys/closed'>
               <ListItemText primary={'Closed'} />
             </MenuItem>
-            {this.props.selectedFormIdForSurvey && (
+            {isOnCreate && (
               <MenuItem button key={'create'} selected={isOnCreate} component={Link} to='/admin/survey/create'>
               <ListItemText primary={'Create (Step 1)'} />
             </MenuItem>
@@ -93,7 +92,7 @@ class SurveysSubPage extends React.Component {
             <Route path="/admin/surveys/ongoing" exact component={OngoingSurveys}/>
             <Route path="/admin/surveys/closed" exact component={ClosedSurveys}/>
             <Route path="/admin/survey/create" exact component={
-              () => <CreateSurvey formId={selectedFormIdForSurvey} />}
+              () => <CreateSurvey formId={selectedFormId} />}
             />
             <Route path="/admin/surveys/unstarted/:surveyId" exact component={
               () => <UnstartedSurveyDetails surveyId={surveyId} />}

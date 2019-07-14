@@ -11,12 +11,12 @@ const GET_FROM_DATA = gql`
     form(formId: $formId) {
       id
       title
+      isEditable
     }
   }
 `;
 
-const CreateSurvey = props => {
-  const { formId } = props;
+const CreateSurvey = ({ formId }) => {
   return ( 
     <Query query={GET_FROM_DATA} variables={{ formId }} >
       {({ loading, error, data }) => {
@@ -31,7 +31,7 @@ const CreateSurvey = props => {
   
 
 CreateSurvey.propTypes = {
-  formId: PropTypes.number.isRequired,
+  formId: PropTypes.string.isRequired,
 };
 
 export default CreateSurvey;
