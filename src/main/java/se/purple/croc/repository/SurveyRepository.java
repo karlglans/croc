@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import se.purple.croc.domain.*;
+import se.purple.croc.dto.ParticipantDto;
 
 import java.util.List;
 import java.util.Set;
@@ -19,16 +20,14 @@ public interface SurveyRepository extends JpaRepository<Survey, Integer> {
 	@Query("Select s from Survey s where s.status = :surveyStatus")
 	List<Survey> findSurveyByStatusEquals(@Param("surveyStatus") SurveyStatus surveyStatus);
 
-//	@Query("Select p from Survey s JOIN s.participants p where s.id = :surveyId ORDER BY p.id")
-//	Set<Users> findParticipantsBySurveyId(@Param("surveyId") int surveyId);
-
 
 	@Query("Select sp.participant from SurveyParticipant sp JOIN sp.survey s where s.id = :surveyId")
 	Set<Users> findSurveyParticipantsUsersBySurveyId(@Param("surveyId") int surveyId);
 
-
-//	@Query("Select s from Survey s JOIN s.participants p where s.status = :surveyStatus AND p.id = :participantId")
-//	List<Survey> findSurveyByStatusAndParticipantId(@Param("surveyStatus") SurveyStatus surveyStatus, @Param("participantId") int participantId);
+	@Query("Select new se.purple.croc.dto.ParticipantDto(sp.participant.id, s.id, sp.participant.email, " +
+			"sp.complete) " +
+			"from SurveyParticipant sp JOIN sp.survey s on s.id = :surveyId")
+	List<ParticipantDto> findSurveyParticipantsBySurveyId(@Param("surveyId") int surveyId);
 
 
 	@Query("Select sp.survey from SurveyParticipant sp JOIN sp.participant p where p.id = :participantId")

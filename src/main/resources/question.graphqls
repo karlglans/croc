@@ -34,7 +34,8 @@ type Answer {
 type Participant implements MiniUser {
     id: ID!
     email: String!
-    answers: [Answer]
+    answers: [Answer] # special privileges
+    isComplete: Boolean
 }
 
 type SurveyCountingSummary {
