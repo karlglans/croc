@@ -11,6 +11,7 @@ const createForm = gql`
     createForm(title: $name) {
       id
       title
+      isEditable
     }
   }
 `;
@@ -20,6 +21,7 @@ const GET_FORMS = gql`
     forms {
       id
       title
+      isEditable
     }
   }
 `;
@@ -62,7 +64,8 @@ class CreateForm extends React.Component {
       variables: {
         name: this.state.formTitle
       },
-      refetchQueries: [{ query: GET_FORMS }] 
+      // TODO: avoid this query by storing prev result in cash
+      refetchQueries: [{ query: GET_FORMS }]
     }).then((response) => {
       const formId = response.data.createForm.id;
       // will produce redirect

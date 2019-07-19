@@ -20,6 +20,11 @@ const GET_SURVEYS_DATA = gql`
         nbParticipants
         nbAnsweringParticipants
       }
+      participants {
+        id
+        email
+        isComplete
+      }
     }
   }
 `;

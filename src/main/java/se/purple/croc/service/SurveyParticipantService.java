@@ -1,6 +1,5 @@
 package se.purple.croc.service;
 
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.SurveyParticipant;
@@ -12,7 +11,6 @@ import se.purple.croc.repository.AnswerRepository;
 import se.purple.croc.repository.SurveyParticipantRepository;
 import se.purple.croc.repository.SurveyRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -34,21 +32,11 @@ public class SurveyParticipantService {
 	}
 
 	ParticipantDto makeParticipantDto(int surveyId, Users user) {
-		ParticipantDto participant = new ParticipantDto();
-		participant.setSurveyId(surveyId);
-		participant.setId(user.getId());
-		participant.setEmail(user.getEmail());
-		return participant;
+		return new ParticipantDto(user.getId(), surveyId, user.getEmail(), false);
 	}
 
 	public List<ParticipantDto> getParticipants(SurveyDto survey){
-		final int surveyId = survey.getId();
-		List<ParticipantDto> participantDtoList = new ArrayList<>();
-		var users = getParticipantsBySurvey(surveyId);
-		for(Users user : users) {
-			participantDtoList.add(makeParticipantDto(surveyId, user));
-		}
-		return participantDtoList;
+		return surveyRepo.findSurveyParticipantsBySurveyId(survey.getId());
 	}
 
 	void updateSurveyCompleteStatus(int surveyId, int participantId) {

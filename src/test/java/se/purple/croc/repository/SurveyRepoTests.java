@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.purple.croc.domain.*;
+import se.purple.croc.dto.ParticipantDto;
 
 import java.util.List;
 import java.util.Set;
@@ -51,6 +52,14 @@ public class SurveyRepoTests {
 		Set<Users> users = surveyRepository.findSurveyParticipantsUsersBySurveyId(1);
 		assertEquals(3, users.size());
 	}
+
+	@Test
+	public void findSurveyParticipantsBySurveyId() {
+		List<ParticipantDto> participants = surveyRepository.findSurveyParticipantsBySurveyId(1);
+		assertEquals(3, participants.size());
+	}
+
+
 
 
 

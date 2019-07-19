@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { List, ListItem } from '@material-ui/core';
-import { withRouter } from "react-router";
+import { withRouter } from 'react-router';
 
 import CreateSurveyButton from './CreateSurveyButton';
 import EditFormButton from './EditFormButton';

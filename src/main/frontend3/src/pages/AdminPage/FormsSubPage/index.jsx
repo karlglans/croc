@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Route, Switch, withRouter } from "react-router-dom";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, lighten } from '@material-ui/core/styles';
 import { Drawer, MenuList, MenuItem, ListItemText } from '@material-ui/core';
 import { compose } from 'recompose'
 
@@ -20,6 +20,7 @@ const styles = theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: lighten(theme.palette.primary.light, 0.65),
   },
   halfScreen: {
     flex: 1

@@ -1,41 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from "react-router-dom";
 import { Button } from '@material-ui/core';
+import AdminPageContext from '../../AdminPageContext';
+import { withRouter } from 'react-router';
 
-class CreateSurveyButton extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      redirect: false
-    }
-    this.handleClick = this.handleClick.bind(this);
+const CreateSurveyButton = ({ formId, history }) => {
+
+  const handleClick = (setSelectedFormId) => {
+    setSelectedFormId(formId);
+    history.push('/admin/survey/create');
   }
   
-  handleClick() {
-    this.setState({redirect: true});
-  }
+  return (
+    <AdminPageContext.Consumer>
+      {({ setSelectedFormId }) => (
+        <Button
+          size='small'
+          color="primary"
+          variant='contained'
+          onClick={() => handleClick(setSelectedFormId) }>
+          Create Survey
+        </Button>
+      )}
+    </AdminPageContext.Consumer>
+  )
   
-  render() {
-    if (this.state.redirect) {
-      return (
-        <Redirect to={`/admin/survey/create`} push={true} />
-      )
-    }
-    return (
-      <Button
-        size='small'
-        color="primary"
-        variant='contained'
-        onClick={() => this.handleClick() }>
-        Create Survey
-      </Button>
-    )
-  }
 }
 
 CreateSurveyButton.propTypes = {
   formId: PropTypes.string.isRequired,
 };
 
-export default CreateSurveyButton
+export default withRouter(CreateSurveyButton);

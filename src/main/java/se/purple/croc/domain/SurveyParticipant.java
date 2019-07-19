@@ -19,7 +19,6 @@ public class SurveyParticipant {
 	private int participantId;
 
 	@ManyToOne
-//	@PrimaryKeyJoinColumn(name="SURVEYID", referencedColumnName="ID")
 	@JoinColumn(name = "surveyId", updatable = false, insertable = false)
 	private Survey survey;
 
@@ -27,7 +26,7 @@ public class SurveyParticipant {
 	@JoinColumn(name = "participantId", updatable = false, insertable = false)
 	private Users participant;
 
-	private boolean complete = false;
+	private boolean complete = false; // has answered all questions
 
 	public void setSurvey(Survey survey) {
 		this.setSurveyId(survey.getId());

@@ -1,9 +1,6 @@
 package se.purple.croc.dto;
 
 import lombok.Data;
-import se.purple.croc.domain.Answer;
-import se.purple.croc.domain.Survey;
-import se.purple.croc.domain.Users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,4 +11,11 @@ public class ParticipantDto {
 	private int surveyId;
 	private String email;
 	List<AnswerDto> answers = new ArrayList<>();
+	private boolean isComplete;
+	public ParticipantDto(int id, int surveyId, String email, boolean isComplete) {
+		this.id = id;
+		this.surveyId = surveyId;
+		this.email = email;
+		this.isComplete = isComplete;
+	}
 }
