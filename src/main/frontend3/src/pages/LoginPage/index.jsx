@@ -48,7 +48,7 @@ class LoginPage extends Component {
       "VUEVSIiwiaWQiOjMsImlhdCI6MTU2MjM0MzE3NH0.2AuO28w248jrkwQTu-CynybNSEvcPD-XQBIiJlX13qc";
     localStorage.setItem('apollotoken', token);
     localStorage.setItem('crocClient', Role.SUPERVISOR);
-    localStorage.setItem('crocClientId', '3');
+    // localStorage.setItem('crocClientId', '3');
     this.setState({redirect: '/admin/surveys'});
   }
   clickUser() {
@@ -58,7 +58,7 @@ class LoginPage extends Component {
       "mlkIjo0LCJpYXQiOjE1NjIyNzk2MTd9.wCk6xLNczwtPBN93vEtxnKty2WHgYjM9c_fMoMxpQi4";
     localStorage.setItem('apollotoken', token);
     localStorage.setItem('crocClient', Role.USER);
-    localStorage.setItem('crocClientId', '4');
+    // localStorage.setItem('crocClientId', '4');
     this.setState({redirect: '/surveys'});
   }
 

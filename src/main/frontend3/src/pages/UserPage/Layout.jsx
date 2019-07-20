@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Link, Switch, withRouter } from "react-router-dom";
-import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose'
+import { ThemeProvider } from '@material-ui/styles';
+import { withStyles, createMuiTheme} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline'
 import MenuIcon from '@material-ui/icons/Menu';
 import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@material-ui/core';
@@ -24,6 +25,15 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
+  },
+});
+
+// added sub-theme just change secondary color, not sure if this solution is good enogh.
+const innerTheme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: '#fff',
+    },
   },
 });
 
@@ -72,6 +82,7 @@ class AdminPageLayout extends React.Component {
       <div className={classes.root}>
           <CssBaseline /> 
           <AppBar position="fixed" className={classes.appbar}>
+          <ThemeProvider theme={innerTheme}>
             <Toolbar>
               <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                 <MenuIcon />
@@ -90,6 +101,7 @@ class AdminPageLayout extends React.Component {
 
               <Button color="inherit" to={routes.toLoginPage} onClick={this.onClickLogout} component={Link}>Logout</Button>
             </Toolbar>
+            </ThemeProvider>
           </AppBar>
           <Switch>
             <Route path="/surveys"

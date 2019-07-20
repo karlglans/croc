@@ -9,8 +9,8 @@ import PeopleIcon from '@material-ui/icons/People';
 
 const useStyles = makeStyles(theme => ({
   button: {
-    margin: theme.spacing(1),
-    marginBottom: theme.spacing(3),
+    margin: theme.spacing(0.5),
+    marginBottom: theme.spacing(2),
   },
   leftIcon: {
     marginRight: theme.spacing(1),
@@ -32,7 +32,8 @@ const ActionPanel = props => {
         size='small'
         color="primary"
         variant='contained'
-        to={'/admin/surveys/results/' + surveyId}
+        // to={'/admin/surveys/results/' + surveyId}
+        to={`/admin/survey/${surveyId}/results`}
         component={Link}
         className={classes.button}
         >

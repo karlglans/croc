@@ -23,7 +23,7 @@ class Layout extends React.Component {
 };
 
 Layout.propTypes = {
-  surveyId: PropTypes.number.isRequired,
+  surveyId: PropTypes.string.isRequired,
   survey: PropTypes.object,
   isLoading: PropTypes.bool.isRequired
 };
