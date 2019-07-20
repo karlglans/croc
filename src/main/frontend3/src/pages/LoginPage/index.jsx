@@ -10,7 +10,7 @@ const styles = {
     display: 'flex',
     width: 'calc(100vw)',
     height: 'calc(100vh)',
-    backgroundColor: 'red',
+    backgroundColor: 'rgb(207, 213, 243)',
     justifyContent: 'space-around',
     alignItems: 'center',
   },
