@@ -18,7 +18,7 @@ const GET_FORMS = gql`
 
 const styles = {
   listItemStyle: {
-    paddingRight: 20,
+    paddingRight: 0,
   }
 }
 
