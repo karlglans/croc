@@ -64,7 +64,7 @@ const QuestionList = (props) => {
 QuestionList.propTypes = {
   questions: PropTypes.array,
   answersSum: PropTypes.array, // json containing a summary of answers this question type
-  surveyId: PropTypes.number.isRequired,
+  surveyId: PropTypes.string.isRequired,
 };
 
 export default QuestionList;

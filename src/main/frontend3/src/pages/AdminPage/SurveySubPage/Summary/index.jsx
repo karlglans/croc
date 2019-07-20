@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Layout from './Layout';
@@ -28,9 +27,7 @@ const GET_SURVEYS_DATA = gql`
 `;
 
 const Summary = props => {
-  const { match } = props;
-  const surveyId = match && match.params && match.params.surveyId ?
-    match.params.surveyId : 0;
+  const { surveyId } = props;
   return (
     <Query query={GET_SURVEYS_DATA} variables={{ surveyId }} >
       {({ loading, error, data }) => {
@@ -48,7 +45,7 @@ const Summary = props => {
 };
 
 Summary.propTypes = {
-  surveyId: PropTypes.number.isRequired,
+  surveyId: PropTypes.string.isRequired,
 };
 
-export default withRouter(Summary);
+export default Summary;

@@ -62,7 +62,7 @@ class SurveysSubPage extends React.Component {
         <div className={classes.toolbar} />
         <MenuList >
           { isResults && (
-            <MenuItem button key={'results'} selected={true} to='/admin/surveys/results/:surveyId'>
+            <MenuItem button key={'results'} selected={true}>
               <ListItemText primary={'Results'} />
             </MenuItem> ) 
           }
@@ -100,7 +100,7 @@ class SurveysSubPage extends React.Component {
             <Route path="/admin/surveys/unstarted/:surveyId" exact component={
               () => <UnstartedSurveyDetails surveyId={surveyId} />}
             />
-            <Route path="/admin/surveys/results/:surveyId" exact component={
+            <Route path="/admin/survey/:surveyId/results" exact component={
               () => <Summary surveyId={surveyId} />}
             />
             <Route path="/admin/survey/:surveyId/participants" exact component={
