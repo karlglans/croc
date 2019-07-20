@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Link, Switch, withRouter } from "react-router-dom";
-import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'recompose'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import MenuIcon from '@material-ui/icons/Menu';
-import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { withStyles, createMuiTheme} from '@material-ui/core/styles';
+import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar } from '@material-ui/core';
 
 import routes from '../../constants/routes';
 import UsersSubPage from './UsersSubPage';
@@ -38,8 +37,6 @@ const innerTheme = createMuiTheme({
     },
   },
 });
-
-
 
 class AdminPageLayout extends React.Component {
   constructor(props) {
