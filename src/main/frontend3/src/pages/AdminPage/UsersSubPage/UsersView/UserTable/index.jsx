@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import Table from './Table';
@@ -12,16 +13,20 @@ const GET_USERS = gql`
   }
 `;
 
-const UsersView = props => {
+const UsersView = ({handleSelectUser}) => {
   return (
     <Query query={GET_USERS} >
       {({ loading, error, data }) => {
         return (
-          <Table users={data.users} isLoading={loading} />
+          <Table users={data.users} isLoading={loading} handleSelectUser={handleSelectUser} />
         );
       }}
     </Query>
   )
+};
+
+UsersView.propTypes = {
+  handleSelectUser: PropTypes.func.isRequired
 };
 
 export default UsersView;

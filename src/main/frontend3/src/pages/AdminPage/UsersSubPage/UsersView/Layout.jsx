@@ -1,19 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 
 import UserTable from './UserTable';
+import UserDetails from './UserDetails';
+import UserGroups from './UserGroups';
 
-const Layout = () => {
+const Layout = ({ handleSelectUser, userId }) => {
   return (
-    <Grid container style={{ maxWidth: 1000 }} spacing={4}>
+    <Grid container style={{ maxWidth: 1000 }} spacing={2}>
         <Grid item md={8} sm={12}>
-          <UserTable />
+          <UserTable handleSelectUser={handleSelectUser} />
         </Grid>
         <Grid item md={4}>
-          Userinfo
+          <UserDetails userId={userId} />
+          <UserGroups userId={userId} />
         </Grid>
     </Grid>
   )
+};
+
+Layout.propTypes = {
+  handleSelectUser: PropTypes.func.isRequired,
 };
 
 export default Layout;

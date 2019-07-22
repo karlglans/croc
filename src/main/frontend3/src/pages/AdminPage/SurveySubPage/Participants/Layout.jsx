@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import SortedParticipantList from './SortedParticipantList';
 import AddParticipants from '../components/AddParticipants'
 
-const Layout = ({ surveyId, survey, isLoading }) => {
+const Layout = ({ surveyId, survey, isLoading, handleSelectUser }) => {
     const participants = survey ? survey.participants : undefined;
     return (
       <Grid container style={{ maxWidth: 1000 }} spacing={4}>
