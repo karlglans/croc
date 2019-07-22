@@ -25,6 +25,7 @@ const GET_USER_GROUPS = gql`
   }
 `;
 
+// NOTE: inner component do have an extra rendering
 const UsersGroups = ({ userId }) => {
   return (
     <Query query={GET_GROUPS} >
@@ -34,7 +35,6 @@ const UsersGroups = ({ userId }) => {
         return (
           <Query query={GET_USER_GROUPS} variables={{ userId }} >
           {({ loading, error, data }) => {
-            console.log('userId', userId);
             const isLoading = loading || loadingGroups;
             const user = data ? data.user : null;
             return (

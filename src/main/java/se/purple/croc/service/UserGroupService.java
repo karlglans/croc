@@ -1,7 +1,6 @@
 package se.purple.croc.service;
 
 import lombok.var;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.UserGroup;
@@ -57,7 +56,7 @@ public class UserGroupService {
 		userGroupDto.setUsers(userDtos);
 	}
 
-	UserGroupDto makeUserGroupDto(UserGroup userGroup) {
+	static UserGroupDto makeUserGroupDto(UserGroup userGroup) {
 		UserGroupDto userGroupDto = new UserGroupDto();
 		userGroupDto.setName(userGroup.getName());
 		userGroupDto.setId(userGroup.getId());
