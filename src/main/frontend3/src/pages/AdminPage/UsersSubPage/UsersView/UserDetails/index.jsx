@@ -16,7 +16,12 @@ const GET_USER = gql`
   }
 `;
 
-const UsersDetails = ({userId}) => {
+const UsersDetails = ({ userId }) => {
+  if (!userId) {
+    return (
+      <UserInfoBox user={null} isLoading={true} />
+    )
+  }
   return (
     <Query query={GET_USER} variables={{ userId }}>
       {({ loading, error, data }) => {

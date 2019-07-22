@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
@@ -26,12 +27,22 @@ const GET_USER_GROUPS = gql`
 `;
 
 // NOTE: inner component do have an extra rendering
-const UsersGroups = ({ userId }) => {
+const UsersGroups = ({ userId, addUserToGroup }) => {
   return (
     <Query query={GET_GROUPS} >
       {({ loading, error, data }) => {
         const loadingGroups = loading;
-        const loadedGroups = data ? data.userGroups : null;
+        const loadedGroups = data ? data.userGroups : [];
+        if (!userId) {
+          return(
+            <GroupSelector
+              loadingGroups={loadingGroups}
+              isLoading={true}
+              groups={loadedGroups}
+              addUserToGroup={addUserToGroup}
+              user={null} />
+          );
+        }
         return (
           <Query query={GET_USER_GROUPS} variables={{ userId }} >
           {({ loading, error, data }) => {
@@ -42,6 +53,7 @@ const UsersGroups = ({ userId }) => {
                 loadingGroups={loadingGroups}
                 isLoading={isLoading}
                 groups={loadedGroups}
+                addUserToGroup={addUserToGroup}
                 user={user} />
             );
           }}
@@ -50,6 +62,11 @@ const UsersGroups = ({ userId }) => {
       }}
     </Query>
   )
+};
+
+UsersGroups.propTypes = {
+  userId: PropTypes.string,
+  addUserToGroup: PropTypes.func.isRequired
 };
 
 export default UsersGroups;

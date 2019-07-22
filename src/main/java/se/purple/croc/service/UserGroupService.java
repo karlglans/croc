@@ -40,11 +40,11 @@ public class UserGroupService {
 		return userGroupRepo.findById(id).get();
 	}
 
-	public UserGroupDto addUserToGroup(final Integer userId, final Integer userGroupId) {
+	public void addUserToGroup(final Integer userId, final Integer userGroupId) {
 		Users user = userService.getUserById(userId);
 		UserGroup userGroup = getUserGroupByIdd(userGroupId);
-		userGroup.getUsers().add(user); // WARNING: will delete and add list one by one?
-		return makeUserGroupDto(userGroup);
+		user.getGroup().add(userGroup);
+//		userGroup.getUsers().add(user); // WARNING: will delete and add list one by one?
 	}
 
 	public void loadUsersInGroup(UserGroupDto userGroupDto) {

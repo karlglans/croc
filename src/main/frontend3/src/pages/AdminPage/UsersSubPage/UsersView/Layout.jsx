@@ -6,7 +6,7 @@ import UserTable from './UserTable';
 import UserDetails from './UserDetails';
 import UserGroups from './UserGroups';
 
-const Layout = ({ handleSelectUser, userId }) => {
+const Layout = ({ handleSelectUser, userId, addUserToGroup }) => {
   return (
     <Grid container style={{ maxWidth: 1000 }} spacing={2}>
         <Grid item md={8} sm={12}>
@@ -14,7 +14,7 @@ const Layout = ({ handleSelectUser, userId }) => {
         </Grid>
         <Grid item md={4}>
           <UserDetails userId={userId} />
-          <UserGroups userId={userId} />
+          <UserGroups userId={userId} addUserToGroup={addUserToGroup}/>
         </Grid>
     </Grid>
   )
@@ -22,6 +22,8 @@ const Layout = ({ handleSelectUser, userId }) => {
 
 Layout.propTypes = {
   handleSelectUser: PropTypes.func.isRequired,
+  addUserToGroup: PropTypes.func.isRequired,
+  userId: PropTypes.string,
 };
 
 export default Layout;
