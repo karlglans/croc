@@ -84,6 +84,9 @@ public class Query implements GraphQLQueryResolver {
 	public Iterable<UserDto> getUsers() {
 		return userService.getAllUSers();
 	}
+	public UserDto getUser(int id) {
+		return userService.getUser(id);
+	}
 
 	public Iterable<AnswerDto> getAnswers(Integer surveyId, Integer userId) {
 		// TODO check reading rights

@@ -33,6 +33,9 @@ public class Mutation implements GraphQLMutationResolver {
 	@Autowired
 	private QuestionService questionService;
 
+	@Autowired
+	private UserService userService;
+
 	public QuestionDto addQuestion(final InputQuestionDto inQuestion) {
 		return questionService.storeQuestion(inQuestion);
 	}
@@ -85,8 +88,14 @@ public class Mutation implements GraphQLMutationResolver {
 		return userGroupService.createUserGroup(name);
 	}
 
-	public UserGroupDto addUserToGroup(final Integer userId, final Integer userGroupId) {
-		return userGroupService.addUserToGroup(userId, userGroupId);
+	public UserDto addUserToGroup(final Integer userId, final Integer userGroupId) {
+		userGroupService.addUserToGroup(userId, userGroupId);
+		return userService.getUser(userId);
+	}
+
+	public UserDto removeUserFromGroup(final Integer userId, final Integer userGroupId) {
+		userGroupService.removeUserFromGroup(userId, userGroupId);
+		return userService.getUser(userId);
 	}
 
 	public boolean addUserGroupToSurvey(int userGroupId, int surveyId){

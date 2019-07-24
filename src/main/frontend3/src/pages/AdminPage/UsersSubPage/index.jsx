@@ -4,7 +4,7 @@ import { withStyles, lighten } from '@material-ui/core/styles';
 import { Drawer, MenuList, MenuItem, ListItemText } from '@material-ui/core';
 import { compose } from 'recompose'
 
-import UsersListView from './UsersListView';
+import UsersView from './UsersView';
 import GroupListView from './GroupListView';
 
 const drawerWidth = 240;
@@ -20,9 +20,6 @@ const styles = theme => ({
   drawerPaper: {
     width: drawerWidth,
     backgroundColor: lighten(theme.palette.primary.light, 0.65),
-  },
-  halfScreen: {
-    flex: 1
   },
   content: {
     flexGrow: 1,
@@ -58,7 +55,7 @@ class FormsPage extends React.Component {
         <div className={classes.content} style={{marginLeft: drawerWidth }}>
           <div className={classes.toolbar} />
           <Switch>
-            <Route path="/admin/users" exact component={UsersListView}/>
+            <Route path="/admin/users" exact component={UsersView}/>
             <Route path="/admin/users/groups" exact component={GroupListView}/>
           </Switch>
       </div>

@@ -1,7 +1,6 @@
 package se.purple.croc.service;
 
 import lombok.var;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.UserGroup;
@@ -12,7 +11,9 @@ import se.purple.croc.repository.UserGroupRepository;
 import se.purple.croc.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserGroupService {
@@ -41,23 +42,32 @@ public class UserGroupService {
 		return userGroupRepo.findById(id).get();
 	}
 
-	public UserGroupDto addUserToGroup(final Integer userId, final Integer userGroupId) {
+	public void addUserToGroup(final Integer userId, final Integer userGroupId) {
 		Users user = userService.getUserById(userId);
 		UserGroup userGroup = getUserGroupByIdd(userGroupId);
-		userGroup.getUsers().add(user); // WARNING: will delete and add list one by one?
-		return makeUserGroupDto(userGroup);
+		user.getGroup().add(userGroup);
+		// WARNING: jpa will delete and add items one by one?
 	}
 
+	public void removeUserFromGroup(final Integer userId, final Integer userGroupId) {
+		Users user = userService.getUserById(userId);
+		UserGroup userGroup = getUserGroupByIdd(userGroupId);
+		user.getGroup().remove(userGroup);
+		// WARNING: jpa will delete and add items one by one?
+	}
+
+
 	public void loadUsersInGroup(UserGroupDto userGroupDto) {
-		var users = userRepo.findUsersByGroupId(userGroupDto.getId());
+		UserGroup ug = getUserGroupByIdd(userGroupDto.getId());
+		Set<Users> groupUsers = ug.getUsers();
 		List<UserDto> userDtos = new ArrayList<>();
-		for (Users user : users) {
+		for (Users user : groupUsers) {
 			userDtos.add(userService.makeUserDto(user));
 		}
 		userGroupDto.setUsers(userDtos);
 	}
 
-	UserGroupDto makeUserGroupDto(UserGroup userGroup) {
+	static UserGroupDto makeUserGroupDto(UserGroup userGroup) {
 		UserGroupDto userGroupDto = new UserGroupDto();
 		userGroupDto.setName(userGroup.getName());
 		userGroupDto.setId(userGroup.getId());

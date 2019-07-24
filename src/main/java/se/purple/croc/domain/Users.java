@@ -2,14 +2,15 @@ package se.purple.croc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
+@EqualsAndHashCode
 public class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +38,7 @@ public class Users {
 		name = "grouped_users",
 		joinColumns = @JoinColumn(name = "user_id"),
 		inverseJoinColumns = @JoinColumn(name = "group_id"))
-	private List<UserGroup> group;
-	// private List<UserGroup> group;
+	private Set<UserGroup> group;
 
 	@OneToMany(mappedBy="survey")
 	private List<SurveyParticipant> surveys;

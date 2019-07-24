@@ -65,6 +65,7 @@ type Survey {
 type User {
     id: ID!
     email: String!
+    groups: [UserGroup]!
 }
 
 type UserGroup {
@@ -88,6 +89,7 @@ type Query {
     survey(id: ID): Survey
     surveys(status: SurveyStatus, participantId: ID, isParticipating: Boolean): [Survey]!
     users: [User]!
+    user(id: ID): User
     userGroups: [UserGroup]!
     userGroup(id: ID!): UserGroup
     answers(surveyId: ID!, userId: ID!): [Answer]!
@@ -104,7 +106,8 @@ type Mutation {
     createSurvey(formId: ID!, name: String!): Survey
     startSurvey(surveyId: ID!): Boolean
     createUserGroup(name: String!): UserGroup
-    addUserToGroup(userId: ID!, userGroupId: ID!): UserGroup
+    addUserToGroup(userId: ID!, userGroupId: ID!): User
+    removeUserFromGroup(userId: ID!, userGroupId: ID!): User
     addUserGroupToSurvey(userGroupId: ID!, survey: ID!): Boolean
 #    addQuestion(input: InputQuestion): Question
     removeQuestionFromForm(questionId: ID!, formId: ID!): Form
