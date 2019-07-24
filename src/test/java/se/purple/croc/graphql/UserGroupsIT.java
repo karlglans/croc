@@ -15,11 +15,13 @@ public class UserGroupsIT extends SimpleEndpointTests {
 	private ObjectMapper mapper = new ObjectMapper();
 
 	@Test
-	public void canGetUserGroupAndUsers() {
+	public void canGetUserGroupAndUsers() throws IOException {
 		String query = "{ userGroup(id: 2) { id users { id } } }";
-		String json = excQuery(query);
-		String expected = "{\"userGroup\":{\"id\":\"2\",\"users\":[{\"id\":\"12\"},{\"id\":\"13\"},{\"id\":\"14\"},{\"id\":\"15\"}]}}";
-		assertEquals(expected, json);
+		String jsonStringResponse = excQuery(query);
+		JsonNode json = mapper.readTree(jsonStringResponse);
+		// Should be something like: {"userGroup":{"id":"2","users":[{"id":"12"},{"id":"14"},{"id":"15"},{"id":"13"}]}}
+		assertEquals("2", json.get("userGroup").get("id").asText());
+		assertEquals(4, json.get("userGroup").get("users").size());
 	}
 
 	@Test

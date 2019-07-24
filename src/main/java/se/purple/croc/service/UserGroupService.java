@@ -11,7 +11,9 @@ import se.purple.croc.repository.UserGroupRepository;
 import se.purple.croc.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserGroupService {
@@ -48,9 +50,10 @@ public class UserGroupService {
 	}
 
 	public void loadUsersInGroup(UserGroupDto userGroupDto) {
-		var users = userRepo.findUsersByGroupId(userGroupDto.getId());
+		UserGroup ug = getUserGroupByIdd(userGroupDto.getId());
+		Set<Users> groupUsers = ug.getUsers();
 		List<UserDto> userDtos = new ArrayList<>();
-		for (Users user : users) {
+		for (Users user : groupUsers) {
 			userDtos.add(userService.makeUserDto(user));
 		}
 		userGroupDto.setUsers(userDtos);

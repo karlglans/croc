@@ -45,7 +45,7 @@ public class UserService {
 
 	public Set<UserGroupDto> getUserGroupDtoByUserId(final Integer userId) {
 		Users user = getUserById(userId);
-		List<UserGroup> userGroupList = user.getGroup();
+		Set<UserGroup> userGroupList = user.getGroup();
 		return userGroupList.stream()
 				.map(UserGroupService::makeUserGroupDto)
 				.collect(Collectors.toSet());

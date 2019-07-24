@@ -8,7 +8,6 @@ import java.util.Set;
 
 @Repository
 public interface UserRepository extends JpaRepository<Users, Integer> {
-//	Users findDistinctById(int id);
 
 	Set<Users> findUsersByGroupId(int id);
 }
