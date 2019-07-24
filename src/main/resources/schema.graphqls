@@ -107,6 +107,7 @@ type Mutation {
     startSurvey(surveyId: ID!): Boolean
     createUserGroup(name: String!): UserGroup
     addUserToGroup(userId: ID!, userGroupId: ID!): User
+    removeUserFromGroup(userId: ID!, userGroupId: ID!): User
     addUserGroupToSurvey(userGroupId: ID!, survey: ID!): Boolean
 #    addQuestion(input: InputQuestion): Question
     removeQuestionFromForm(questionId: ID!, formId: ID!): Form

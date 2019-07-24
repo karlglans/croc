@@ -11,19 +11,25 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const GroupListItem = ({ group, userGroups, addUserToGroup }) => {
+const GroupListItem = ({ group, userGroups, addUserToGroup, removeUserFromGroup }) => {
   const { id : groupId } = group;
   const isUserPressentInGroup = !!userGroups.find( g => g.id === groupId) ;
+  const onClickUserGroup = (groupId, isUserPressentInGroup) => {
+    if (isUserPressentInGroup) {
+      removeUserFromGroup(groupId)
+    } else {
+      addUserToGroup(groupId);
+    }
+  }
   return (
-    <ListItem button selected={isUserPressentInGroup} onClick={() => addUserToGroup(groupId)} >
+    <ListItem button selected={isUserPressentInGroup}
+      onClick={() => onClickUserGroup(groupId, isUserPressentInGroup)} >
       {group.name}
     </ListItem>
 )};
 
-// onClick={() => addUserToGroup(group.id)}
-
 // will load goups then used groups 
-const GroupSelector = ({ user, isLoading, groups, loadingGroups, addUserToGroup }) => {
+const GroupSelector = ({ user, isLoading, groups, loadingGroups, addUserToGroup, removeUserFromGroup }) => {
   // const usedId = user ? user.id : undefined;
   const classes = useStyles();
   const userGroups = user ? user.groups : []; // groups for this user
@@ -36,6 +42,7 @@ const GroupSelector = ({ user, isLoading, groups, loadingGroups, addUserToGroup 
         {!loadingGroups && groups && groups.map(group => (
           <GroupListItem
             addUserToGroup={addUserToGroup}
+            removeUserFromGroup={removeUserFromGroup}
             key={group.id}
             group={group}
             userGroups={userGroups}/>
@@ -46,7 +53,8 @@ const GroupSelector = ({ user, isLoading, groups, loadingGroups, addUserToGroup 
 };
 
 GroupSelector.propTypes = {
-  addUserToGroup: PropTypes.func.isRequired
+  addUserToGroup: PropTypes.func.isRequired,
+  removeUserFromGroup: PropTypes.func.isRequired
 };
 
 export default GroupSelector;

@@ -46,8 +46,16 @@ public class UserGroupService {
 		Users user = userService.getUserById(userId);
 		UserGroup userGroup = getUserGroupByIdd(userGroupId);
 		user.getGroup().add(userGroup);
-//		userGroup.getUsers().add(user); // WARNING: will delete and add list one by one?
+		// WARNING: jpa will delete and add items one by one?
 	}
+
+	public void removeUserFromGroup(final Integer userId, final Integer userGroupId) {
+		Users user = userService.getUserById(userId);
+		UserGroup userGroup = getUserGroupByIdd(userGroupId);
+		user.getGroup().remove(userGroup);
+		// WARNING: jpa will delete and add items one by one?
+	}
+
 
 	public void loadUsersInGroup(UserGroupDto userGroupDto) {
 		UserGroup ug = getUserGroupByIdd(userGroupDto.getId());

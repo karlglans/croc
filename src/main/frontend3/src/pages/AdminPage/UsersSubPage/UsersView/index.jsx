@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import Layout from './Layout';
+import { compose } from 'recompose';
 
 const ADD_USER_TO_GROUP = gql`
   mutation($userId: ID!, $userGroupId: ID!) {
@@ -15,7 +16,19 @@ const ADD_USER_TO_GROUP = gql`
   }
 `;
 
-const UsersView = ({ addUserToUserGroup }) => {
+const REMOVE_USER_FROM_GROUP = gql`
+  mutation($userId: ID!, $userGroupId: ID!) {
+    removeUserFromGroup(userId: $userId, userGroupId: $userGroupId) {
+      id
+      email
+      groups {
+        id
+      }
+    }
+  }
+`;
+
+const UsersView = ({ addUserToUserGroup, removeUserFromUserGroup }) => {
   const [userId, setUserId] = React.useState(undefined);
 
   function addUser() {
@@ -23,11 +36,8 @@ const UsersView = ({ addUserToUserGroup }) => {
   }
   function handleSelectUser(userId) {
     setUserId(userId);
-    console.log('select user', userId);
   }
   function addUserToGroup(groupId) {
-    console.log('addUserToGroup', addUserToUserGroup, groupId);
-    console.log('userId', userId, 'groupId', groupId);
     addUserToUserGroup({
       variables: {
         userId,
@@ -35,16 +45,34 @@ const UsersView = ({ addUserToUserGroup }) => {
       }})
       .then( () => {
         console.log('addUserToGroup SUCCESS');
-      })
+      });
+  }
+  function removeUserFromGroup(groupId) {
+    removeUserFromUserGroup({
+      variables: {
+        userId,
+        userGroupId: groupId
+      }})
+      .then( () => {
+        console.log('removeUserFromGroup SUCCESS');
+      });
   }
   return (
     <Layout
       addUser={addUser}
       handleSelectUser={handleSelectUser}
       addUserToGroup={addUserToGroup}
+      removeUserFromGroup={removeUserFromGroup}
       userId={userId}
     />
   )
 };
 
-export default graphql(ADD_USER_TO_GROUP, {name: 'addUserToUserGroup'})(UsersView);
+const enhance = compose(
+  graphql(ADD_USER_TO_GROUP, {name: 'addUserToUserGroup'}),
+  graphql(REMOVE_USER_FROM_GROUP, {name: 'removeUserFromUserGroup'}),
+);
+
+export default enhance(UsersView);
+
+// export default graphql(ADD_USER_TO_GROUP, {name: 'addUserToUserGroup'})(UsersView);

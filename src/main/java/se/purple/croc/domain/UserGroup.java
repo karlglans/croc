@@ -26,8 +26,8 @@ public class UserGroup {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof UserGroup)) return false;
-		UserGroup book = (UserGroup) o;
-		return Objects.equals(getId(), book.getId());
+		UserGroup userGroup = (UserGroup) o;
+		return Objects.equals(getId(), userGroup.getId());
 	}
 
 	@Override

@@ -21,8 +21,7 @@ public class UserIT extends SimpleEndpointTests {
 		String query = "{ user(id: 12) { id email groups { id name } } }";
 		String jsonStringResponse = excQuery(query);
 		JsonNode json = mapper.readTree(jsonStringResponse);
-		JsonNode id = json.get("user").get("id");
-		assertEquals("\"12\"", id.toString());
+		assertEquals("12", json.get("user").get("id").asText());
 		JsonNode groups = json.get("user").get("groups");
 		assertEquals(2, groups.size());
 		assertTrue(groups.get(0).has("name"));

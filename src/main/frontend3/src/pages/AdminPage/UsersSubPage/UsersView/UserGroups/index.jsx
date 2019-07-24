@@ -27,7 +27,7 @@ const GET_USER_GROUPS = gql`
 `;
 
 // NOTE: inner component do have an extra rendering
-const UsersGroups = ({ userId, addUserToGroup }) => {
+const UsersGroups = ({ userId, addUserToGroup, removeUserFromGroup }) => {
   return (
     <Query query={GET_GROUPS} >
       {({ loading, error, data }) => {
@@ -40,6 +40,7 @@ const UsersGroups = ({ userId, addUserToGroup }) => {
               isLoading={true}
               groups={loadedGroups}
               addUserToGroup={addUserToGroup}
+              removeUserFromGroup={removeUserFromGroup}
               user={null} />
           );
         }
@@ -54,6 +55,7 @@ const UsersGroups = ({ userId, addUserToGroup }) => {
                 isLoading={isLoading}
                 groups={loadedGroups}
                 addUserToGroup={addUserToGroup}
+                removeUserFromGroup={removeUserFromGroup}
                 user={user} />
             );
           }}
@@ -66,7 +68,8 @@ const UsersGroups = ({ userId, addUserToGroup }) => {
 
 UsersGroups.propTypes = {
   userId: PropTypes.string,
-  addUserToGroup: PropTypes.func.isRequired
+  addUserToGroup: PropTypes.func.isRequired,
+  removeUserFromGroup: PropTypes.func.isRequired,
 };
 
 export default UsersGroups;
