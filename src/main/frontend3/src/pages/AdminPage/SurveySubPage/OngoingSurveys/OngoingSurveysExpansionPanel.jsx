@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import withLoadingIndicator from '../../../../hocs/withLoadingIndicator';
 import layoutInfo from '../../../../constants/layout';
 import SurveyHeader from '../components/SurveyHeader'
 import OngoingSurvey from './OngoingSurvey';
@@ -28,15 +29,12 @@ class ExpandableSurveyList extends React.Component {
   }
 
   render() {
-    const { surveys, userGroups, isLoading } = this.props;
+    const { surveys, userGroups } = this.props;
     return (
       <React.Fragment>
-        { isLoading && (
-          <div>loading...</div>
-        )}
         <div style={{ width: layoutInfo.innerPageStandardWidth}} >
           {
-            !isLoading && surveys && surveys.map(survey => 
+            surveys && surveys.map(survey => 
               {
                 // this property will prevent the panel from loading its graphql before it has been expanded.
                 const hasBeenExpandedBefore = ExpandableSurveyList.checkExistense(this.state.loadedSurveys, survey.id);
@@ -63,9 +61,8 @@ class ExpandableSurveyList extends React.Component {
 ExpandableSurveyList.propTypes = {
   surveys: PropTypes.array,
   userGroups: PropTypes.array,
-  isLoading: PropTypes.bool.isRequired,
   linkSuffix: PropTypes.string.isRequired,
   isEditable: PropTypes.bool.isRequired,
 };
 
-export default withRouter(ExpandableSurveyList);
+export default withLoadingIndicator(withRouter(ExpandableSurveyList));

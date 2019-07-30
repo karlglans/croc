@@ -19,9 +19,10 @@ const FormsList = ({ match }) => {
   const formId = match.params.formId;
   return (<Query query={GET_FORMS}>
     {({ loading, error, data }) => {
+      const forms = data ? data.forms : [];
       return (
         <FormList
-          forms={data.forms}
+          forms={forms}
           isLoading={loading}
           loadingErrors={error}
           formId={formId} />

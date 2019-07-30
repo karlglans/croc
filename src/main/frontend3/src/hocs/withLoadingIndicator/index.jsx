@@ -25,8 +25,12 @@ const CircularIndeterminate = ({ minHeight }) => {
 }
 
 export default function withLoadingIndicator(Component) {
-  return function WihLoadingComponent({ isLoading, minHeight, ...props }) {
+  return function WihLoadingComponent({ isLoading, loadingErrors, minHeight, ...props }) {
     if (!isLoading) return (<Component {...props} />);
+    if (loadingErrors) {
+      console.log('loading errors', loadingErrors.message);
+      return (<p>`Error! ${loadingErrors.message}`</p>);
+    }
     return (<CircularIndeterminate minHeight={minHeight} />);
   }
 }
