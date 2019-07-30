@@ -26,7 +26,10 @@ const UsersDetails = ({ userId }) => {
     <Query query={GET_USER} variables={{ userId }}>
       {({ loading, error, data }) => {
         return (
-          <UserInfoBox user={data ? data.user: null} isLoading={loading} />
+          <UserInfoBox
+            user={data ? data.user: null}
+            isLoading={loading}
+            loadingErrors={error} />
         );
       }}
     </Query>

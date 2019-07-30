@@ -6,6 +6,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
   },
   progress: {
@@ -13,18 +14,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const CircularIndeterminate = () => {
+const CircularIndeterminate = ({ minHeight }) => {
   const classes = useStyles();
+  const style = { minHeight }
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={style}>
       <CircularProgress className={classes.progress} />
     </div>
   );
 }
 
-export default function WithLoading(Component) {
-  return function WihLoadingComponent({ isLoading, ...props }) {
+export default function withLoadingIndicator(Component) {
+  return function WihLoadingComponent({ isLoading, minHeight, ...props }) {
     if (!isLoading) return (<Component {...props} />);
-    return (<CircularIndeterminate />);
+    return (<CircularIndeterminate minHeight={minHeight} />);
   }
 }
