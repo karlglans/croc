@@ -18,7 +18,11 @@ const UsersView = ({handleSelectUser}) => {
     <Query query={GET_USERS} >
       {({ loading, error, data }) => {
         return (
-          <Table users={data.users} isLoading={loading} handleSelectUser={handleSelectUser} />
+          <Table
+            users={data ? data.users : []}
+            isLoading={loading}
+            loadingErrors={error}
+            handleSelectUser={handleSelectUser} />
         );
       }}
     </Query>

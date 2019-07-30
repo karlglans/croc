@@ -18,6 +18,8 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 
+import withLoadingIndicator from '../../../../../hocs/withLoadingIndicator';
+
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -45,22 +47,6 @@ class Table extends React.Component {
       selectedRow: null
     }
   }
-
-
-  // columns={[
-  //   { title: 'Email', field: 'email' },
-  //   { title: 'Surname', field: 'surname' },
-  //   { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-  //   {
-  //     title: 'Birth Place',
-  //     field: 'birthCity',
-  //     lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-  //   },
-  // ]}
-  // data={[
-  //   { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-  //   { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
-  // ]}
 
   render() {
     return (
@@ -90,7 +76,8 @@ class Table extends React.Component {
 Table.propTypes = {
   handleSelectUser: PropTypes.func.isRequired,
   users: PropTypes.array,
-  isLoading: PropTypes.bool.isRequired
 };
 
-export default Table;
+// note: it would be better if the loading indicator livs inside the table, inesad
+// of replacing it.
+export default withLoadingIndicator(Table);

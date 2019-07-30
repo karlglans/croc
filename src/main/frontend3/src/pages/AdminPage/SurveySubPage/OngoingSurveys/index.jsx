@@ -21,15 +21,18 @@ const GET_SURVEYS_DATA = gql`
   }
 `;
 
-const OngoingSurveys = props => (
+const OngoingSurveys = () => (
   <Query query={GET_SURVEYS_DATA} >
     {({ loading, error, data }) => {
-      if (error) return `Error! ${error.message}`;
+      const surveys = data ? data.surveys : [];
+      const userGroups = data ? data.userGroups : [];
       return (
         <OngoingSurveysExpansionPanel
-          surveys={data.surveys}
-          userGroups={data.userGroups}
+          surveys={surveys}
+          userGroups={userGroups}
           isLoading={loading}
+          loadingErrors={error}
+          minHeight={300}
           linkSuffix={'/admin/surveys/ongoing'}
           isEditable={true}
         />
