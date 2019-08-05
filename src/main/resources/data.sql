@@ -1,6 +1,3 @@
--- INSERT INTO roles (id, role) VALUES
--- (1, 'user'), (2, 'supervisor'), (3, 'administrator');
-
 INSERT INTO user_group (id, name) VALUES
 (1, 'Everyone from A'), (2, 'Subset of A and B'), (3, 'Everyone from B');
 
@@ -32,10 +29,15 @@ INSERT INTO question (id, text, question_type) VALUES
 (7, 'question7 form4', 'NUMERIC'), (8, 'question8 form4', 'NUMERIC');
 
 
-INSERT INTO survey (id, form_id, creator_id, status, name, COUNTED_ANSWERING_PARTICIPANTS) VALUES
-(1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019', 1), (2, 1, 2, 'ONGOING', 'Undersökning', 3),
-(3, 2, 2, 'ONGOING', 'completely answered survey', 0), (4, 2, 2, 'CLOSED', 'Det stora vårforfoluläret 2018', 0),
-(5, 4, 2, 'ONGOING', 'Massa frågor', 3);
+INSERT INTO survey (id, form_id, creator_id, status, name, COUNTED_ANSWERING_PARTICIPANTS, start_at, end_at) VALUES
+(1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019', 1, DATEADD('DAY',-7, CURRENT_DATE), DATEADD('DAY',7, CURRENT_DATE)),
+(2, 1, 2, 'ONGOING', 'Undersökning', 3, DATEADD('DAY',-7, CURRENT_DATE), DATEADD('DAY',12, CURRENT_DATE)),
+(3, 2, 2, 'ONGOING', 'completely answered survey', 0, DATEADD('DAY',-7, CURRENT_DATE), DATEADD('DAY',11, CURRENT_DATE)),
+(4, 2, 2, 'CLOSED', 'Det stora vårforfoluläret 2018', 0, DATEADD('DAY',-7, CURRENT_DATE), DATEADD('DAY',12, CURRENT_DATE)),
+(5, 4, 2, 'ONGOING', 'Massa frågor', 3, DATEADD('DAY',-7, CURRENT_DATE), DATEADD('DAY',-7, CURRENT_DATE)),
+(6, 4, 2, 'CLOSED', 'Äldre 1', 3, DATEADD('DAY',-14, CURRENT_DATE), DATEADD('DAY',-1, CURRENT_DATE)),
+(7, 4, 2, 'CLOSED', 'Äldre 2', 3, DATEADD('DAY',-12, CURRENT_DATE), DATEADD('DAY',-3, CURRENT_DATE)),
+(8, 4, 2, 'CLOSED', 'Äldre 3', 3, DATEADD('DAY',-11, CURRENT_DATE), DATEADD('DAY',-4, CURRENT_DATE));
 
 INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
 (1, 1, 1), (1, 2, 2), (2, 2, 1), (2, 3, 2),
