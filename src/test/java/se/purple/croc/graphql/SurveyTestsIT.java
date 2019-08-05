@@ -36,7 +36,7 @@ public class SurveyTestsIT extends SimpleEndpointTests {
 	@Test
 	public void canCreateNewSurvey() {
 		String json = excQuery("mutation {createSurvey(formId: 1, name: \"aaa\"){id}}");
-		String expected = "{\"createSurvey\":{\"id\":\"6\"}}";
+		String expected = "{\"createSurvey\":{\"id\":\"9\"}}";
 		assertEquals(expected, json);
 	}
 

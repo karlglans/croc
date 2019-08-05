@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 
-import AddParticipants from '../components/AddParticipants';
 import ActionPanel from './ActionPanel';
 import SurveyInfo from '../components/SurveyInfo';
 
@@ -17,10 +16,7 @@ class SurveyListItemClosed extends React.Component {
         </Grid>
         <Grid item sm={12} md={6}>
           { hasBeenExpanded && (
-              <React.Fragment>
-                <ActionPanel surveyId={surveyId} />
-                <AddParticipants surveyId={surveyId} userGroups={this.props.userGroups} />
-              </React.Fragment>
+              <ActionPanel surveyId={surveyId} />
             ) 
           }
         </Grid>

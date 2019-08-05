@@ -3,10 +3,9 @@ package se.purple.croc.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -30,14 +29,6 @@ public class Survey {
 	// to be updated when a participant store an answer
 	private int countedAnsweringParticipants;
 
-//	@OneToMany
-//	@JoinTable(
-//			name = "SURVEY_PARTICIPANT",
-//			joinColumns = { @JoinColumn(name = "SURVEY_ID") },
-//			inverseJoinColumns = { @JoinColumn(name = "PARTICIPANT_ID"), },
-//			uniqueConstraints = {@UniqueConstraint(
-//					columnNames = {"SURVEY_ID", "PARTICIPANT_ID"})}
-//	)
 	// TODO, this relation is still not working properly
 	@OneToMany(mappedBy="participant")
 	private List<SurveyParticipant> participants = new ArrayList<>();
@@ -48,5 +39,8 @@ public class Survey {
 			orphanRemoval = true
 	)
 	private List<Answer> answers;
+
+	private Timestamp startAt;
+	private Timestamp endAt;
 
 }

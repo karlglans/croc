@@ -8,6 +8,7 @@ const GET_SURVEYS_DATA = gql`
   {
     surveys(status: CLOSED) {
       id
+      name
     }
   }
 `;
