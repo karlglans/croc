@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from "react-router-dom";
 
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Grid } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import withLoadingIndicator from '../../../../hocs/withLoadingIndicator';
@@ -31,29 +31,27 @@ class ExpandableSurveyList extends React.Component {
   render() {
     const { surveys, userGroups } = this.props;
     return (
-      <React.Fragment>
-        <div style={{ width: layoutInfo.innerPageStandardWidth}} >
-          {
-            surveys && surveys.map(survey => 
-              {
-                // this property will prevent the panel from loading its graphql before it has been expanded.
-                const hasBeenExpandedBefore = ExpandableSurveyList.checkExistense(this.state.loadedSurveys, survey.id);
-                return (
-                  <ExpansionPanel key={survey.id} onChange={ (e, isExp) => this.handelExpand(e, isExp, survey.id) }>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                      {/* <Typography>Expansion Panel 1</Typography> */}
-                      <SurveyHeader survey={survey} />
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                      <OngoingSurvey survey={survey} userGroups={userGroups} hasBeenExpanded={hasBeenExpandedBefore} />
-                    </ExpansionPanelDetails>
-                  </ExpansionPanel>
-                )
-              }
-            )
-          }
-        </div>
-      </React.Fragment>
+      <Grid container style={{ maxWidth: layoutInfo.innerPageStandardWidth }} spacing={2}>
+        <Grid item xs={12}>
+          { surveys && surveys.map(survey => 
+            {
+              // this property will prevent the panel from loading its graphql before it has been expanded.
+              const hasBeenExpandedBefore = ExpandableSurveyList.checkExistense(this.state.loadedSurveys, survey.id);
+              return (
+                <ExpansionPanel key={survey.id} onChange={ (e, isExp) => this.handelExpand(e, isExp, survey.id) }>
+                  <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    {/* <Typography>Expansion Panel 1</Typography> */}
+                    <SurveyHeader survey={survey} />
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <OngoingSurvey survey={survey} userGroups={userGroups} hasBeenExpanded={hasBeenExpandedBefore} />
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              )
+            }
+          )}
+        </Grid>
+      </Grid>
     );
   }
 };
