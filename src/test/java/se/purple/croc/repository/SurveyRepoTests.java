@@ -4,6 +4,7 @@ import lombok.var;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,8 +17,8 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @RunWith(SpringRunner.class)
-// @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @DataJpaTest
 public class SurveyRepoTests {
 
@@ -32,7 +33,7 @@ public class SurveyRepoTests {
 		Survey survey = new Survey();
 		surveyRepository.save(survey);
 		Survey survey1 = manager.find(Survey.class, survey.getId());
-		assertEquals(6, survey1.getId());
+		assertEquals(9, survey1.getId());
 	}
 
 	@Test

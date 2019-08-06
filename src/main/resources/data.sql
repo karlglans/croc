@@ -9,11 +9,12 @@ INSERT INTO users (id, email) VALUES
 (14, 'employee11@purple.com'), (15, 'employee12@purple.com'), (16, 'employee13@purple.com'),
 (17, 'employee14@purple.com'), (18, 'employee15@purple.com'), (19, 'employee16@purple.com'),
 (20, 'employee17@purple.com'), (21, 'employee18@purple.com'), (22, 'employee19@purple.com');
+ALTER SEQUENCE users_id_seq RESTART WITH 5;
 
 INSERT INTO user_roles (user_id, roles) VALUES
-(1, 'administrator'), (2, 'user'), (2, 'supervisor'), (3, 'user'), (3, 'supervisor'), (4, 'user'), (5, 'user'), (6, 'user'), (7, 'user'),
-(8, 'user'), (9, 'user'), (10, 'user'), (11, 'user'), (12, 'user'), (13, 'user'), (14, 'user'), (15, 'user'),
-(16, 'user'), (17, 'user'), (18, 'user'), (19, 'user'), (20, 'user'), (21, 'user');
+(1, 'administrator'), (2, 'user'), (2, 'supervisor'), (3, 'user'), (3, 'supervisor'), (4, 'user'), (5, 'user'),
+(6, 'user'), (7, 'user'), (8, 'user'), (9, 'user'), (10, 'user'), (11, 'user'), (12, 'user'), (13, 'user'), (14, 'user'),
+(15, 'user'), (16, 'user'), (17, 'user'), (18, 'user'), (19, 'user'), (20, 'user'), (21, 'user');
 
 INSERT INTO grouped_users (user_id, group_id) VALUES
 (2, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1), (13, 1),
@@ -22,22 +23,25 @@ INSERT INTO grouped_users (user_id, group_id) VALUES
 
 INSERT INTO form (id, title, isEditable) VALUES
 (1, 'form1 ongoing survey', false), (2, 'form2 ongoing survey', false), (3, 'form3', true), (4, 'form4', false);
+ALTER SEQUENCE form_id_seq RESTART WITH 5;
 
 INSERT INTO question (id, text, question_type) VALUES
 (1, 'question1 from1', 'NUMERIC'), (2, 'question2 form1 and form2', 'NUMERIC'), (3, 'question3 form2', 'NUMERIC'),
 (4, 'question4 no Form', 'NUMERIC'), (5, 'question5 from4', 'YESNO'), (6, 'question6 form4', 'NUMERIC'),
 (7, 'question7 form4', 'NUMERIC'), (8, 'question8 form4', 'NUMERIC');
+ALTER SEQUENCE question_id_seq RESTART WITH 8;
 
 
-INSERT INTO survey (id, form_id, creator_id, status, name, COUNTED_ANSWERING_PARTICIPANTS, start_at, end_at) VALUES
-(1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019', 1, DATEADD('DAY',-7, CURRENT_DATE), DATEADD('DAY',7, CURRENT_DATE)),
-(2, 1, 2, 'ONGOING', 'Undersökning', 3, DATEADD('DAY',-7, CURRENT_DATE), DATEADD('DAY',12, CURRENT_DATE)),
-(3, 2, 2, 'ONGOING', 'completely answered survey', 0, DATEADD('DAY',-7, CURRENT_DATE), DATEADD('DAY',11, CURRENT_DATE)),
-(4, 2, 2, 'CLOSED', 'Det stora vårforfoluläret 2018', 0, DATEADD('DAY',-7, CURRENT_DATE), DATEADD('DAY',12, CURRENT_DATE)),
-(5, 4, 2, 'ONGOING', 'Massa frågor', 3, DATEADD('DAY',-7, CURRENT_DATE), DATEADD('DAY',-7, CURRENT_DATE)),
-(6, 4, 2, 'CLOSED', 'Äldre 1', 3, DATEADD('DAY',-14, CURRENT_DATE), DATEADD('DAY',-1, CURRENT_DATE)),
-(7, 4, 2, 'CLOSED', 'Äldre 2', 3, DATEADD('DAY',-12, CURRENT_DATE), DATEADD('DAY',-3, CURRENT_DATE)),
-(8, 4, 2, 'CLOSED', 'Äldre 3', 3, DATEADD('DAY',-11, CURRENT_DATE), DATEADD('DAY',-4, CURRENT_DATE));
+INSERT INTO survey (id, form_id, creator_id, status, name, COUNTED_ANSWERING_PARTICIPANTS) VALUES
+(1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019', 1),
+(2, 1, 2, 'ONGOING', 'Undersökning', 3),
+(3, 2, 2, 'ONGOING', 'completely answered survey', 0),
+(4, 2, 2, 'CLOSED', 'Det stora vårforfoluläret 2018', 0),
+(5, 4, 2, 'ONGOING', 'Massa frågor', 3),
+(6, 4, 2, 'CLOSED', 'Äldre 1', 30),
+(7, 4, 2, 'CLOSED', 'Äldre 2', 14),
+(8, 4, 2, 'CLOSED', 'Äldre 3', 31);
+ALTER SEQUENCE survey_id_seq RESTART WITH 9;
 
 INSERT INTO FORM_QUESTION (form_id, question_id, number) VALUES
 (1, 1, 1), (1, 2, 2), (2, 2, 1), (2, 3, 2),
