@@ -18,4 +18,4 @@ RUN mvn clean package
 FROM openjdk:8-jre-alpine
 WORKDIR /home/application/java
 COPY --from=build "/usr/src/jdk_appserver/target/$jar_name" .
-ENTRYPOINT exec java -jar "/home/application/java/$jar_name"
+ENTRYPOINT exec java -jar -Dspring.profiles.active=docker "/home/application/java/$jar_name"

@@ -12,4 +12,24 @@ services:
       - '35729:35729'
     environment:
       - jar_name=croc-0.0.1-SNAPSHOT.jar
+    depends_on:
+    - crodb
+    links:
+    - crodb
+  crodb:
+    image: postgres:9
+    ports:
+    - '5432:5432'
+    restart: always
+    environment:
+    - POSTGRES_PASSWORD=example
+    - POSTGRES_USER=postgres
+    - POSTGRES_DB=croc
+#  adminer:
+#    depends_on:
+#    - crodb
+#    image: adminer
+#    restart: always
+#    ports:
+#    - 8082:8080
 
