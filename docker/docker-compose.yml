@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   server:
+    image: "karlglans/cro:0.0.1"
     container_name: cro_local
     build:
       context: ../
@@ -13,13 +14,11 @@ services:
     environment:
       - jar_name=croc-0.0.1-SNAPSHOT.jar
     depends_on:
-    - crodb
+      - crodb
     links:
-    - crodb
+      - crodb
   crodb:
     image: postgres:9
-    ports:
-    - '5432:5432'
     restart: always
     environment:
     - POSTGRES_PASSWORD=example

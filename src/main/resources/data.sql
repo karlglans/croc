@@ -29,14 +29,14 @@ INSERT INTO question (id, text, question_type) VALUES
 (1, 'question1 from1', 'NUMERIC'), (2, 'question2 form1 and form2', 'NUMERIC'), (3, 'question3 form2', 'NUMERIC'),
 (4, 'question4 no Form', 'NUMERIC'), (5, 'question5 from4', 'YESNO'), (6, 'question6 form4', 'NUMERIC'),
 (7, 'question7 form4', 'NUMERIC'), (8, 'question8 form4', 'NUMERIC');
-ALTER SEQUENCE question_id_seq RESTART WITH 8;
+ALTER SEQUENCE question_id_seq RESTART WITH 9;
 
 
 INSERT INTO survey (id, form_id, creator_id, status, name, COUNTED_ANSWERING_PARTICIPANTS) VALUES
 (1, 1, 2, 'ONGOING', 'Det stora vårforfoluläret 2019', 1),
 (2, 1, 2, 'ONGOING', 'Undersökning', 3),
 (3, 2, 2, 'ONGOING', 'completely answered survey', 0),
-(4, 2, 2, 'CLOSED', 'Det stora vårforfoluläret 2018', 0),
+(4, 2, 2, 'CLOSED', 'Det stora vårforfoluläret 2018 (older)', 0),
 (5, 4, 2, 'ONGOING', 'Massa frågor', 3),
 (6, 4, 2, 'CLOSED', 'Äldre 1', 30),
 (7, 4, 2, 'CLOSED', 'Äldre 2', 14),
