@@ -1,4 +1,4 @@
-package se.purple.croc.config.security;
+package se.purple.croc.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +15,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import se.purple.croc.security.TokenAuthenticationFilter;
+import se.purple.croc.security.TokenAuthenticationProvider;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -44,31 +46,41 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.sessionManagement()
-				.sessionCreationPolicy(STATELESS)
-				.and()
+				.cors()
+					.and()
+				.csrf()
+					.disable()
 				.exceptionHandling()
-				// this entry point handles when you request a protected page and you are not yet
-				// authenticated
-				.defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROTECTED_URLS)
-
-				.and()
-				.authenticationProvider(provider)
-				.addFilterBefore(restAuthenticationFilter(), AnonymousAuthenticationFilter.class)
+					.defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROTECTED_URLS)
+					.and()
+				.sessionManagement()
+					.sessionCreationPolicy(STATELESS)
+					.and()
 				.authorizeRequests()
-				.requestMatchers(PROTECTED_URLS)
-				.authenticated()
-				.and()
-				.csrf().disable()
-				.formLogin().disable()
-				.httpBasic().disable()
-				.logout().disable();
+					.antMatchers("/",
+						"/favicon.ico",
+						"/**/*.png",
+						"/**/*.gif",
+						"/**/*.svg",
+						"/**/*.jpg",
+						"/**/*.html",
+						"/**/*.css",
+						"/**/*.js")
+						.permitAll()
+					.antMatchers("/api/auth/**")
+						.permitAll()
+					.antMatchers("/h2/**")
+						.permitAll()
+					.anyRequest()
+						.authenticated();
+
+		http.addFilterBefore(restAuthenticationFilter(), AnonymousAuthenticationFilter.class);
 	}
 
-	@Override
-	public void configure(final WebSecurity web) {
-		web.ignoring().requestMatchers(PUBLIC_URLS);
-	}
+//	@Override
+//	public void configure(final WebSecurity web) {
+//		web.ignoring().requestMatchers(PUBLIC_URLS);
+//	}
 
 	@Override
 	protected void configure(final AuthenticationManagerBuilder auth) {
