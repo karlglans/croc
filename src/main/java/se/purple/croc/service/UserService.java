@@ -54,4 +54,10 @@ public class UserService {
 	public Users getUserById(final Integer userId) {
 		return userRepo.findById(userId).get();
 	}
+
+	public Users registerNewUser(String email) {
+		Users user = new Users();
+		user.setEmail(email);
+		return userRepo.save(user);
+	}
 }

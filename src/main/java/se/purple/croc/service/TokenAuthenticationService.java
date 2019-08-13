@@ -9,6 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.Role;
@@ -89,6 +90,19 @@ public class TokenAuthenticationService {
 		System.out.println(String.format("success auth by user: %d", authUser.getUserId())); // remove
 
 		return authUser;
+	}
+
+	public String createToken(Authentication authentication) {
+		AuthenticatedUser userPrincipal = (AuthenticatedUser) authentication.getPrincipal();
+
+		return JWT.create()
+				.withIssuer(issuer)
+				.withClaim("email", userPrincipal.getEmail())
+				.withClaim("roles", "user")
+				.withClaim("id", 111) // should later on be replace by subject
+				.withClaim("exp", makeExpireDate())
+				.withSubject("2222") // unique identifier
+				.sign(algorithm);
 	}
 
 }

@@ -10,6 +10,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
+import SocialLoginRedicet from './components/SocialLoginRedirect';
 
 import { ThemeProvider } from '@material-ui/styles';
 
@@ -48,6 +49,7 @@ class App extends Component {
             <Switch>
               <Route path='/admin' component={AdminPage} />
               <Route path='/login' component={() => <LoginPage client={client} />} />
+              <Route path='/oauth2/redirect' component={SocialLoginRedicet} />
               <Route path='/' component={UserPage} />
             </Switch>
           </Router>

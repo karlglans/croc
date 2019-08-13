@@ -42,4 +42,8 @@ public class Users {
 
 	@OneToMany(mappedBy="survey")
 	private List<SurveyParticipant> surveys;
+
+	public AuthProvider getProvider() {
+		return AuthProvider.google;
+	}
 }

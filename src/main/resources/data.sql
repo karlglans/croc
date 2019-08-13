@@ -4,12 +4,12 @@ INSERT INTO user_group (id, name) VALUES
 INSERT INTO users (id, email) VALUES
 (1, 'admin@purple.com'), (2, 'supervisor1@purple.com'), (3, 'supervisor2@purple.com'), (4, 'employee1@purple.com'),
 (5, 'employee2@purple.com'), (6, 'employee3@purple.com'), (7, 'employee4@purple.com'),
-(8, 'employee5@purple.com'), (9, 'employee6@purple.com'), (10, 'employee7@purple.com'),
+(8, 'employee5@purple.com'), (9, 'employee6@purple.com'), (10, 'karglans@gmail.com'),
 (11, 'employee8@purple.com'), (12, 'employee9@purple.com'), (13, 'employee10@purple.com'),
 (14, 'employee11@purple.com'), (15, 'employee12@purple.com'), (16, 'employee13@purple.com'),
 (17, 'employee14@purple.com'), (18, 'employee15@purple.com'), (19, 'employee16@purple.com'),
 (20, 'employee17@purple.com'), (21, 'employee18@purple.com'), (22, 'employee19@purple.com');
-ALTER SEQUENCE users_id_seq RESTART WITH 5;
+ALTER SEQUENCE users_id_seq RESTART WITH 23;
 
 INSERT INTO user_roles (user_id, roles) VALUES
 (1, 'administrator'), (2, 'user'), (2, 'supervisor'), (3, 'user'), (3, 'supervisor'), (4, 'user'), (5, 'user'),

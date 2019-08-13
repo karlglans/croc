@@ -3,7 +3,11 @@ import { Redirect} from "react-router-dom";
 
 import { Paper, Card, CardActionArea, Typography  } from '@material-ui/core';
 
-import * as Role from '../../constants/domain/roleTypes'
+import * as Role from '../../constants/domain/roleTypes';
+
+const API_BASE_URL = 'http://localhost:8080';
+const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect';
+const GOOGLE_AUTH_URL = API_BASE_URL + '/oauth2/authorize/google?redirect_uri=' + OAUTH2_REDIRECT_URI;
 
 const styles = {
   container: {
@@ -85,6 +89,8 @@ class LoginPage extends Component {
               </Typography>
             </CardActionArea>
           </Card>
+          <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+            Log in with Google </a>
         </Paper>
       </div>
     );
