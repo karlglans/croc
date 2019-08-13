@@ -14,7 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.Role;
 import se.purple.croc.models.AuthorityRole;
-import se.purple.croc.models.AuthenticatedUser;
+import se.purple.croc.security.UserPrincipal;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
@@ -70,7 +70,7 @@ public class TokenAuthenticationService {
 		}
 	}
 
-	public AuthenticatedUser extractUserFromToken(Object token) {
+	public UserPrincipal extractUserFromToken(Object token) {
 		String strToken = token.toString();
 		DecodedJWT jwt = null;
 		try {
@@ -80,7 +80,7 @@ public class TokenAuthenticationService {
 		}
 		Map<String, Claim> claims = jwt.getClaims(); // Key is the Claim name
 
-		AuthenticatedUser authUser = new AuthenticatedUser();
+		UserPrincipal authUser = new UserPrincipal();
 		authUser.setUsername(claims.get("email").asString());
 		authUser.setEmail(claims.get("email").asString());
 		addRoles(authUser.getAuthorities(), claims.get("roles").asString());
@@ -93,7 +93,7 @@ public class TokenAuthenticationService {
 	}
 
 	public String createToken(Authentication authentication) {
-		AuthenticatedUser userPrincipal = (AuthenticatedUser) authentication.getPrincipal();
+		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
 		return JWT.create()
 				.withIssuer(issuer)

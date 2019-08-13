@@ -1,4 +1,4 @@
-package se.purple.croc.models;
+package se.purple.croc.security;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +11,7 @@ import se.purple.croc.domain.Users;
 import java.util.*;
 
 @Data
-public class AuthenticatedUser implements OAuth2User, UserDetails {
+public class UserPrincipal implements OAuth2User, UserDetails {
 	private String username;
 	private String password;
 	private String sub;
@@ -73,12 +73,12 @@ public class AuthenticatedUser implements OAuth2User, UserDetails {
 		return false;
 	}
 
-	public static AuthenticatedUser create(Users user) {
+	public static UserPrincipal create(Users user) {
 //		List<GrantedAuthority> authorities = Collections.
 //				singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
 
-		AuthenticatedUser authenticatedUser = new AuthenticatedUser();
+		UserPrincipal authenticatedUser = new UserPrincipal();
 		authenticatedUser.setUserId(user.getId());
 		authenticatedUser.setEmail(user.getEmail());
 		authenticatedUser.setUsername(String.valueOf(user.getId()));
@@ -93,8 +93,8 @@ public class AuthenticatedUser implements OAuth2User, UserDetails {
 //		);
 	}
 
-	public static AuthenticatedUser create(Users user, Map<String, Object> attributes) {
-		AuthenticatedUser userPrincipal = AuthenticatedUser.create(user);
+	public static UserPrincipal create(Users user, Map<String, Object> attributes) {
+		UserPrincipal userPrincipal = UserPrincipal.create(user);
 		userPrincipal.setAttributes(attributes);
 		return userPrincipal;
 	}

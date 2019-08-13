@@ -5,7 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.Users;
-import se.purple.croc.models.AuthenticatedUser;
+import se.purple.croc.security.UserPrincipal;
 import se.purple.croc.repository.UserRepository;
 import se.purple.croc.service.exceptions.MissingData;
 
@@ -16,9 +16,9 @@ public class AuthService {
 	@Autowired
 	UserRepository userRepo;
 
-	public AuthenticatedUser getPrincipal() {
+	public UserPrincipal getPrincipal() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return (AuthenticatedUser) authentication.getPrincipal();
+		return (UserPrincipal) authentication.getPrincipal();
 	}
 
 	Users getUser(int userId) {
@@ -29,7 +29,7 @@ public class AuthService {
 		return user.get();
 	}
 
-	Users getUser(AuthenticatedUser authUser) {
+	Users getUser(UserPrincipal authUser) {
 		Optional<Users> user = userRepo.findById((int)authUser.getUserId());
 		if (!user.isPresent()) {
 			throw new MissingData(String.format("cant find user %u", authUser.getUserId()));

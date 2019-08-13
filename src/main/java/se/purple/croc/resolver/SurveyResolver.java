@@ -4,7 +4,7 @@ import com.coxautodev.graphql.tools.GraphQLResolver;
 import org.springframework.stereotype.Component;
 
 import se.purple.croc.dto.*;
-import se.purple.croc.models.AuthenticatedUser;
+import se.purple.croc.security.UserPrincipal;
 import se.purple.croc.service.*;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class SurveyResolver implements GraphQLResolver<SurveyDto> {
 	}
 
 	public OwnSurveyStatusDto getOwnStatus(SurveyDto survey) {
-		AuthenticatedUser authUser = authService.getPrincipal();
+		UserPrincipal authUser = authService.getPrincipal();
 		return surveyService.getOwnStatus(authUser.getUserId(), survey.getId());
 	}
 
