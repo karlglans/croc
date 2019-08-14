@@ -25,14 +25,13 @@ exp.Main = function(secret, roles, email, id) {
   if (checkArgs(secret, roles, email, idNumber)) {
     console.log('roles: ', roles)
     console.log('email: ', email)
-    console.log('id: ', idNumber)
+    console.log('sub: ', idNumber)
     const token = jwt.sign({
       // exp: Math.floor(Date.now() / 1000) + (60 * 60),
       iss: 'croc',
-      sub: 'google-11111', // fake!
+      sub: idNumber, // fake!
       email: email,
       roles: roles || 'user',
-      id: idNumber,
     }, secret);
     console.log('token: ' + token);
   }

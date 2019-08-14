@@ -1,0 +1,17 @@
+{
+  "name": "tools",
+  "version": "1.0.0",
+  "description": "To make authentication token for header Authorization: Bearer token\r ```\r npm run tools -- token --secret <the_secret> --roles \"USER ADMIN\" --email apa@hotmail.com --id 1\r ```",
+  "main": "index.js",
+  "dependencies": {
+    "commander": "^3.0.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tools": "node ./index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
