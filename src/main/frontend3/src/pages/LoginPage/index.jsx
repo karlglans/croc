@@ -47,22 +47,20 @@ class LoginPage extends Component {
 
   clickSupervicor() {
     // user 3, a supervisor
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjcm9jIiwic3ViIjoiZ29vZ2xlL" +
-      "TExMTExIiwiZW1haWwiOiJzdXBlcnZpc29yMkBwdXJwbGUuY29tIiwicm9sZXMiOiJVU0VSIFN" +
-      "VUEVSIiwiaWQiOjMsImlhdCI6MTU2MjM0MzE3NH0.2AuO28w248jrkwQTu-CynybNSEvcPD-XQBIiJlX13qc";
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjcm9jIiwic3ViIjozLCJlbWFpbCI6I' +
+    'nN1cGVydmlzb3IyQHB1cnBsZS5jb20iLCJyb2xlcyI6InN1cGVydmlzb3IiLCJpYXQiOjE1NjU3NTE0NzN9.IrzYskNc' +
+    'QlnueaRUZAiSj22k7HilskBaG_Iu9KOYHII';
     localStorage.setItem('apollotoken', token);
     localStorage.setItem('crocClient', Role.SUPERVISOR);
-    // localStorage.setItem('crocClientId', '3');
     this.setState({redirect: '/admin/surveys'});
   }
   clickUser() {
     // user 4, an ordinary user
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjcm9jIiwic3ViIjoiZ29vZ2xlL" + 
-      "TExMTExIiwiZW1haWwiOiJlbXBsb3llZTFAcHVycGxlLmNvbSIsInJvbGVzIjoiVVNFUiIsI" + 
-      "mlkIjo0LCJpYXQiOjE1NjIyNzk2MTd9.wCk6xLNczwtPBN93vEtxnKty2WHgYjM9c_fMoMxpQi4";
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjcm9jIiwic3ViIjo0LCJlbWFpbCI' +
+      '6ImVtcGxveWVlMUBwdXJwbGUuY29tIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNTY1NzUwNzc4fQ.iXFK40_M6Qhq' +
+      'GADKKc6fp6CIUgR8ALMHhA02k4gTxUY';
     localStorage.setItem('apollotoken', token);
     localStorage.setItem('crocClient', Role.USER);
-    // localStorage.setItem('crocClientId', '4');
     this.setState({redirect: '/surveys'});
   }
 

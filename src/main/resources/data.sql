@@ -5,7 +5,7 @@ INSERT INTO users (id, email, role) VALUES
 (1, 'admin@purple.com', 'administrator'), (2, 'supervisor1@purple.com', 'supervisor'), (3, 'supervisor2@purple.com', 'supervisor'),
 (4, 'employee1@purple.com', 'user'), (5, 'employee2@purple.com', 'user'), (6, 'employee3@purple.com', 'user'),
 (7, 'employee4@purple.com', 'user'), (8, 'employee5@purple.com', 'user'), (9, 'employee6@purple.com', 'user'),
-(10, 'karlglans2@gmail.com', 'pending'), (11, 'employee8@purple.com', 'user'), (12, 'employee9@purple.com', 'user'),
+(10, 'karlglans@gmail.com', 'user'), (11, 'employee8@purple.com', 'user'), (12, 'employee9@purple.com', 'user'),
 (13, 'employee10@purple.com', 'user'), (14, 'employee11@purple.com', 'user'), (15, 'employee12@purple.com', 'user'),
 (16, 'employee13@purple.com', 'user'), (17, 'employee14@purple.com', 'user'), (18, 'employee15@purple.com', 'user'),
 (19, 'employee16@purple.com', 'user'), (20, 'employee17@purple.com', 'user'), (21, 'employee18@purple.com', 'user'),

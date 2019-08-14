@@ -69,9 +69,14 @@ public class TokenAuthenticationService {
 		}
 	}
 
+	private static int extractIdFromSubject(String subject) {
+		// NOTE: for now sub is just user id. In the future it might be a hash or Guid
+		return Integer.parseInt(subject);
+	}
+
 	public UserPrincipal extractUserFromToken(Object token) {
 		String strToken = token.toString();
-		DecodedJWT jwt = null;
+		DecodedJWT jwt;
 		try {
 			jwt = verifier.verify(strToken);
 		} catch (JWTVerificationException exception) {
@@ -84,27 +89,21 @@ public class TokenAuthenticationService {
 		authUser.setEmail(claims.get("email").asString());
 		addRoles(authUser.getAuthorities(), claims.get("roles").asString());
 		authUser.setSub(jwt.getSubject());
-		authUser.setProvider("google"); // only option for now
-		authUser.setUserId(claims.get("id").asInt());
-		System.out.println(String.format("success auth by user: %d", authUser.getUserId())); // remove
+		authUser.setProvider("google"); // only option for now;
+		authUser.setUserId(extractIdFromSubject(jwt.getSubject()));
+		System.out.println(String.format("success auth by user sub: %d", authUser.getUserId())); // remove
 
 		return authUser;
 	}
 
 	public String createToken(Authentication authentication) {
 		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
-		String sub = userPrincipal.getSub();
-
-		String roles = userPrincipal.getRole();
-
 		return JWT.create()
 				.withIssuer(issuer)
 				.withClaim("email", userPrincipal.getEmail())
-				.withClaim("roles", roles)
-				.withClaim("id", 111) // should later on be replace by subject
+				.withClaim("roles", userPrincipal.getRole())
 				.withClaim("exp", makeExpireDate())
-				.withSubject("2222") // unique identifier
+				.withSubject(userPrincipal.getSub())
 				.sign(algorithm);
 	}
 
