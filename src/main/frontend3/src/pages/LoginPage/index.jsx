@@ -42,6 +42,7 @@ class LoginPage extends Component {
   }
 
   componentDidMount() {
+    console.log('base url', API_BASE_URL);
     this.props.client.resetStore()
   }
 
@@ -88,7 +89,7 @@ class LoginPage extends Component {
             </CardActionArea>
           </Card>
           <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
-            Log in with Google </a>
+            Log in with Google Account </a>
         </Paper>
       </div>
     );

@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ExampleCtrl {
 
-//	@Value("${security.oauth2.client.registration.google.redirectUriTemplate}")
-//	String testparam;
+	@Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
+	String testparam;
 
 	@RequestMapping(value = "/ex")
 	public String hello() {
-		return "ssss";
+		return testparam;
 	}
 }
