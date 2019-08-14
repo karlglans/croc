@@ -13,7 +13,7 @@ ALTER SEQUENCE users_id_seq RESTART WITH 23;
 
 INSERT INTO user_roles (user_id, roles) VALUES
 (1, 'administrator'), (2, 'user'), (2, 'supervisor'), (3, 'user'), (3, 'supervisor'), (4, 'user'), (5, 'user'),
-(6, 'user'), (7, 'user'), (8, 'user'), (9, 'user'), (10, 'user'), (11, 'user'), (12, 'user'), (13, 'user'), (14, 'user'),
+(6, 'user'), (7, 'user'), (8, 'user'), (9, 'user'), (10, 'supervisor'), (11, 'user'), (12, 'user'), (13, 'user'), (14, 'user'),
 (15, 'user'), (16, 'user'), (17, 'user'), (18, 'user'), (19, 'user'), (20, 'user'), (21, 'user');
 
 INSERT INTO grouped_users (user_id, group_id) VALUES

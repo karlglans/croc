@@ -98,7 +98,7 @@ public class TokenAuthenticationService {
 		return JWT.create()
 				.withIssuer(issuer)
 				.withClaim("email", userPrincipal.getEmail())
-				.withClaim("roles", "user")
+				.withClaim("roles", "supervisor")
 				.withClaim("id", 111) // should later on be replace by subject
 				.withClaim("exp", makeExpireDate())
 				.withSubject("2222") // unique identifier
