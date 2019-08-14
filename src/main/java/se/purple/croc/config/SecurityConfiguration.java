@@ -47,12 +47,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
 			new AntPathRequestMatcher("/graphql")
-//			new AntPathRequestMatcher("/api") // has to be excluded for authentication to work
 	);
 
-	private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
-			new AntPathRequestMatcher("/h2/**")
-	);
 
 	/*
       By default, Spring OAuth2 uses HttpSessionOAuth2AuthorizationRequestRepository to save
@@ -63,7 +59,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
 		return new HttpCookieOAuth2AuthorizationRequestRepository();
 	}
-
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -94,8 +89,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/**/*.js")
 						.permitAll()
 					.antMatchers("/auth/**", "/oauth2/**")
-						.permitAll()
-					.antMatchers("/h2/**")
 						.permitAll()
 					.antMatchers("/ex")
 						.permitAll()

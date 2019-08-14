@@ -62,10 +62,9 @@ public class TokenAuthenticationService {
 	}
 
 	private void addRoles(Set<GrantedAuthority> authorities, String roles) {
-		if (roles.contains("USER")) {
+		if (roles.contains(Role.user.name())) {
 			authorities.add(userAuthority);
-		}
-		if (roles.contains("SUPER")) {
+		} else if (roles.contains(Role.supervisor.name())) {
 			authorities.add(supervisorAuthority);
 		}
 	}
@@ -95,10 +94,14 @@ public class TokenAuthenticationService {
 	public String createToken(Authentication authentication) {
 		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
+		String sub = userPrincipal.getSub();
+
+		String roles = userPrincipal.getRole();
+
 		return JWT.create()
 				.withIssuer(issuer)
 				.withClaim("email", userPrincipal.getEmail())
-				.withClaim("roles", "supervisor")
+				.withClaim("roles", roles)
 				.withClaim("id", 111) // should later on be replace by subject
 				.withClaim("exp", makeExpireDate())
 				.withSubject("2222") // unique identifier

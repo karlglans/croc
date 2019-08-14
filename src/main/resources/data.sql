@@ -1,20 +1,16 @@
 INSERT INTO user_group (id, name) VALUES
 (1, 'Everyone from A'), (2, 'Subset of A and B'), (3, 'Everyone from B');
 
-INSERT INTO users (id, email) VALUES
-(1, 'admin@purple.com'), (2, 'supervisor1@purple.com'), (3, 'supervisor2@purple.com'), (4, 'employee1@purple.com'),
-(5, 'employee2@purple.com'), (6, 'employee3@purple.com'), (7, 'employee4@purple.com'),
-(8, 'employee5@purple.com'), (9, 'employee6@purple.com'), (10, 'karglans@gmail.com'),
-(11, 'employee8@purple.com'), (12, 'employee9@purple.com'), (13, 'employee10@purple.com'),
-(14, 'employee11@purple.com'), (15, 'employee12@purple.com'), (16, 'employee13@purple.com'),
-(17, 'employee14@purple.com'), (18, 'employee15@purple.com'), (19, 'employee16@purple.com'),
-(20, 'employee17@purple.com'), (21, 'employee18@purple.com'), (22, 'employee19@purple.com');
+INSERT INTO users (id, email, role) VALUES
+(1, 'admin@purple.com', 'administrator'), (2, 'supervisor1@purple.com', 'supervisor'), (3, 'supervisor2@purple.com', 'supervisor'),
+(4, 'employee1@purple.com', 'user'), (5, 'employee2@purple.com', 'user'), (6, 'employee3@purple.com', 'user'),
+(7, 'employee4@purple.com', 'user'), (8, 'employee5@purple.com', 'user'), (9, 'employee6@purple.com', 'user'),
+(10, 'karlglans2@gmail.com', 'pending'), (11, 'employee8@purple.com', 'user'), (12, 'employee9@purple.com', 'user'),
+(13, 'employee10@purple.com', 'user'), (14, 'employee11@purple.com', 'user'), (15, 'employee12@purple.com', 'user'),
+(16, 'employee13@purple.com', 'user'), (17, 'employee14@purple.com', 'user'), (18, 'employee15@purple.com', 'user'),
+(19, 'employee16@purple.com', 'user'), (20, 'employee17@purple.com', 'user'), (21, 'employee18@purple.com', 'user'),
+(22, 'employee19@purple.com', 'user');
 ALTER SEQUENCE users_id_seq RESTART WITH 23;
-
-INSERT INTO user_roles (user_id, roles) VALUES
-(1, 'administrator'), (2, 'user'), (2, 'supervisor'), (3, 'user'), (3, 'supervisor'), (4, 'user'), (5, 'user'),
-(6, 'user'), (7, 'user'), (8, 'user'), (9, 'user'), (10, 'supervisor'), (11, 'user'), (12, 'user'), (13, 'user'), (14, 'user'),
-(15, 'user'), (16, 'user'), (17, 'user'), (18, 'user'), (19, 'user'), (20, 'user'), (21, 'user');
 
 INSERT INTO grouped_users (user_id, group_id) VALUES
 (2, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1), (13, 1),

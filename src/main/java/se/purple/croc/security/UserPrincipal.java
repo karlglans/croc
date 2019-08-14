@@ -21,6 +21,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 	private boolean enabled = true;
 	private Set<GrantedAuthority> authorities = new HashSet<>();
 	private Map<String, Object> attributes;
+	private Role role;
 
 	@Override
 	public Set<GrantedAuthority> getAuthorities() {
@@ -66,6 +67,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 		return enabled;
 	}
 
+	// TODO remove since we only allow one role per user
 	public boolean hasRole(Role role) {
 		for (GrantedAuthority authority : authorities) {
 			if (authority.getAuthority().compareTo(role.name()) == 0) return true;
@@ -73,24 +75,36 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 		return false;
 	}
 
+	public String getRole() {
+		return role == null ? "unknown" : role.toString();
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	// refactor lookuptable
+	private static void addRole(Users user, UserPrincipal userPrincipal) {
+		Set<GrantedAuthority> authorities = userPrincipal.getAuthorities();
+		if (user.getRole() == Role.administrator) {
+			authorities.add(new SimpleGrantedAuthority("ROLE_ADMINISTRATOR"));
+		} else if (user.getRole() == Role.supervisor) {
+			authorities.add(new SimpleGrantedAuthority("ROLE_SUPERVISOR"));
+		} else if (user.getRole() == Role.user) {
+			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+		} else if (user.getRole() == Role.pending) {
+			authorities.add(new SimpleGrantedAuthority("ROLE_PENDING"));
+		}
+	}
+
 	public static UserPrincipal create(Users user) {
-//		List<GrantedAuthority> authorities = Collections.
-//				singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-
-
 		UserPrincipal authenticatedUser = new UserPrincipal();
 		authenticatedUser.setUserId(user.getId());
 		authenticatedUser.setEmail(user.getEmail());
 		authenticatedUser.setUsername(String.valueOf(user.getId()));
-		authenticatedUser.getAuthorities().add(new SimpleGrantedAuthority("ROLE_USER"));
+		authenticatedUser.setRole(user.getRole());
+		addRole(user, authenticatedUser); // since spring wants a set of roles
 		return authenticatedUser;
-
-//		return new AuthenticatedUser(
-//				user.getId(),
-//				user.getEmail(),
-//				"ssss",
-//				authorities
-//		);
 	}
 
 	public static UserPrincipal create(Users user, Map<String, Object> attributes) {
