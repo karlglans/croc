@@ -103,6 +103,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 		authenticatedUser.setEmail(user.getEmail());
 		authenticatedUser.setUsername(String.valueOf(user.getId()));
 		authenticatedUser.setRole(user.getRole());
+		authenticatedUser.setSub(String.valueOf(user.getId())); // will use user id as sub for now
 		addRole(user, authenticatedUser); // since spring wants a set of roles
 		return authenticatedUser;
 	}
