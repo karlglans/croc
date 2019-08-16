@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -16,12 +15,20 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.filter.GenericFilterBean;
 import se.purple.croc.security.TokenAuthenticationFilter;
 import se.purple.croc.security.TokenAuthenticationProvider;
 import se.purple.croc.security.oauth2.CustomOAuth2UserService;
 import se.purple.croc.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import se.purple.croc.security.oauth2.OAuth2AuthenticationFailureHandler;
 import se.purple.croc.security.oauth2.OAuth2AuthenticationSuccessHandler;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+import java.io.IOException;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -60,8 +67,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return new HttpCookieOAuth2AuthorizationRequestRepository();
 	}
 
+	@Bean
+	public CustomFilter customFilter() {
+		return new CustomFilter();
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+
+		// TODO: find some way of removing DefaultLoginPageGeneratingFilter
+		// it produces a login page on /login
 		http
 				.cors()
 					.and()
@@ -88,8 +103,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/**/*.css",
 						"/**/*.js")
 						.permitAll()
-					.antMatchers("/auth/**", "/oauth2/**")
-						.permitAll()
+//					.antMatchers("/auth/**", "/oauth2/**")
+//						.permitAll()
 					.antMatchers("/ex")
 						.permitAll()
 					.anyRequest()
@@ -109,13 +124,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.successHandler(oAuth2AuthenticationSuccessHandler)
 				.failureHandler(oAuth2AuthenticationFailureHandler);
 
+
 		http.addFilterBefore(restAuthenticationFilter(), AnonymousAuthenticationFilter.class);
 	}
-
-//	@Override
-//	public void configure(final WebSecurity web) {
-//		web.ignoring().requestMatchers(PUBLIC_URLS);
-//	}
 
 	@Override
 	protected void configure(final AuthenticationManagerBuilder auth) {
@@ -140,5 +151,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	AuthenticationEntryPoint forbiddenEntryPoint() {
 		return new HttpStatusEntryPoint(FORBIDDEN);
+	}
+
+	public class CustomFilter extends GenericFilterBean {
+
+		@Override
+		public void doFilter(
+				ServletRequest request,
+				ServletResponse response,
+				FilterChain chain) throws IOException, ServletException {
+			chain.doFilter(request, response);
+		}
 	}
 }

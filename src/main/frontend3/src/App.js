@@ -19,6 +19,7 @@ import * as am4core from '@amcharts/amcharts4/core';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 
 import theme from './theme';
+import * as routes from './constants/routes';
 
 am4core.useTheme(am4themes_animated);
 
@@ -48,10 +49,10 @@ class App extends Component {
         <ApolloProvider client={client}>
           <Router>
             <Switch>
-              <Route path='/admin' component={AdminPage} />
-              <Route path='/login' component={() => <LoginPage client={client} />} />
+              <Route path={routes.toAdminPage} component={AdminPage} />
+              <Route path={routes.toLoginPage} component={() => <LoginPage client={client} />} />
               <Route path='/oauth2/redirect' component={SocialLoginRedicet} />
-              <Route path='/pending' component={PendingAccPage} />
+              <Route path={routes.toPendingUserPage} component={PendingAccPage} />
               <Route path='/' component={UserPage} />
             </Switch>
           </Router>

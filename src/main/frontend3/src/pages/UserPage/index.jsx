@@ -2,11 +2,12 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import Layout from './Layout';
 import * as Role from '../../constants/domain/roleTypes';
+import * as routes from '../../constants/routes';
 
 class UserPage extends React.Component {
   constructor(props) {
     super(props);
-    const redirectPath = localStorage.getItem('crocClient') === Role.USER ? undefined : '/login';
+    const redirectPath = localStorage.getItem('crocClient') === Role.USER ? undefined : routes.toLoginPage;
     this.state = {
       redirectPath
     };

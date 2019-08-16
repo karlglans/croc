@@ -1,15 +1,16 @@
 import * as Roles from './domain/roleTypes'; 
 
-const toLoginPage = '/login';
-const adminPage = '/admin';
-const userPage = '/';
+export const toLoginPage = '/login-portal';
+export const toPendingUserPage = '/pending';
+export const toAdminPage = '/admin';
+export const userPage = '/';
 
-const startPages = {
+export const startPages = {
   [Roles.SUPERVISOR]: '/admin/surveys',
   [Roles.USER]: '/surveys',
   [Roles.PENDING]: '/pending'
 };
 
 export default {
-  toLoginPage, adminPage, userPage, startPages
+  toLoginPage, toAdminPage, userPage, startPages
 }
