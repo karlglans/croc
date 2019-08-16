@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import * as serviceWorker from '../../serviceWorker';
 import { Redirect} from "react-router-dom";
 
 import { Paper, Card, CardActionArea, Typography  } from '@material-ui/core';
 
 import * as Role from '../../constants/domain/roleTypes';
 
+const now = new Date();
+const time = now.getTime();
 const API_BASE_URL = 'http://localhost:8080';
-const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect';
-const GOOGLE_AUTH_URL = API_BASE_URL + '/oauth2/authorize/google?redirect_uri=' + OAUTH2_REDIRECT_URI;
+const OAUTH2_REDIRECT_URI = process.env.REACT_APP_OAUTH2_REDIRECT || 'http://localhost:3000/oauth2/redirect';
+const GOOGLE_AUTH_URL = API_BASE_URL + '/oauth2/authorize/google?redirect_uri=' + OAUTH2_REDIRECT_URI + '&t=' + time;
 
 const styles = {
   container: {
@@ -42,8 +45,13 @@ class LoginPage extends Component {
   }
 
   componentDidMount() {
-    console.log('base url', API_BASE_URL);
+    const overideRedirectURL = process.env.REACT_APP_OAUTH2_REDIRECT;
+    console.log('base url', overideRedirectURL, API_BASE_URL);
+    console.log('selected url', overideRedirectURL ? overideRedirectURL : API_BASE_URL );
+    console.log('selected url', overideRedirectURL || API_BASE_URL );
+    console.log('DATAAA', process.env.DATAAA );
     this.props.client.resetStore()
+    // serviceWorker.unregister();
   }
 
   clickSupervicor() {
@@ -90,6 +98,9 @@ class LoginPage extends Component {
           </Card>
           <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
             Log in with Google Account </a>
+          <p>REACT_APP_OAUTH2_REDIRECT: {process.env.REACT_APP_OAUTH2_REDIRECT}</p>
+          <p>OAUTH2_REDIRECT_URI: {OAUTH2_REDIRECT_URI}</p>
+          <p>ummber: 11</p>
         </Paper>
       </div>
     );

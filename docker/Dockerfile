@@ -1,7 +1,13 @@
 FROM node:8 as frontend
 WORKDIR /usr/src/reactapp
 ARG jar_name
+ARG oauth2_redirect
+#ARG oauth2_redirect
+ENV REACT_APP_OAUTH2_REDIRECT="$oauth2_redirect"
 COPY ./src/main/frontend3 ./
+COPY ./docker/.env ./
+RUN echo "oauth2_redirect: $REACT_APP_OAUTH2_REDIRECT"
+RUN echo "jar_name: $jar_name"
 RUN npm install
 RUN npm run build
 

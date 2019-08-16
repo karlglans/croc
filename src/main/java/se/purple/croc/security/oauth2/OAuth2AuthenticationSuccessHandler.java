@@ -1,6 +1,7 @@
 package se.purple.croc.security.oauth2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,10 @@ import static se.purple.croc.security.oauth2.HttpCookieOAuth2AuthorizationReques
 
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+	@Value("${app.oauth2.authorizedRedirectUris}")
+	String redirectUri;
+
 
 	private TokenAuthenticationService tokenProvider;
 	private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
@@ -75,7 +80,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		// TODO get from app.props
 		List<String> redirectUris = new ArrayList<>();
-		redirectUris.add("http://localhost:3000/oauth2/redirect");
+//		redirectUris.add("http://localhost:3000/oauth2/redirect");
+		redirectUris.add(redirectUri);
 
 		// return appProperties.getOauth2().getAuthorizedRedirectUris()
 		return redirectUris

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ExampleCtrl {
 
-	@Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
+	@Value("${app.oauth2.authorizedRedirectUris}")
 	String testparam;
 
 	@RequestMapping(value = "/ex")
