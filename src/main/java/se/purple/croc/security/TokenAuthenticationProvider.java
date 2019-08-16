@@ -1,4 +1,4 @@
-package se.purple.croc.config.security;
+package se.purple.croc.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

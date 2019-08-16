@@ -1,4 +1,4 @@
-package se.purple.croc.config.security;
+package se.purple.croc.config;
 
 import org.springframework.security.web.RedirectStrategy;
 

@@ -3,15 +3,15 @@ package se.purple.croc.graphql;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.Role;
 import se.purple.croc.models.AuthorityRole;
-import se.purple.croc.models.AuthenticatedUser;
+import se.purple.croc.security.UserPrincipal;
 
 import javax.annotation.PostConstruct;
 
 @Service
 public class TestDataGrabber {
 
-	AuthenticatedUser user4 = new AuthenticatedUser();
-	AuthenticatedUser user3supervisor = new AuthenticatedUser();
+	UserPrincipal user4 = new UserPrincipal();
+	UserPrincipal user3supervisor = new UserPrincipal();
 
 	@PostConstruct
 	public void setup() {

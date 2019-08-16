@@ -2,6 +2,7 @@ package se.purple.croc.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.purple.croc.domain.Role;
 import se.purple.croc.domain.UserGroup;
 import se.purple.croc.domain.Users;
 import se.purple.croc.dto.UserDto;
@@ -53,5 +54,12 @@ public class UserService {
 
 	public Users getUserById(final Integer userId) {
 		return userRepo.findById(userId).get();
+	}
+
+	public Users registerNewUser(String email) {
+		Users user = new Users();
+		user.setEmail(email);
+		user.setRole(Role.pending);
+		return userRepo.save(user);
 	}
 }

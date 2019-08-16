@@ -7,7 +7,7 @@ import se.purple.croc.domain.*;
 import se.purple.croc.dto.OwnSurveyStatusDto;
 import se.purple.croc.dto.SurveyCountingSummaryDto;
 import se.purple.croc.dto.SurveyDto;
-import se.purple.croc.models.AuthenticatedUser;
+import se.purple.croc.security.UserPrincipal;
 import se.purple.croc.repository.AnswerRepository;
 import se.purple.croc.repository.SurveyParticipantRepository;
 import se.purple.croc.repository.SurveyRepository;
@@ -67,7 +67,7 @@ public class SurveyService {
 	}
 
 	public List<SurveyDto> getAllSurveyDtos(SurveyStatus surveyStatus, Integer participantId,
-											Boolean isParticipating, AuthenticatedUser authenticatedUser) {
+											Boolean isParticipating, UserPrincipal authenticatedUser) {
 		// TODO: make different kind of selections based on existence of params
 		List<Survey> surveys;
 

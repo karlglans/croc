@@ -1,4 +1,5 @@
-const USER = 'USER';
-const SUPERVISOR = 'SUPERVISOR';
+const USER = 'user';
+const SUPERVISOR = 'supervisor';
+const PENDING = 'pending';
 
-export { USER, SUPERVISOR };
+export { USER, SUPERVISOR, PENDING };

@@ -8,3 +8,4 @@
 * Ta reda på varför security.token grejerna behövs på nytt i application.properties i test. 
 * Loading spinner FE
 * Handeling errors FE
+* Host docker container on some other port then 8080.

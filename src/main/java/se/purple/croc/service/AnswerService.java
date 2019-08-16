@@ -7,7 +7,7 @@ import se.purple.croc.dto.AnswerDto;
 import se.purple.croc.dto.AnswersSummary;
 import se.purple.croc.dto.NumericAnswerDto;
 import se.purple.croc.dto.SurveyDto;
-import se.purple.croc.models.AuthenticatedUser;
+import se.purple.croc.security.UserPrincipal;
 import se.purple.croc.models.NestedHashMap;
 import se.purple.croc.repository.AnswerRepository;
 import se.purple.croc.service.exceptions.MissingData;
@@ -74,7 +74,7 @@ public class AnswerService {
 		return answer;
 	}
 
-	public AnswerDto updateAnswer(Integer surveyId, AuthenticatedUser authUser, Integer questionId, Integer value) {
+	public AnswerDto updateAnswer(Integer surveyId, UserPrincipal authUser, Integer questionId, Integer value) {
 		Answer answer = null;
 		try {
 			answer = getExistingAnswer(surveyId, authUser.getUserId(), questionId);

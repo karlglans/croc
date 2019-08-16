@@ -1,4 +1,4 @@
-package se.purple.croc.config.security;
+package se.purple.croc.security;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
