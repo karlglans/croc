@@ -9,11 +9,8 @@ class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/{spring:\\w+}")
-				.setViewName("forward:/");
-		registry.addViewController("/**/{spring:\\w+}")
-				.setViewName("forward:/");
-		registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
+		// will forward unmatched uris to frontend in static folder
+		registry.addViewController("/**/{path:[^\\.]*}")
 				.setViewName("forward:/");
 	}
 }

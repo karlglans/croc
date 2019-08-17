@@ -41,6 +41,8 @@ class LoginPage extends Component {
   }
 
   componentDidMount() {
+    console.log('OAUTH2_REDIRECT_URI', OAUTH2_REDIRECT_URI);
+    console.log('version', 15);
     this.props.client.resetStore()
   }
 
@@ -88,8 +90,6 @@ class LoginPage extends Component {
           </Card>
           <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
             Log in with Google Account </a>
-          <p>OAUTH2_REDIRECT_URI: {OAUTH2_REDIRECT_URI}</p>
-          <p>nummber: 12</p>
         </Paper>
       </div>
     );
