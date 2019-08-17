@@ -15,20 +15,12 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.filter.GenericFilterBean;
 import se.purple.croc.security.TokenAuthenticationFilter;
 import se.purple.croc.security.TokenAuthenticationProvider;
 import se.purple.croc.security.oauth2.CustomOAuth2UserService;
 import se.purple.croc.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import se.purple.croc.security.oauth2.OAuth2AuthenticationFailureHandler;
 import se.purple.croc.security.oauth2.OAuth2AuthenticationSuccessHandler;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
-import java.io.IOException;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -53,9 +45,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
-			new AntPathRequestMatcher("/graphql")
+			new AntPathRequestMatcher("/graphql"),
+			new AntPathRequestMatcher("/ex")
 	);
-
 
 	/*
       By default, Spring OAuth2 uses HttpSessionOAuth2AuthorizationRequestRepository to save
@@ -65,11 +57,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
 		return new HttpCookieOAuth2AuthorizationRequestRepository();
-	}
-
-	@Bean
-	public CustomFilter customFilter() {
-		return new CustomFilter();
 	}
 
 	@Override
@@ -87,28 +74,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.httpBasic()
 					.disable()
 				.exceptionHandling()
-					.defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROTECTED_URLS)
-					.and()
+				.and()
 				.sessionManagement()
 					.sessionCreationPolicy(STATELESS)
-					.and()
-				.authorizeRequests()
-					.antMatchers("/",
-						"/favicon.ico", "/manifest.json",
-						"/**/*.png",
-						"/**/*.gif",
-						"/**/*.svg",
-						"/**/*.jpg",
-						"/**/*.html",
-						"/**/*.css",
-						"/**/*.js")
-						.permitAll()
-//					.antMatchers("/auth/**", "/oauth2/**")
-//						.permitAll()
-					.antMatchers("/ex")
-						.permitAll()
-					.anyRequest()
-						.authenticated()
 					.and()
 				.oauth2Login()
 					.authorizationEndpoint()
@@ -124,8 +92,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.successHandler(oAuth2AuthenticationSuccessHandler)
 				.failureHandler(oAuth2AuthenticationFailureHandler);
 
-
-		http.addFilterBefore(restAuthenticationFilter(), AnonymousAuthenticationFilter.class);
+		http.addFilterBefore(jwtAuthenticationFilter(), AnonymousAuthenticationFilter.class);
 	}
 
 	@Override
@@ -133,8 +100,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(provider);
 	}
 
-
-	private TokenAuthenticationFilter restAuthenticationFilter() throws Exception {
+	private TokenAuthenticationFilter jwtAuthenticationFilter() throws Exception {
 		final TokenAuthenticationFilter filter = new TokenAuthenticationFilter(PROTECTED_URLS);
 		filter.setAuthenticationManager(authenticationManager());
 		filter.setAuthenticationSuccessHandler(successHandler());
@@ -151,16 +117,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	AuthenticationEntryPoint forbiddenEntryPoint() {
 		return new HttpStatusEntryPoint(FORBIDDEN);
-	}
-
-	public class CustomFilter extends GenericFilterBean {
-
-		@Override
-		public void doFilter(
-				ServletRequest request,
-				ServletResponse response,
-				FilterChain chain) throws IOException, ServletException {
-			chain.doFilter(request, response);
-		}
 	}
 }

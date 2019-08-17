@@ -7,15 +7,10 @@ const SocialLoginRedicet = ({ location }) => {
   const { search } = location;
   const jwt = search.replace('?token=', '');
   const { roles } = jwt_decode(jwt);
-  // const startPages = {
-  //   admin: '/admin/surveys',
-  //   user: '/surveys',
-  //   pending: '/pending'
-  // };
+  console.log('social login redirect!')
   if (!!roles) {
     localStorage.setItem('crocClient', roles);
     localStorage.setItem('apollotoken', jwt);
-    console.log('selecting start page', roles, Routes.startPages[roles])
     return (<Redirect to={Routes.startPages[roles]} />);
   } else {
     return (<p>SocialLoginRedicet</p>);
