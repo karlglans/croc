@@ -8,9 +8,9 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import MenuIcon from '@material-ui/icons/Menu';
 import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@material-ui/core';
 
-import SurveysSubPage from './SurveySubPage';
-import UsersSubPage from './UsersSubPage';
 import routes from '../../constants/routes';
+
+import AccountSubPage from './AccountSubPage';
 
 const styles = theme => ({
   root: {
@@ -37,7 +37,7 @@ const innerTheme = createMuiTheme({
   },
 });
 
-class AdminPageLayout extends React.Component {
+class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,15 +48,12 @@ class AdminPageLayout extends React.Component {
 
   static transfromPathToTabIndex(pathname) {
     let tabIndex = 0; // default
-    if (pathname.includes('/users')) {
-      tabIndex = 1;
-    } 
     return tabIndex;
   }
 
   static getDerivedStateFromProps(props, state) {
     let nextState = { ...state }
-    const tabIndex = AdminPageLayout.transfromPathToTabIndex(props.location.pathname);
+    const tabIndex = Layout.transfromPathToTabIndex(props.location.pathname);
     if (tabIndex === state.tabIndex) {
       return state; // no change
     }
@@ -91,35 +88,30 @@ class AdminPageLayout extends React.Component {
                 Cro
               </Typography>
             
-              <Tabs variant="fullWidth" value={tabIndex} onChange={this.handleChange} aa={this.props.selectedFormIdForSurvey}>
-                <Tab label="Surveys" to="/surveys" component={Link} />
-                <Tab label="Users" to="/users" component={Link} />
+              <Tabs variant="fullWidth" value={tabIndex} onChange={this.handleChange}>
+                <Tab label="Account" to="/pending" component={Link} />
               </Tabs>
 
-              <Typography variant="h6" color="inherit" style={{flexGrow: 10}}>
-              </Typography>
+              <Typography variant="h6" color="inherit" style={{flexGrow: 10}} />
 
-              <Button color="inherit" to={routes.toLoginPage} onClick={this.onClickLogout} component={Link}>Logout</Button>
+              <Button color="inherit" to={routes.toLoginPage} onClick={this.onClickLogout} component={Link}>
+                Logout
+              </Button>
             </Toolbar>
             </ThemeProvider>
           </AppBar>
           <Switch>
-            <Route path="/surveys"
-              component={ props => (<SurveysSubPage />) }
+            <Route path="/pending"
+              component={ props => (<AccountSubPage />) }
              />
-             <Route path="/survey"
-              component={ props => (<SurveysSubPage />) }
-             />
-            <Route path="/users" component={UsersSubPage}/>
           </Switch>
       </div>
     );
   }
 }
 
-AdminPageLayout.propTypes = {
+Layout.propTypes = {
   classes: PropTypes.object.isRequired,
-  selectedFormIdForSurvey: PropTypes.number
 };
 
 const enhance = compose(
@@ -127,4 +119,4 @@ const enhance = compose(
   withStyles(styles),
 );
 
-export default enhance(AdminPageLayout);
+export default enhance(Layout);

@@ -1,5 +1,7 @@
 import React from 'react';
 
-const PendingAccPage = props => (<p> This is a pending account {process.env.PUBLIC_URL}</p>);
+import Layout from './Layout';
+
+const PendingAccPage = props => (<Layout />);
 
 export default PendingAccPage;

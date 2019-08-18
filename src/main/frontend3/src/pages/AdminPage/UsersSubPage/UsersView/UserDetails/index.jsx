@@ -9,6 +9,7 @@ const GET_USER = gql`
     user(id: $userId) {
       id
       email
+      role
       groups {
         id
       }
