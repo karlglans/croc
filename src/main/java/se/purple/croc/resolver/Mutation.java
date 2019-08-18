@@ -115,4 +115,9 @@ public class Mutation implements GraphQLMutationResolver {
 		return formService.swapQuestionOnForm(formId, questionId, destSpotNumber);
 	}
 
+	public UserDto acceptUser(final Integer userId) {
+		userService.acceptUser(userId);
+		return userService.getUser(userId);
+	}
+
 }

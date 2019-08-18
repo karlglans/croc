@@ -62,7 +62,7 @@ public class UserGroupService {
 		Set<Users> groupUsers = ug.getUsers();
 		List<UserDto> userDtos = new ArrayList<>();
 		for (Users user : groupUsers) {
-			userDtos.add(userService.makeUserDto(user));
+			userDtos.add(UserDto.makeUserDto(user));
 		}
 		userGroupDto.setUsers(userDtos);
 	}
@@ -86,7 +86,7 @@ public class UserGroupService {
 		var users = userRepo.findUsersByGroupId(id);
 		List<UserDto> userDtoList = new ArrayList<>();
 		for (Users user : users) {
-			userDtoList.add(userService.makeUserDto(user));
+			userDtoList.add(UserDto.makeUserDto(user));
 		}
 		return userDtoList;
 	}

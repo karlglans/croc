@@ -1,11 +1,12 @@
 import React from 'react';
-import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 import { Button } from '@material-ui/core';
 
-const ACTIVATE_USER = gql`
-  mutation acceptUser($type: String!) {
-    acceptUser(type: $type) {
+
+const ACCEPT_USER = gql`
+  mutation acceptUser($userId: ID!) {
+    acceptUser(userId: $userId) {
       id
       email
       role
@@ -16,9 +17,8 @@ const ACTIVATE_USER = gql`
   }
 `;
 
-const ActivateUser = () => {
-  const [acceptUser] = useMutation(ACTIVATE_USER);
-  return (<Button onClick={acceptUser}>Accept user</Button>); 
+const ActivateUser = ({user, acceptUser}) => {
+  return (<Button onClick={() => acceptUser({ variables: { userId: user.id } })}>Accept user</Button>); 
 }
 
-export default ActivateUser;
+export default graphql(ACCEPT_USER, {name: 'acceptUser'})(ActivateUser);
