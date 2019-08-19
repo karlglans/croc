@@ -4,15 +4,26 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
+import se.purple.croc.service.AuthService;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class UserGroupsIT extends SimpleEndpointTests {
 	private ObjectMapper mapper = new ObjectMapper();
+
+	@Autowired
+	private TestDataGrabber testDataGrabber;
+
+	@MockBean
+	private AuthService authService;
 
 	@Test
 	public void canGetUserGroupAndUsers() throws IOException {
@@ -32,6 +43,7 @@ public class UserGroupsIT extends SimpleEndpointTests {
 		assertEquals(expected, json);
 	}
 
+	@WithMockUser(roles={"SUPERVISOR"})
 	@Test
 	public void addUserToGroup_addingUserTo2ndGroup_shouldDisplayUserInTwoGroups() throws IOException {
 		String jsonStringAnswer = excQuery("mutation { addUserToGroup( userId: \"2\", userGroupId: \"2\" ){ id groups { id } }}");

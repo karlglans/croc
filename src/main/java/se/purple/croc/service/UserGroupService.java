@@ -2,6 +2,7 @@ package se.purple.croc.service;
 
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.UserGroup;
 import se.purple.croc.domain.Users;
@@ -11,7 +12,6 @@ import se.purple.croc.repository.UserGroupRepository;
 import se.purple.croc.repository.UserRepository;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -42,6 +42,7 @@ public class UserGroupService {
 		return userGroupRepo.findById(id).get();
 	}
 
+	@PreAuthorize("hasRole('ROLE_SUPERVISOR')")
 	public void addUserToGroup(final Integer userId, final Integer userGroupId) {
 		Users user = userService.getUserById(userId);
 		UserGroup userGroup = getUserGroupByIdd(userGroupId);
@@ -49,6 +50,7 @@ public class UserGroupService {
 		// WARNING: jpa will delete and add items one by one?
 	}
 
+	@PreAuthorize("hasRole('ROLE_SUPERVISOR')")
 	public void removeUserFromGroup(final Integer userId, final Integer userGroupId) {
 		Users user = userService.getUserById(userId);
 		UserGroup userGroup = getUserGroupByIdd(userGroupId);
