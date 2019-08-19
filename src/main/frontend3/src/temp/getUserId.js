@@ -6,4 +6,4 @@ const getUserId = () => {
   return sub;
 }
 
-export default getUserId;
+// export default getUserId;

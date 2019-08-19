@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 import QuestionList from './QuestionList';
-import getUserId from '../../temp/getUserId';
+import { getUserSub } from '../../api/auth';
 
 const GET_SURVEYS_DATA = gql`
   query($surveyId: ID!, $userId: ID!) {
@@ -36,7 +36,7 @@ const SurveyFrom = props => {
   const { match } = props;
   const surveyId = match.params.surveyId ? match.params.surveyId : 1; // temp solution
   return (
-    <Query query={GET_SURVEYS_DATA} variables={{surveyId, userId: getUserId()}} >
+    <Query query={GET_SURVEYS_DATA} variables={{surveyId, userId: getUserSub()}} >
     {({ loading, error, data }) => {
       if (error) return `Error! ${error.message}`;
       if (loading) {

@@ -19,11 +19,13 @@ public class TestDataGrabber {
 		user3supervisor.setUserId(3);
 		AuthorityRole userRoleSupervisor = new AuthorityRole();
 		userRoleSupervisor.setRole(Role.supervisor);
+		user3supervisor.setRole(Role.supervisor);
 		user3supervisor.getAuthorities().add(userRoleSupervisor);
 
 		user4.setUserId(4);
 		AuthorityRole userRole = new AuthorityRole();
 		userRole.setRole(Role.user);
+		user4.setRole(Role.user);
 		user4.getAuthorities().add(userRole);
 	}
 }

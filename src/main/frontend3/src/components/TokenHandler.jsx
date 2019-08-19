@@ -9,6 +9,7 @@ class TokenHandler extends React.Component {
     super(props);
     this.state = { redirectAnotherRole : false };
   }
+  
   componentDidMount() {
     const prevToken = localStorage.getItem('apollotoken');
     // Is sending current token and getting back a new fresh token.
@@ -38,6 +39,7 @@ class TokenHandler extends React.Component {
       this.setState({ redirectAnotherRole: Routes.toLoginPage});
     });
   }
+  
   render() {
     if (this.state.redirectAnotherRole) {
       return (<Redirect to={this.state.redirectAnotherRole} />);

@@ -5,7 +5,7 @@ import { RadioGroup, FormControlLabel, Radio, FormControl } from '@material-ui/c
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import getUserId from '../../../temp/getUserId';
+import { getUserSub } from '../../../api/auth';
 
 // retruns Answer: { participantId, questionId, value }
 const UPDATE_ANSWER = gql`
@@ -74,7 +74,7 @@ class Answer extends React.Component {
         // update the cash with the result
         update={(cache, { data: { updateAnswer } }) => {
           const { questionId, surveyId, survey }  = this.props;
-          const userId = getUserId();
+          const userId = getUserSub();
           // reading stored answers from cache and then modifying a stored answer
           const { answers: cachAnswers } = cache.readQuery({ query: GET_SURVEYS_DATA, variables: { surveyId, userId } });
           const alreadyStoredAanswer = cachAnswers.find(answer => answer.questionId === questionId )
@@ -115,7 +115,7 @@ class Answer extends React.Component {
                 onChange={ event => {
                   const { questionId, surveyId }  = this.props;
                   const value = event.target.value;
-                  const userId = getUserId();
+                  const userId = getUserSub();
                   this.handleSelect(value);
                   updateAnswer({ variables: { questionId, surveyId, value, userId } })
                 }}

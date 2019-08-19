@@ -75,8 +75,12 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 		return false;
 	}
 
-	public String getRole() {
-		return role == null ? "unknown" : role.toString();
+//	public String getRole() {
+//		return role == null ? "unknown" : role.toString();
+//	}
+
+	public Role getRole() {
+		return role;
 	}
 
 	public void setRole(Role role) {

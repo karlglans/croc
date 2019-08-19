@@ -3,7 +3,6 @@ import * as jwt_decode from 'jwt-decode';
 export function getUserRole() {
   if (localStorage.getItem('apollotoken')) {
     const { roles } = jwt_decode(localStorage.getItem('apollotoken'));
-    console.log('getUserRole', roles);
     return roles;
   } else {
     return 'unidentified';
@@ -12,7 +11,6 @@ export function getUserRole() {
 
 export function getUserSub() {
   const { sub } = jwt_decode(localStorage.getItem('apollotoken'));
-  console.log('getUserSub', sub);
   return sub;
 }
 

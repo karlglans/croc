@@ -107,7 +107,7 @@ public class TokenAuthenticationService {
 		return JWT.create()
 				.withIssuer(issuer)
 				.withClaim("email", userPrincipal.getEmail())
-				.withClaim("roles", userPrincipal.getRole())
+				.withClaim("roles", userPrincipal.getRole().toString())
 				.withClaim("exp", makeExpireDate())
 				.withSubject(userPrincipal.getSub())
 				.sign(algorithm);
