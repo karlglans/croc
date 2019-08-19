@@ -11,6 +11,7 @@ import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@mate
 import SurveysSubPage from './SurveySubPage';
 import UsersSubPage from './UsersSubPage';
 import routes from '../../constants/routes';
+import { logout } from '../../api/auth';
 
 const styles = theme => ({
   root: {
@@ -67,7 +68,7 @@ class AdminPageLayout extends React.Component {
   }
 
   onClickLogout() {
-    localStorage.setItem('crocClient', 'none');
+    logout();
   }
 
   handleChange = (event, value) => {

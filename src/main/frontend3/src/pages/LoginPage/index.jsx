@@ -3,8 +3,6 @@ import { Redirect} from "react-router-dom";
 
 import { Paper, Card, CardActionArea, Typography  } from '@material-ui/core';
 
-import * as Role from '../../constants/domain/roleTypes';
-
 const API_BASE_URL = 'http://localhost:8080';
 const OAUTH2_REDIRECT_URI = process.env.REACT_APP_OAUTH2_REDIRECT || 'http://localhost:3000/oauth2/redirect';
 const GOOGLE_AUTH_URL = API_BASE_URL + '/oauth2/authorize/google?redirect_uri=' + OAUTH2_REDIRECT_URI;
@@ -42,7 +40,6 @@ class LoginPage extends Component {
 
   componentDidMount() {
     console.log('OAUTH2_REDIRECT_URI', OAUTH2_REDIRECT_URI);
-    console.log('version', 15);
     this.props.client.resetStore()
   }
 
@@ -52,7 +49,6 @@ class LoginPage extends Component {
     'nN1cGVydmlzb3IyQHB1cnBsZS5jb20iLCJyb2xlcyI6InN1cGVydmlzb3IiLCJpYXQiOjE1NjU3NTE0NzN9.IrzYskNc' +
     'QlnueaRUZAiSj22k7HilskBaG_Iu9KOYHII';
     localStorage.setItem('apollotoken', token);
-    localStorage.setItem('crocClient', Role.SUPERVISOR);
     this.setState({redirect: '/admin/surveys'});
   }
   clickUser() {
@@ -61,7 +57,6 @@ class LoginPage extends Component {
       '6ImVtcGxveWVlMUBwdXJwbGUuY29tIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNTY1NzUwNzc4fQ.iXFK40_M6Qhq' +
       'GADKKc6fp6CIUgR8ALMHhA02k4gTxUY';
     localStorage.setItem('apollotoken', token);
-    localStorage.setItem('crocClient', Role.USER);
     this.setState({redirect: '/surveys'});
   }
 

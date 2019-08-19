@@ -71,12 +71,10 @@ public class SurveyService {
 		// TODO: make different kind of selections based on existence of params
 		List<Survey> surveys;
 
-		// boolean isSelectingSurveysWhereClientIsParticipating = isParticipating != null && isParticipating;ö
-
-		if (authenticatedUser.hasRole(Role.supervisor)) {
+		if (authenticatedUser.getRole() == Role.supervisor) {
 			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
 		}
-		else if (authenticatedUser.hasRole(Role.user)){
+		else if (authenticatedUser.getRole() == Role.user){
 			surveys = surveyRepo.findSurveyByParticipantsEquals(authenticatedUser.getUserId());
 		} else {
 			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);

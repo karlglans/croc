@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+console.log('version', 1);
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // TODO: maybe put back service worker but exclude social login and graphql

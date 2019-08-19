@@ -9,7 +9,7 @@ const SocialLoginRedicet = ({ location }) => {
   const { roles } = jwt_decode(jwt);
   console.log('social login redirect!')
   if (!!roles) {
-    localStorage.setItem('crocClient', roles);
+    console.log('returned form social login: ', roles);
     localStorage.setItem('apollotoken', jwt);
     return (<Redirect to={Routes.startPages[roles]} />);
   } else {
