@@ -14,7 +14,15 @@ public class AuthorityRole implements GrantedAuthority {
 
 	@Override
 	public String getAuthority() {
-		// NOTE: maybe spring wants the format "ROLE_" + role.name();
-		return role.name();
+		if (role == Role.supervisor) {
+			return "ROLE_SUPERVISOR";
+		} else if (role == Role.user) {
+			return "ROLE_USER";
+		} else if (role == Role.administrator) {
+			return "ROLE_ADMIN";
+		} else if (role == Role.pending) {
+			return "ROLE_PENDING";
+		}
+		return "ROLE_UNDEFINED";
 	}
 }

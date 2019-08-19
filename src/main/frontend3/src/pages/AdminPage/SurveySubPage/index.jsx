@@ -52,40 +52,40 @@ class SurveysSubPage extends React.Component {
     const selectedFormId = this.props.selectedFormId;
     return (
       <React.Fragment>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <div className={classes.toolbar} />
-        <MenuList >
-          { isResults && (
-            <MenuItem button key={'results'} selected={true}>
-              <ListItemText primary={'Results'} />
-            </MenuItem> ) 
-          }
-          { isOnParticipants && (
-            <MenuItem button key={'participants'} selected={true} to='/admin/surveys/participants/:surveyId'>
-              <ListItemText primary={'Participants'} />
-            </MenuItem> ) 
-          }
-          <MenuItem button key={'ongoing'} selected={isOnOngoing} component={Link} to='/admin/surveys'>
-            <ListItemText primary={'Ongoing'} />
-          </MenuItem>
-          <MenuItem button key={'unstarted'} selected={isOnInCreation} component={Link} to='/admin/surveys/unstarted'>
-            <ListItemText primary={'Unstarted'} />
-          </MenuItem>
-          <MenuItem button key={'closed'} selected={isOnClosed} component={Link} to='/admin/surveys/closed'>
-            <ListItemText primary={'Closed'} />
-          </MenuItem>
-          {isOnCreate && (
-            <MenuItem button key={'create'} selected={isOnCreate} component={Link} to='/admin/survey/create'>
-            <ListItemText primary={'Create (Step 1)'} />
-          </MenuItem>
-          )}
-        </MenuList>
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.toolbar} />
+          <MenuList >
+            { isResults && (
+              <MenuItem button key={'results'} selected={true}>
+                <ListItemText primary={'Results'} />
+              </MenuItem> ) 
+            }
+            { isOnParticipants && (
+              <MenuItem button key={'participants'} selected={true} to='/admin/surveys/participants/:surveyId'>
+                <ListItemText primary={'Participants'} />
+              </MenuItem> ) 
+            }
+            <MenuItem button key={'ongoing'} selected={isOnOngoing} component={Link} to='/admin/surveys'>
+              <ListItemText primary={'Ongoing'} />
+            </MenuItem>
+            <MenuItem button key={'unstarted'} selected={isOnInCreation} component={Link} to='/admin/surveys/unstarted'>
+              <ListItemText primary={'Unstarted'} />
+            </MenuItem>
+            <MenuItem button key={'closed'} selected={isOnClosed} component={Link} to='/admin/surveys/closed'>
+              <ListItemText primary={'Closed'} />
+            </MenuItem>
+            {isOnCreate && (
+              <MenuItem button key={'create'} selected={isOnCreate} component={Link} to='/admin/survey/create'>
+              <ListItemText primary={'Create (Step 1)'} />
+            </MenuItem>
+            )}
+          </MenuList>
         </Drawer>
         <div className={classes.content} style={{marginLeft: drawerWidth }}>
           <div className={classes.toolbar} />
@@ -108,7 +108,7 @@ class SurveysSubPage extends React.Component {
             />
             <Route component={PageNotFound}/>
           </Switch>
-      </div>
+        </div>
       </React.Fragment>
     )
   };

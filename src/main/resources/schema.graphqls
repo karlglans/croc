@@ -66,6 +66,7 @@ type User {
     id: ID!
     email: String!
     groups: [UserGroup]!
+    role: String
 }
 
 type UserGroup {
@@ -116,4 +117,5 @@ type Mutation {
     addQuestionToForm(formId: Int, questionId: Int): Form
     updateQuestion(input: InputQuestion!): Form
     swapQuestionOnForm(formId: ID!, questionId: ID!, destSpotNumber: Int!): Form
+    acceptUser(userId: ID!): User
 }

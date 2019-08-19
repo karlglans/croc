@@ -1,6 +1,7 @@
 package se.purple.croc.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.Role;
 import se.purple.croc.domain.UserGroup;
@@ -28,20 +29,13 @@ public class UserService {
 		List<Users> users = getUsers();
 		List<UserDto> usersDtoList = new ArrayList<>();
 		for (Users user : users) {
-			usersDtoList.add(makeUserDto(user));
+			usersDtoList.add(UserDto.makeUserDto(user));
 		}
 		return usersDtoList;
 	}
 
-	public UserDto makeUserDto(Users user) {
-		UserDto userDto = new UserDto();
-		userDto.setEmail(user.getEmail());
-		userDto.setId(user.getId());
-		return userDto;
-	}
-
 	public UserDto getUser(final Integer userId) {
-		return makeUserDto(getUserById(userId));
+		return UserDto.makeUserDto(getUserById(userId));
 	}
 
 	public Set<UserGroupDto> getUserGroupDtoByUserId(final Integer userId) {
@@ -61,5 +55,14 @@ public class UserService {
 		user.setEmail(email);
 		user.setRole(Role.pending);
 		return userRepo.save(user);
+	}
+
+	@PreAuthorize("hasRole('ROLE_SUPERVISOR')")
+	public void acceptUser(final Integer userId) {
+		Users user = getUserById(userId);
+		if (user.getRole() == Role.pending) {
+			user.setRole(Role.user);
+			userRepo.save(user);
+		}
 	}
 }
