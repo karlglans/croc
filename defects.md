@@ -1,0 +1,1 @@
+* firefox will repeat social login when refreshing browser after social login.

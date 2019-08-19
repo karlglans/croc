@@ -20,7 +20,6 @@ public class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticati
 	@Override
 	protected UserDetails retrieveUser(final String username, final UsernamePasswordAuthenticationToken authentication) {
 		final Object token = authentication.getCredentials();
-		UserDetails foundUser = tokenAuth.extractUserFromToken(token);
-		return foundUser;
+		return tokenAuth.extractUserFromToken(token);
 	}
 }

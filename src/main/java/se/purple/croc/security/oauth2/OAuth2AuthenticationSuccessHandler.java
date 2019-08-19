@@ -7,6 +7,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import se.purple.croc.exception.BadRequestException;
+import se.purple.croc.security.UserPrincipal;
 import se.purple.croc.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import se.purple.croc.service.TokenAuthenticationService;
 import se.purple.croc.util.CookieUtils;
@@ -63,7 +64,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
-		String token = tokenProvider.createToken(authentication);
+		String token = tokenProvider.createToken((UserPrincipal) authentication.getPrincipal());
 
 		return UriComponentsBuilder.fromUriString(targetUrl)
 				.queryParam("token", token)

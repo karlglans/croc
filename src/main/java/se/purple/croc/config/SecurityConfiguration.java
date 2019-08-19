@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
 			new AntPathRequestMatcher("/graphql"),
-			new AntPathRequestMatcher("/ex")
+			new AntPathRequestMatcher("/token/**")
 	);
 
 	/*

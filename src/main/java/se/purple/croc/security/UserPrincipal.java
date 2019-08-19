@@ -86,6 +86,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 	// refactor lookuptable
 	private static void addRole(Users user, UserPrincipal userPrincipal) {
 		Set<GrantedAuthority> authorities = userPrincipal.getAuthorities();
+		userPrincipal.setRole(user.getRole());
 		if (user.getRole() == Role.administrator) {
 			authorities.add(new SimpleGrantedAuthority("ROLE_ADMINISTRATOR"));
 		} else if (user.getRole() == Role.supervisor) {

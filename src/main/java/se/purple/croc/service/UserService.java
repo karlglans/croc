@@ -9,9 +9,11 @@ import se.purple.croc.domain.Users;
 import se.purple.croc.dto.UserDto;
 import se.purple.croc.dto.UserGroupDto;
 import se.purple.croc.repository.UserRepository;
+import se.purple.croc.security.UserPrincipal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -56,6 +58,15 @@ public class UserService {
 		user.setRole(Role.pending);
 		return userRepo.save(user);
 	}
+
+	public void loadUser(UserPrincipal userPrincipal) {
+		Optional<Users> optUser = userRepo.findById(userPrincipal.getUserId());
+		if (optUser.isPresent()) {
+			Users user = optUser.get();
+			userPrincipal.setRole(user.getRole());
+		}
+	}
+
 
 	@PreAuthorize("hasRole('ROLE_SUPERVISOR')")
 	public void acceptUser(final Integer userId) {

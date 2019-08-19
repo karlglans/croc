@@ -9,7 +9,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import se.purple.croc.domain.Role;
@@ -35,6 +34,7 @@ public class TokenAuthenticationService {
 
 	private final AuthorityRole userAuthority = new AuthorityRole();
 	private final AuthorityRole supervisorAuthority = new AuthorityRole();
+	private final AuthorityRole pendingAuthority = new AuthorityRole();
 
 
 	@Autowired
@@ -53,6 +53,7 @@ public class TokenAuthenticationService {
 		// TODO maybe find a better spot for these objects
 		userAuthority.setRole(Role.user);
 		supervisorAuthority.setRole(Role.supervisor);
+		pendingAuthority.setRole(Role.pending);
 	}
 
 	private Date makeExpireDate() {
@@ -61,11 +62,17 @@ public class TokenAuthenticationService {
 		return date;
 	}
 
-	private void addRoles(Set<GrantedAuthority> authorities, String roles) {
+	private void addRoles(UserPrincipal authUser, String roles) {
+		Set<GrantedAuthority> authorities = authUser.getAuthorities();
 		if (roles.contains(Role.user.name())) {
 			authorities.add(userAuthority);
+			authUser.setRole(Role.user);
 		} else if (roles.contains(Role.supervisor.name())) {
 			authorities.add(supervisorAuthority);
+			authUser.setRole(Role.supervisor);
+		} else if (roles.contains(Role.pending.name())) {
+			authorities.add(pendingAuthority);
+			authUser.setRole(Role.pending);
 		}
 	}
 
@@ -87,7 +94,7 @@ public class TokenAuthenticationService {
 		UserPrincipal authUser = new UserPrincipal();
 		authUser.setUsername(claims.get("email").asString());
 		authUser.setEmail(claims.get("email").asString());
-		addRoles(authUser.getAuthorities(), claims.get("roles").asString());
+		addRoles(authUser, claims.get("roles").asString());
 		authUser.setSub(jwt.getSubject());
 		authUser.setProvider("google"); // only option for now;
 		authUser.setUserId(extractIdFromSubject(jwt.getSubject()));
@@ -96,8 +103,7 @@ public class TokenAuthenticationService {
 		return authUser;
 	}
 
-	public String createToken(Authentication authentication) {
-		UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+	public String createToken(UserPrincipal userPrincipal) {
 		return JWT.create()
 				.withIssuer(issuer)
 				.withClaim("email", userPrincipal.getEmail())

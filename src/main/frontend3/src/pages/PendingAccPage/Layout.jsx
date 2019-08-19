@@ -9,7 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { Tab, Tabs, IconButton, Button, Typography, Toolbar, AppBar} from '@material-ui/core';
 
 import routes from '../../constants/routes';
-
+import { logout } from '../../api/auth';
 import AccountSubPage from './AccountSubPage';
 
 const styles = theme => ({
@@ -64,7 +64,7 @@ class Layout extends React.Component {
   }
 
   onClickLogout() {
-    localStorage.setItem('crocClient', 'none');
+    logout();
   }
 
   handleChange = (event, value) => {

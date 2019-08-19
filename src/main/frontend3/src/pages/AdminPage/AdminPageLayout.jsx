@@ -13,6 +13,8 @@ import UsersSubPage from './UsersSubPage';
 import FormsSubPage from './FormsSubPage';
 import SurveySubPage from './SurveySubPage';
 
+import { logout } from '../../api/auth';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -70,7 +72,7 @@ class AdminPageLayout extends React.Component {
   }
 
   onClickLogout() {
-    localStorage.setItem('crocClient', 'none');
+    logout();
   }
 
   render() {
