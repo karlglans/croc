@@ -13,6 +13,7 @@ public class TestDataGrabber {
 	UserPrincipal user4 = new UserPrincipal();
 	UserPrincipal user3supervisor = new UserPrincipal();
 
+
 	@PostConstruct
 	public void setup() {
 		// should be identical to test-set in db

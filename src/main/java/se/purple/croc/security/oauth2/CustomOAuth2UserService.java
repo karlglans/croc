@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import se.purple.croc.domain.Users;
 import se.purple.croc.exception.OAuth2AuthenticationProcessingException;
+import se.purple.croc.security.AuthHelper;
 import se.purple.croc.security.UserPrincipal;
 import se.purple.croc.repository.UserRepository;
 import se.purple.croc.security.oauth2.user.OAuth2UserInfo;
@@ -27,6 +28,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	AuthHelper authHelper;
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -66,7 +70,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 			user = registerNewUser(oAuth2UserInfo);
 		}
 
-		return UserPrincipal.create(user, oAuth2User.getAttributes());
+		return UserPrincipal.create(user, oAuth2User.getAttributes(), authHelper);
 	}
 
 	private Users registerNewUser(OAuth2UserInfo oAuth2UserInfo) {

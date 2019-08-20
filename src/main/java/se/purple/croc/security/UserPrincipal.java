@@ -2,7 +2,6 @@ package se.purple.croc.security;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import se.purple.croc.domain.Role;
@@ -75,10 +74,6 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 		return false;
 	}
 
-//	public String getRole() {
-//		return role == null ? "unknown" : role.toString();
-//	}
-
 	public Role getRole() {
 		return role;
 	}
@@ -87,34 +82,19 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 		this.role = role;
 	}
 
-	// refactor lookuptable
-	private static void addRole(Users user, UserPrincipal userPrincipal) {
-		Set<GrantedAuthority> authorities = userPrincipal.getAuthorities();
-		userPrincipal.setRole(user.getRole());
-		if (user.getRole() == Role.administrator) {
-			authorities.add(new SimpleGrantedAuthority("ROLE_ADMINISTRATOR"));
-		} else if (user.getRole() == Role.supervisor) {
-			authorities.add(new SimpleGrantedAuthority("ROLE_SUPERVISOR"));
-		} else if (user.getRole() == Role.user) {
-			authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-		} else if (user.getRole() == Role.pending) {
-			authorities.add(new SimpleGrantedAuthority("ROLE_PENDING"));
-		}
-	}
-
-	public static UserPrincipal create(Users user) {
+	public static UserPrincipal create(Users user, AuthHelper authHelper) {
 		UserPrincipal authenticatedUser = new UserPrincipal();
 		authenticatedUser.setUserId(user.getId());
 		authenticatedUser.setEmail(user.getEmail());
 		authenticatedUser.setUsername(String.valueOf(user.getId()));
 		authenticatedUser.setRole(user.getRole());
 		authenticatedUser.setSub(String.valueOf(user.getId())); // will use user id as sub for now
-		addRole(user, authenticatedUser); // since spring wants a set of roles
+		authHelper.addRoleToAuthorities(authenticatedUser, user.getRole());
 		return authenticatedUser;
 	}
 
-	public static UserPrincipal create(Users user, Map<String, Object> attributes) {
-		UserPrincipal userPrincipal = UserPrincipal.create(user);
+	public static UserPrincipal create(Users user, Map<String, Object> attributes, AuthHelper authItems) {
+		UserPrincipal userPrincipal = UserPrincipal.create(user, authItems);
 		userPrincipal.setAttributes(attributes);
 		return userPrincipal;
 	}
