@@ -63,7 +63,7 @@ public class UserService {
 		Optional<Users> optUser = userRepo.findById(userPrincipal.getUserId());
 		if (optUser.isPresent()) {
 			Users user = optUser.get();
-			userPrincipal.setRole(user.getRole());
+//			userPrincipal.setRole(user.getRole());
 		}
 	}
 

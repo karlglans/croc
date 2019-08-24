@@ -17,6 +17,7 @@ public class AuthHelper {
 	private final AuthorityRole userAuthority = new AuthorityRole();
 	private final AuthorityRole supervisorAuthority = new AuthorityRole();
 	private final AuthorityRole pendingAuthority = new AuthorityRole();
+	private final AuthorityRole adminAuthority = new AuthorityRole();
 	private final AuthorityRole noAuthority = new AuthorityRole();
 
 	@PostConstruct
@@ -24,6 +25,7 @@ public class AuthHelper {
 		userAuthority.setRole(Role.user);
 		supervisorAuthority.setRole(Role.supervisor);
 		pendingAuthority.setRole(Role.pending);
+		adminAuthority.setRole(Role.administrator);
 	}
 
 	public AuthorityRole getUserAuthority() {
@@ -42,14 +44,23 @@ public class AuthHelper {
 		Set<GrantedAuthority> authorities = authUser.getAuthorities();
 		if (roles.contains(Role.user.name())) {
 			authorities.add(userAuthority);
-			authUser.setRole(Role.user);
 		} else if (roles.contains(Role.supervisor.name())) {
 			authorities.add(supervisorAuthority);
-			authUser.setRole(Role.supervisor);
 		} else if (roles.contains(Role.pending.name())) {
 			authorities.add(pendingAuthority);
-			authUser.setRole(Role.pending);
 		}
+	}
+
+	public boolean checkRole(UserPrincipal authUser, Role role) {
+		Set<GrantedAuthority> authorities = authUser.getAuthorities();
+		if (role == Role.user) {
+			return authorities.contains(userAuthority);
+		} else if (role == Role.supervisor) {
+			return authorities.contains(supervisorAuthority);
+		} else if (role == Role.administrator) {
+			return authorities.contains(adminAuthority);
+		}
+		return false;
 	}
 
 	public void addRoleToAuthorities(UserPrincipal authUser, Role role) {

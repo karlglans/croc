@@ -7,6 +7,7 @@ import se.purple.croc.domain.*;
 import se.purple.croc.dto.OwnSurveyStatusDto;
 import se.purple.croc.dto.SurveyCountingSummaryDto;
 import se.purple.croc.dto.SurveyDto;
+import se.purple.croc.security.AuthHelper;
 import se.purple.croc.security.UserPrincipal;
 import se.purple.croc.repository.AnswerRepository;
 import se.purple.croc.repository.SurveyParticipantRepository;
@@ -43,6 +44,9 @@ public class SurveyService {
 	@Autowired
 	SurveyParticipantService surveyParticipantService;
 
+	@Autowired
+	AuthHelper authHelper;
+
 
 	Users getParticipant(Survey survey, int userId)  {
 		Users participant = surveyRepo.getUserInSurvey(userId, survey.getId());
@@ -71,10 +75,10 @@ public class SurveyService {
 		// TODO: make different kind of selections based on existence of params
 		List<Survey> surveys;
 
-		if (authenticatedUser.getRole() == Role.supervisor) {
+		if (authHelper.checkRole(authenticatedUser, Role.supervisor)) {
 			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);
 		}
-		else if (authenticatedUser.getRole() == Role.user){
+		else if (authHelper.checkRole(authenticatedUser, Role.user)){
 			surveys = surveyRepo.findSurveyByParticipantsEquals(authenticatedUser.getUserId());
 		} else {
 			surveys = surveyRepo.findSurveyByStatusEquals(surveyStatus);

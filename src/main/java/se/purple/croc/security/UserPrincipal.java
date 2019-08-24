@@ -20,7 +20,7 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 	private boolean enabled = true;
 	private Set<GrantedAuthority> authorities = new HashSet<>();
 	private Map<String, Object> attributes;
-	private Role role;
+//	private Role role;
 
 	@Override
 	public Set<GrantedAuthority> getAuthorities() {
@@ -74,20 +74,20 @@ public class UserPrincipal implements OAuth2User, UserDetails {
 		return false;
 	}
 
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
+//	public Role getRole() {
+//		return role;
+//	}
+//
+//	public void setRole(Role role) {
+//		this.role = role;
+//	}
 
 	public static UserPrincipal create(Users user, AuthHelper authHelper) {
 		UserPrincipal authenticatedUser = new UserPrincipal();
 		authenticatedUser.setUserId(user.getId());
 		authenticatedUser.setEmail(user.getEmail());
 		authenticatedUser.setUsername(String.valueOf(user.getId()));
-		authenticatedUser.setRole(user.getRole());
+//		authenticatedUser.setRole(user.getRole());
 		authenticatedUser.setSub(String.valueOf(user.getId())); // will use user id as sub for now
 		authHelper.addRoleToAuthorities(authenticatedUser, user.getRole());
 		return authenticatedUser;
